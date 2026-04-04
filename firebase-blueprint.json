@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user account information and subscription status.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "isPro": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "isPro"]
+    },
+    "SavedSearch": {
+      "title": "Saved Search",
+      "description": "User's saved rate searches for quick access.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "query": { "type": "string" },
+        "category": { "type": "string" },
+        "filters": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "query", "category"]
+    },
+    "RateAlert": {
+      "title": "Rate Alert",
+      "description": "Automated alerts for specific rate thresholds.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "category": { "type": "string" },
+        "targetRate": { "type": "number" },
+        "condition": { "type": "string", "enum": ["less_than", "greater_than"] },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "category", "targetRate", "condition"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "UserProfile",
+      "description": "User profile document"
+    },
+    "/users/{uid}/savedSearches/{searchId}": {
+      "schema": "SavedSearch",
+      "description": "User's saved searches"
+    },
+    "/users/{uid}/rateAlerts/{alertId}": {
+      "schema": "RateAlert",
+      "description": "User's rate alerts"
+    }
+  }
+}
