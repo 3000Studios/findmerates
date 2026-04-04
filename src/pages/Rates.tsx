@@ -3,6 +3,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { RateResult, RateCategory } from '../types';
 import RateCard from '../components/RateCard';
 import { Filter, ChevronDown, SlidersHorizontal, Info } from 'lucide-react';
+import AdSenseSlot from '../components/AdSenseSlot';
+import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 
 export default function Rates() {
   const { category } = useParams<{ category: string }>();
@@ -70,6 +72,17 @@ export default function Rates() {
                 <input type="text" placeholder="$300,000" className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm" />
               </div>
             </div>
+          </div>
+
+          {/* AdSense Sidebar Ad */}
+          <div className="bg-slate-50 rounded-xl border border-slate-200 p-4">
+            <AdSenseSlot
+              adClient={AD_CLIENT}
+              adSlot={AD_SLOTS.sidebar.slotId}
+              format={AD_SLOTS.sidebar.format}
+              minHeight={600}
+              className="w-full"
+            />
           </div>
 
           <div className="bg-brand-900 rounded-xl p-6 text-white">

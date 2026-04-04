@@ -1,6 +1,8 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import { BookOpen, Download, ShieldCheck, Star } from 'lucide-react';
+import AdSenseSlot from '../components/AdSenseSlot';
+import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 
 const guideContent = `
 # Rate Finder Pro Guide
@@ -55,6 +57,19 @@ export default function Guide() {
         <div className="p-12 prose prose-slate max-w-none">
           <div className="markdown-body">
             <Markdown>{guideContent}</Markdown>
+          </div>
+        </div>
+
+        {/* AdSense Ad Below Guide */}
+        <div className="px-12 pb-12">
+          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+            <AdSenseSlot
+              adClient={AD_CLIENT}
+              adSlot={AD_SLOTS.hero.slotId}
+              format={AD_SLOTS.hero.format}
+              minHeight={250}
+              className="w-full"
+            />
           </div>
         </div>
 

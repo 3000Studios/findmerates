@@ -2,6 +2,8 @@ import React from 'react';
 import MortgageCalculator from '../components/MortgageCalculator';
 import { Calculator, Home, RefreshCw, Wallet, CreditCard, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AdSenseSlot from '../components/AdSenseSlot';
+import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 
 export default function Calculators() {
   const calcs = [
@@ -25,7 +27,16 @@ export default function Calculators() {
         <div className="lg:col-span-2 space-y-12">
           <MortgageCalculator />
           
-          <div className="ad-slot">Advertisement - Financial Tools</div>
+          {/* AdSense Mid-Content Ad */}
+          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+            <AdSenseSlot
+              adClient={AD_CLIENT}
+              adSlot={AD_SLOTS.midContent.slotId}
+              format={AD_SLOTS.midContent.format}
+              minHeight={250}
+              className="w-full"
+            />
+          </div>
           
           <div className="bg-white rounded-2xl border border-slate-200 p-8">
             <h3 className="text-xl font-display font-bold text-slate-900 mb-6">Why use our calculators?</h3>
