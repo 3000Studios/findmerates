@@ -7,6 +7,7 @@ import Pro from './pages/Pro';
 import Guide from './pages/Guide';
 import Dashboard from './pages/Dashboard';
 import Legal from './pages/Legal';
+import News from './pages/News';
 import GeminiChat from './components/GeminiChat';
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/pro" element={<Pro />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/news" element={<News />} />
             <Route path="/:type" element={<Legal />} />
           </Routes>
           <GeminiChat />

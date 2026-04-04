@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, TrendingUp, Home as HomeIcon, CreditCard, Wallet, ArrowRight, Zap, ShieldCheck, Star } from 'lucide-react';
+import { Search, TrendingUp, Home as HomeIcon, CreditCard, Wallet, ArrowRight, Zap, ShieldCheck, Star, Newspaper } from 'lucide-react';
 import { motion } from 'motion/react';
 import { RateCategory } from '../types';
 import { cn } from '../lib/utils';
 import PredictiveBriefing from '../components/PredictiveBriefing';
+import HeroVideo from '../components/HeroVideo';
+import AdSenseSlot from '../components/AdSenseSlot';
+import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -26,59 +29,49 @@ export default function Home() {
 
   return (
     <div className="space-y-20 pb-20">
-      {/* Hero Section */}
-      <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(14,165,233,0.1)_0%,rgba(255,255,255,0)_100%)]" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-700 border border-brand-100 mb-6 uppercase tracking-wider">
-              <TrendingUp className="w-3 h-3 mr-1" /> Real-time Rate Comparisons
-            </span>
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-slate-900 mb-6 leading-[1.1]">
-              Find the best rates<br />
-              <span className="text-brand-600">in seconds.</span>
-            </h1>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Compare mortgages, CD rates, and loans from top providers. 
-              Get personalized results with zero impact on your credit score.
-            </p>
+      {/* Hero Video Section with Rotating Stories */}
+      <HeroVideo onStoryChange={(story) => {
+        // Story rotation logic - old stories move to News page
+        console.log('Hero story changed:', story.title);
+      }} />
 
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto relative group">
-              <div className="absolute inset-0 bg-brand-500/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative flex items-center bg-white rounded-2xl shadow-xl border border-slate-200 p-2">
-                <Search className="w-6 h-6 text-slate-400 ml-4" />
-                <input
-                  type="text"
-                  placeholder="Try 'mortgage rates in Georgia' or 'best CD rates'..."
-                  className="flex-grow px-4 py-4 text-lg focus:outline-none text-slate-900 placeholder-slate-400"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-                <button
-                  type="submit"
-                  className="bg-brand-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-brand-700 transition-colors shadow-lg"
-                >
-                  Search
-                </button>
-              </div>
-            </form>
-          </motion.div>
-
-          <div className="mt-16 flex flex-wrap justify-center gap-8 text-slate-400 text-sm font-medium uppercase tracking-widest">
-            <span className="flex items-center gap-2"><ShieldCheck className="w-5 h-5" /> FDIC Insured</span>
-            <span className="flex items-center gap-2"><Star className="w-5 h-5" /> 4.9/5 TrustScore</span>
-            <span className="flex items-center gap-2"><Zap className="w-5 h-5" /> Instant Updates</span>
-          </div>
-        </div>
+      {/* Quick Search Bar (Below Hero) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <form onSubmit={handleSearch} className="max-w-2xl mx-auto relative group">
+            <div className="absolute inset-0 bg-brand-500/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative flex items-center bg-white rounded-2xl shadow-xl border border-slate-200 p-2">
+              <Search className="w-6 h-6 text-slate-400 ml-4" />
+              <input
+                type="text"
+                placeholder="Try 'mortgage rates in Georgia' or 'best CD rates'..."
+                className="flex-grow px-4 py-4 text-lg focus:outline-none text-slate-900 placeholder-slate-400"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="bg-brand-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-brand-700 transition-colors shadow-lg"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+        </motion.div>
       </section>
 
-      {/* Ad Slot (AdSense Compliance: Clearly separated) */}
+      {/* Trust Indicators */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="ad-slot">Advertisement - Your Ad Here</div>
+        <div className="flex flex-wrap justify-center gap-8 text-slate-400 text-sm font-medium uppercase tracking-widest">
+          <span className="flex items-center gap-2"><ShieldCheck className="w-5 h-5" /> FDIC Insured</span>
+          <span className="flex items-center gap-2"><Star className="w-5 h-5" /> 4.9/5 TrustScore</span>
+          <span className="flex items-center gap-2"><Zap className="w-5 h-5" /> Instant Updates</span>
+          <span className="flex items-center gap-2"><Newspaper className="w-5 h-5" /> Daily News</span>
+        </div>
       </div>
 
       {/* Categories Grid */}
@@ -107,9 +100,59 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AdSense Placement: After Categories (AdSense Compliant) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+          <AdSenseSlot
+            adClient={AD_CLIENT}
+            adSlot={AD_SLOTS.midContent.slotId}
+            format={AD_SLOTS.midContent.format}
+            minHeight={250}
+            className="w-full"
+          />
+        </div>
+      </div>
+
       {/* Predictive Briefing Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <PredictiveBriefing />
+      </section>
+
+      {/* News Section Teaser */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-display font-bold text-slate-900 mb-2">Latest Financial News</h2>
+              <p className="text-slate-600">Stay informed with market insights and rate trends</p>
+            </div>
+            <button
+              onClick={() => navigate('/news')}
+              className="bg-brand-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-700 transition-colors flex items-center gap-2"
+            >
+              View All News <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Recent News Preview */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+              <span className="text-xs font-medium text-brand-600 bg-brand-50 px-2 py-1 rounded">MORTGAGE</span>
+              <h3 className="font-semibold text-slate-900 mt-2 mb-1">Mortgage Rates Continue Decline</h3>
+              <p className="text-sm text-slate-600">30-year fixed rates drop below 7% for first time in 6 months...</p>
+            </div>
+            <div className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded">CD RATES</span>
+              <h3 className="font-semibold text-slate-900 mt-2 mb-1">CD Rates Hit New Highs</h3>
+              <p className="text-sm text-slate-600">Banks compete with rates up to 5.5% APY for 12-month terms...</p>
+            </div>
+            <div className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+              <span className="text-xs font-medium text-purple-600 bg-purple-50 px-2 py-1 rounded">SAVINGS</span>
+              <h3 className="font-semibold text-slate-900 mt-2 mb-1">High-Yield Savings Surge</h3>
+              <p className="text-sm text-slate-600">Online banks offer 5%+ APY on savings accounts...</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Trust Section */}
