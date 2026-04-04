@@ -32,6 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: 'Auto Loans', href: '/rates/auto_loan' },
     { name: 'Calculators', href: '/calculators' },
     { name: 'News', href: '/news' },
+    { name: 'Rate Stories', href: '/rate-stories' },
     { name: 'Pro', href: '/pro', highlight: true },
   ];
 

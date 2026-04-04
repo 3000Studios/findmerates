@@ -8,6 +8,7 @@ import Guide from './pages/Guide';
 import Dashboard from './pages/Dashboard';
 import Legal from './pages/Legal';
 import News from './pages/News';
+import RateStories from './pages/RateStories';
 import GeminiChat from './components/GeminiChat';
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/guide" element={<Guide />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/news" element={<News />} />
+            <Route path="/rate-stories" element={<RateStories />} />
             <Route path="/:type" element={<Legal />} />
           </Routes>
           <GeminiChat />

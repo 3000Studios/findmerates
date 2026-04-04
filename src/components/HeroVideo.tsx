@@ -13,6 +13,8 @@ interface HeroStory {
   publishDate: Date;
   duration: string; // video duration
   tags: string[];
+  views?: number;
+  engagement?: number;
 }
 
 // Generate mock hero stories with relevant financial content
@@ -72,6 +74,35 @@ const generateHeroStories = (): HeroStory[] => {
   }));
 };
 
+// Load archived stories from localStorage
+const loadArchivedStories = (): HeroStory[] => {
+  try {
+    const archived = localStorage.getItem('findmerates_archived_stories');
+    return archived ? JSON.parse(archived) : [];
+  } catch {
+    return [];
+  }
+};
+
+// Save story to archive
+const archiveStory = (story: HeroStory) => {
+  const archived = loadArchivedStories();
+  const archivedStory = {
+    ...story,
+    retiredDate: new Date(),
+    views: Math.floor(Math.random() * 5000) + 1000,
+    engagement: Math.floor(Math.random() * 30) + 10,
+  };
+  archived.unshift(archivedStory); // Add to beginning
+
+  // Keep only last 50 archived stories
+  if (archived.length > 50) {
+    archived.splice(50);
+  }
+
+  localStorage.setItem('findmerates_archived_stories', JSON.stringify(archived));
+};
+
 interface HeroVideoProps {
   onStoryChange?: (story: HeroStory) => void;
   className?: string;
@@ -81,7 +112,6 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
   const [currentStory, setCurrentStory] = useState<HeroStory | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [showControls, setShowControls] = useState(false);
   const [timeUntilNext, setTimeUntilNext] = useState(3600); // 1 hour in seconds
   const videoRef = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -101,12 +131,15 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
       const nextIndex = (currentIndex + 1) % stories.length;
       const nextStory = stories[nextIndex];
 
+      // Archive the current story before rotating
+      if (currentStory) {
+        archiveStory(currentStory);
+        console.log('Story archived to rate stories:', currentStory.title);
+      }
+
       setCurrentStory(nextStory);
       onStoryChange?.(nextStory);
       setTimeUntilNext(3600); // Reset countdown
-
-      // Move old story to news archive (in a real app, this would save to database)
-      console.log('Story rotated to news:', currentStory?.title);
     };
 
     // Set up countdown timer
@@ -127,24 +160,8 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
     };
   }, [currentStory, onStoryChange]);
 
-  // Video controls
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
+  // Video controls - simplified for auto-play only
+  // Removed toggle functions as per requirements (no media buttons)
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -166,8 +183,6 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
   return (
     <div
       className={cn('relative h-96 overflow-hidden', className)}
-      onMouseEnter={() => setShowControls(true)}
-      onMouseLeave={() => setShowControls(false)}
     >
       {/* Video Background */}
       <video
@@ -229,24 +244,8 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
         </div>
       </div>
 
-      {/* Video Controls */}
-      <div className={cn(
-        'absolute bottom-4 right-4 flex items-center gap-2 transition-opacity duration-300',
-        showControls ? 'opacity-100' : 'opacity-0'
-      )}>
-        <button
-          onClick={togglePlay}
-          className="bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-colors"
-        >
-          {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-        </button>
-        <button
-          onClick={toggleMute}
-          className="bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 rounded-full transition-colors"
-        >
-          {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-        </button>
-      </div>
+      {/* Video Controls - REMOVED: No media buttons as requested */}
+      {/* Controls hidden for clean auto-play experience */}
 
       {/* Next Story Indicator */}
       <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded text-sm">
