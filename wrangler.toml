@@ -1,12 +1,12 @@
 name = "findmerates"
-main = "src/worker.js"
+pages_build_output_dir = "dist"
 compatibility_date = "2024-01-01"
 
 [env.production]
 name = "findmerates"
 
-[env.staging]
-name = "findmerates-staging"
+[env.preview]
+name = "findmerates-preview"
 
 [env.production.vars]
 NODE_ENV = "production"
