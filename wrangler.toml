@@ -1,7 +1,6 @@
 name = "findmerates"
 main = "src/worker.js"
 compatibility_date = "2024-01-01"
-compatibility_flags = ["nodejs_compat"]
 
 [env.production]
 name = "findmerates"
@@ -9,15 +8,17 @@ name = "findmerates"
 [env.staging]
 name = "findmerates-staging"
 
-# Build configuration
-[build]
-command = "npm run build"
-cwd = "."
-upload_dir = "dist"
-
-# Environment variables
-[vars]
+[env.production.vars]
 NODE_ENV = "production"
+VITE_AI_STUDIO_ENABLED = "true"
+VITE_ENABLE_ADS = "TRUE"
+VITE_ADSENSE_CLIENT_ID = "ca-pub-5800977493749262"
+API_BASE_URL = "https://api.findmerates.com"
+SITE_DOMAIN = "findmerates.com"
+SITE_URL = "https://findmerates.com"
+SITE_ORIGIN = "https://findmerates.com"
+CONTACT_EMAIL = "mr.jwswain@gmail.com"
+SUPPORT_EMAIL = "mr.jwswain@gmail.com"
 
 # KV Namespaces (if needed)
 # [[kv_namespaces]]

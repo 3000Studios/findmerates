@@ -1,11 +1,36 @@
 export enum RateCategory {
-  MORTGAGE = 'mortgage',
-  CD = 'cd',
-  AUTO_LOAN = 'auto_loan',
-  PERSONAL_LOAN = 'personal_loan',
-  REFINANCE = 'refinance',
-  INSURANCE = 'insurance',
-  SAVINGS = 'savings',
+  MORTGAGE = "mortgage",
+  CD = "cd",
+  AUTO_LOAN = "auto_loan",
+  PERSONAL_LOAN = "personal_loan",
+  REFINANCE = "refinance",
+  INSURANCE = "insurance",
+  SAVINGS = "savings",
+  TRENDS = "trends",
+}
+
+export interface Story {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  heroVideoUrl?: string;
+  imageUrl?: string;
+  category: string;
+  publishedAt: string;
+  isTopStory: boolean;
+  author: string;
+}
+
+export interface Comment {
+  id: string;
+  storyId: string;
+  uid: string;
+  displayName: string;
+  photoURL?: string;
+  text: string;
+  createdAt: string;
 }
 
 export interface RateResult {
@@ -47,7 +72,7 @@ export interface RateAlert {
   uid: string;
   category: RateCategory;
   targetRate: number;
-  condition: 'less_than' | 'greater_than';
+  condition: "less_than" | "greater_than";
   isActive: boolean;
   createdAt: string;
 }

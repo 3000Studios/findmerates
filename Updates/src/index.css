@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-50: #f8fafc;
+  --color-brand-100: #f1f5f9;
+  --color-brand-500: #0f172a;
+  --color-brand-600: #0a0f1e;
+  --color-brand-700: #050814;
+  --color-brand-900: #02040a;
+  --color-accent-gold: #c5a059; /* Sophisticated Gold */
+  --color-accent-silver: #94a3b8;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-slate-400 min-h-screen relative overflow-x-hidden bg-brand-900;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight uppercase;
+  }
+
+  /* Sharp Corners Global Reset */
+  * {
+    border-radius: 0 !important;
+  }
+}
+
+/* Animated Geometric Grid Background */
+.geometric-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 80%);
+  transition: mask-image 0.2s ease-out;
+}
+
+.geometric-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, var(--color-brand-900) 100%);
+}
+
+/* Metallic Text Effect - More Subtle/Corporate */
+.text-metallic-3d {
+  background: linear-gradient(to bottom, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+}
+
+.text-metallic-gold {
+  background: linear-gradient(to bottom, #fef08a 0%, #c5a059 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Corporate Button Styles */
+.btn-corporate {
+  @apply relative px-10 py-6 font-display font-bold uppercase tracking-[0.3em] text-[10px] transition-all duration-300 border border-white/10 overflow-hidden flex items-center justify-center gap-4;
+}
+
+.btn-corporate::before {
+  content: "";
+  @apply absolute inset-0 bg-white/5 -translate-x-full transition-transform duration-500;
+}
+
+.btn-corporate:hover::before {
+  @apply translate-x-0;
+}
+
+.btn-corporate-gold {
+  @apply bg-accent-gold text-brand-900 border-accent-gold/20 hover:bg-white hover:text-brand-900;
+}
+
+/* Layout Grid System */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  gap: 1px;
+}
+
+/* Prevent grid items from overlapping by enforcing min-width: 0 */
+.grid > *, .auto-grid > * {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Ensure all content auto-fits and doesn't overflow its container */
+.content-fit {
+  @apply w-full h-auto max-w-full overflow-hidden;
+}
+
+/* Ensure no overlapping and perfect fit */
+img {
+  @apply max-w-full h-auto block object-cover;
+}
+
+.container-tight {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Glassmorphism - Sharper */
+.glass-panel {
+  @apply bg-brand-600/40 backdrop-blur-2xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)];
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-brand-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-800 hover:bg-accent-gold transition-colors;
+}
+
+.ad-slot {
+  @apply bg-white/5 border border-white/10 flex items-center justify-center text-slate-600 text-[10px] font-bold uppercase tracking-[0.4em] min-h-[150px] my-12 backdrop-blur-md relative overflow-hidden;
+}
+
+.ad-slot::before {
+  content: "SPONSORED";
+  @apply absolute top-4 left-4 opacity-30;
+}
+

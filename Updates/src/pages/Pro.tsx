@@ -18,11 +18,13 @@ export default function Pro() {
 
     setLoading(true);
     try {
+      // Simulate Stripe checkout and success
       await updateDoc(doc(db, 'users', user.uid), {
         isPro: true,
-        hasSeenProWelcome: false
+        hasSeenProWelcome: false // Reset to show modal on next load
       });
       
+      // Redirect to home where the modal will trigger
       navigate('/');
     } catch (error) {
       console.error('Subscription error:', error);
@@ -148,7 +150,7 @@ export default function Pro() {
       {/* Pro Guide Teaser */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-brand-600 border border-white/5 flex flex-col lg:flex-row items-stretch">
-          <div className="p-12 lg:p-24 grow">
+          <div className="p-12 lg:p-24 flex-grow">
             <div className="flex items-center gap-4 mb-8">
               <span className="w-8 h-px bg-accent-gold" />
               <span className="text-accent-gold font-bold uppercase tracking-[0.5em] text-[10px]">Exclusive Asset</span>

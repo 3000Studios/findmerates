@@ -1,0 +1,7 @@
+{
+  "name": "FindMeRates.com",
+  "description": "Autonomous financial news and rate aggregation platform with real-time AI-generated insights and automated hourly updates.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

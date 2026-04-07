@@ -1,0 +1,9 @@
+name = "findmerates"
+pages_build_output_dir = "dist"
+
+[vars]
+NODE_VERSION = "20"
+
+[[env.production.vars]]
+GEMINI_API_KEY = "MY_GEMINI_API_KEY"
+# Add other environment variables here
