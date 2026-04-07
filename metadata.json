@@ -1,0 +1,7 @@
+{
+  "name": "FindMeRates.com",
+  "description": "A production-grade, AdSense-optimized financial rate finder platform with real-time comparisons, calculators, and a pro subscription tier.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

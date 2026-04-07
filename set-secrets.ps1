@@ -1,35 +1,75 @@
-# GitHub Actions Secrets Setup for FindMeRates
-# Run this script to push secrets to GitHub
-
-# Ensure GH_TOKEN is set in your environment
-if (-not $env:GH_TOKEN) {
-    Write-Error "GH_TOKEN environment variable not set. Set it before running this script."
-    exit 1
-}
+$env:GH_TOKEN="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"
 
 $repo = "3000Studios/findmerates"
 
-# Secrets to push
 $secrets = @{
-    "VITE_ADSENSE_CLIENT_ID" = "ca-pub-5800977493749262"
-    "VITE_ENABLE_ADS" = "TRUE"
-    "GEMINI_API_KEY" = "AIzaSyCBGfV7VjEKmuYkKvzuALs20GFJVUTiIwk"
-    "CLOUDFLARE_PAGES_PROJECT_NAME" = "findmerates"
-    "CLOUDFLARE_PAGES_BRANCH" = "main"
+    "ADMIN_API_KEY"="myaai_admin_1c7a1b7f8f4c4658b9c5dc8d667ac8c86b80b5960d01e4d3"
+    "ADMIN_API_ORIGIN"="https://campdreamgacom-production.up.railway.app"
+    "ADMIN_EMAIL"="mr.jwswain@gmail.com"
+    "ADMIN_PASSCODE"="5555"
+    "ADMIN_SESSION_SECRET"="myaai_sess_90d3b5b7b4e947a1a3a171b5cbf387ac5c89e1d0e3f2a6c2"
+    "AI_PROJECT_NAME"="findmerates.com"
+    "ANTHROPIC_API_KEY"="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"
+    "API_BASE_URL"="https://api.findmerates.com"
+    "APP_NAME"="findmerates.com"
+    "BLUEPRINT_ID"="exs-d5vbip14tr6s739ip840"
+    "CLAUDE_MODEL"="claude-3-5-sonnet-latest"
+    "CLOUD_FLARE_API_TOKEN"="cfut_tHDqRP26AzYvjtoP6NEftZsfA4dUepPmPSaa1ecx41ee290f"
+    "CLOUDFLARE_ACCOUNT_ID"="d6ec056b27a57bcf807a46b2e3379d60"
+    "CLOUDFLARE_API_TOKEN"="cfat_wN7y18vLpx6WTrL77aKebbOCxEIzJlpkFPRK8iEd8fafad74"
+    "CLOUDFLARE_MASTER_TOKEN"="cfut_ZwGfHADT5viY1q2eAyUhUedTexKnfUWeHqdIkYBh7fc2c722"
+    "CLOUDFLARE_PAGES_BRANCH"="main"
+    "CLOUDFLARE_PAGES_PROJECT_NAME"="findmerates"
+    "CLOUDFLARE_ZONE_ID"="ffe8ab9a01578e384cdf071021d840b8"
+    "CONTACT_EMAIL"="mr.jwswain@gmail.com"
+    "CONTROL_PASSWORD"="5555"
+    "GEMINI_API_KEY"="AIzaSyCBGfV7VjEKmuYkKvzuALs20GFJVUTiIwk"
+    "GH_BASE_BRANCH"="main"
+    "GH_BOT_TOKEN"="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"
+    "GH_PAT"="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"
+    "GH_REPO"="3000Studios/findmerates"
+    "GH_TOKEN"="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"
+    "GLOBAL_API_KEY"="46a64f8d5aecf4256475104f2690297bd9bc1"
+    "JULES_API_KEY"="AQ.Ab8RN6JSjvIB8k1pm6Q4rOTEgDRhpPrbOYt_l_YkbbqkrnLslA"
+    "JWT_SECRET"="myaai_jwt_8a03bd51cb2e4d7f9e5ecdf012eb0c86bf594687249d0bc0"
+    "LICENSE_SECRET"="myaai_license_52b62b068eb0483b88497b46f5ce3dfdc86d5a1c23366f41"
+    "LOGS_ACCESS_CODE"="8888"
+    "NODE_ENV"="development"
+    "NODE_VERSION"="20"
+    "OLLAMA_MODEL"="llama3.2:3b"
+    "OLLAMA_PROXY_SECRET"="6N5DsEfbwXCiwbeHf52n6d4kNws3S56o"
+    "OPENAI_API_KEY"="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"
+    "OPENAI_MODEL"="gpt-4o"
+    "PAYPAL_CLIENT_ID"="AV64tommaL7dHsABJvulSEPX3IksB3o2jcVhBneJEd5p0LtWOgoXzRvMmGU4Dkc2m_xuLP6wyan9P-8c"
+    "PAYPAL_CLIENT_ID_PROD"="AV64tommaL7dHsABJvulSEPX3IksB3o2jcVhBneJEd5p0LtWOgoXzRvMmGU4Dkc2m_xuLP6wyan9P-8c"
+    "PAYPAL_CLIENT_SECRET"="EPSFKNNrKaYK-Pbk7nng5tnenZALSXIu-vnqXM8fNxAPsZ0x0UGAtRe-xn_aFLJr7LrxEDJryF8dkfcJ"
+    "PAYPAL_CLIENT_SECRET_PROD"="EPSFKNNrKaYK-Pbk7nng5tnenZALSXIu-vnqXM8fNxAPsZ0x0UGAtRe-xn_aFLJr7LrxEDJryF8dkfcJ"
+    "PAYPAL_EMAIL"="payments@findmerates.com"
+    "PAYPAL_ENV"="live"
+    "PAYPAL_WEBHOOK_ID_PROD"="0781200398999432C"
+    "PUBLIC_ASSISTANT_PROVIDER"="ollama"
+    "SESSION_SECRET"="5555"
+    "SITE_DOMAIN"="findmerates.com"
+    "SITE_ORIGIN"="https://findmerates.com"
+    "SITE_URL"="https://findmerates.com"
+    "STRIPE_PUBLISHABLE_KEY"="pk_live_51SCLtrGejm3JMan4oTgv5MvjcAIPr1AWhkUamJiUufyqhWkeiq2iZ8GVQBy56xewUSiyLxPp05gPy4KBrZDsvG8e00uM2g1yCd"
+    "STRIPE_SECRET_KEY"="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"
+    "STRIPE_WEBHOOK_SECRET"="whsec_8b7952769b530105a1745804c8e62280c5637759cb52718c775e973a9d413b05"
+    "SUPPORT_EMAIL"="mr.jwswain@gmail.com"
+    "SYNC_HOOK"="https://api.render.com/sync/exs-d5vbip14tr6s739ip840?key=okuWN4Mc6O4"
+    "TELEGRAM_BOT_TOKEN"="8647136936:AAE74tuKcI5TN4VGsV8lXk24EZ7quVOYpBs"
+    "TELEGRAM_WEBHOOK_SECRET"="tgwhsec_2db6a9d4e4d64d4ab91c8f5c5d11f9d6"
+    "TELEGRAM_WEBHOOK_URL"="https://findmerates.com/api/public/telegram/webhook"
+    "VITE_ADSENSE_CLIENT_ID"="ca-pub-replace-me"
+    "VITE_API_BASE_URL"="https://findmerates-production.up.railway.app"
+    "VITE_ENABLE_ADS"="FALSE"
 }
 
-Write-Host "Pushing secrets to $repo..." -ForegroundColor Green
+gh auth status
 
 foreach ($key in $secrets.Keys) {
     $val = $secrets[$key]
-    Write-Host "Setting secret: $key" -ForegroundColor Cyan
-    try {
-        $val | gh secret set $key -R $repo
-        Write-Host "Successfully set $key" -ForegroundColor Green
-    } catch {
-        Write-Error "Failed to set $key : $_"
-    }
+    Write-Host "Setting secret $key..."
+    $val | gh secret set $key -R $repo 
 }
-
-Write-Host "All secrets successfully pushed!" -ForegroundColor Green
-Write-Host "Verify at: https://github.com/$repo/settings/secrets/actions"
+Write-Host "All secrets successfully pushed to $repo"
