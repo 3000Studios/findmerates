@@ -18,7 +18,33 @@ Compare mortgage rates, CD rates & loan options with AI-powered insights.
 
 ## Deploy
 
-The application is set up for deployment on Cloudflare Pages with GitHub Actions.
+The application is deployed using **Wrangler** (Cloudflare Workers).
+
+### Prerequisites
+- Node.js
+- Wrangler CLI (`npm install -g wrangler`)
+- Cloudflare account
+
+### Deployment Commands
+
+**Local Development:**
+```bash
+npm run dev              # Local development with Express server
+npm run dev:wrangler     # Local development with Wrangler
+```
+
+**Build and Deploy:**
+```bash
+npm run build           # Build the application
+npm run deploy          # Deploy to production
+npm run deploy:staging  # Deploy to staging environment
+```
+
+**Automated Deployment:**
+```bash
+./deploy-wrangler.ps1   # PowerShell deployment script
+./deploy-wrangler.ps1 --staging  # Deploy to staging
+```
 
 ## Features
 
