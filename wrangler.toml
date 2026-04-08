@@ -1,32 +1,6 @@
 name = "findmerates"
+compatibility_date = "2026-04-08"
 pages_build_output_dir = "dist"
-compatibility_date = "2024-01-01"
 
-[env.production]
-name = "findmerates"
-
-[env.preview]
-name = "findmerates-preview"
-
-[env.production.vars]
-NODE_ENV = "production"
-VITE_AI_STUDIO_ENABLED = "true"
-VITE_ENABLE_ADS = "TRUE"
-VITE_ADSENSE_CLIENT_ID = "ca-pub-5800977493749262"
-API_BASE_URL = "https://api.findmerates.com"
-SITE_DOMAIN = "findmerates.com"
-SITE_URL = "https://findmerates.com"
-SITE_ORIGIN = "https://findmerates.com"
-CONTACT_EMAIL = "mr.jwswain@gmail.com"
-SUPPORT_EMAIL = "mr.jwswain@gmail.com"
-
-# KV Namespaces (if needed)
-# [[kv_namespaces]]
-# binding = "KV_NAMESPACE"
-# id = "your-kv-namespace-id"
-
-# D1 Database (if needed)
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "findmerates-db"
-# database_id = "your-database-id"
+[build]
+command = "npm run build"
