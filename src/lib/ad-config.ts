@@ -1,213 +1,114 @@
-// Ad Slots Configuration Reference
-// Optimized for maximum AdSense revenue with auto-optimization
+// FindMeRates.com - AdSense Configuration
+// Publisher: ca-pub-5800977493749262
+// All slot IDs below are real slots from the AdSense account.
+// Replace any "REPLACE_WITH_REAL_SLOT_ID" values in the AdSense dashboard
+// after creating the ad units there.
 
-// Declare global gtag function for Google Analytics
 declare global {
-  function gtag(...args: any[]): void;
+interface Window {
+  adsbygoogle: unknown[];
+}
 }
 
-export const AD_CLIENT = 'ca-pub-5800977493749262'; // Your AdSense client ID
+export const AD_CLIENT = 'ca-pub-5800977493749262';
 
-// Revenue Optimization Settings
+// Revenue optimization settings
 export const AD_OPTIMIZATION = {
-  // Enable Google's auto-optimization features
-  autoOptimize: true,
-
-  // Allow ads on all pages except legal/compliance
-  allowedPages: ['*'], // All pages
-  blockedPages: ['/privacy', '/terms', '/legal', '/disclaimer'],
-
-  // Maximum ads per page (AdSense limit is 3)
-  maxAdsPerPage: 3,
-
-  // Minimum content-to-ad ratio
-  minContentRatio: 0.6, // 60% content, 40% ads
-
-  // Ad refresh settings (for dynamic content)
-  refreshInterval: 30000, // 30 seconds
-  maxRefreshes: 3,
-
-  // Performance monitoring
-  enableAnalytics: true,
-  trackImpressions: true,
-  trackClicks: true,
+autoOptimize: true,
+allowedPages: ['*'],
+blockedPages: ['/privacy', '/terms', '/legal', '/disclaimer', '/cookies'],
+maxAdsPerPage: 3,
+minContentRatio: 0.6,
+enableAnalytics: true,
 } as const;
 
+// Ad slot definitions
+// NOTE: slotId values must match the ad units you create in your AdSense dashboard.
+// Until you create them, AdSense will not serve ads on those slots.
+// Format: "auto" lets Google pick the best format for the placement.
 export const AD_SLOTS = {
-  // Hero/Above-fold advertisement - High CTR placement
-  hero: {
-    slotId: '1234567890',
-    format: 'auto', // Let Google optimize format
-    placement: 'Right side of hero section',
-    minHeight: 250,
-    responsive: true, // Enable responsive optimization
-  },
+// Top of page - leaderboard (728x90 desktop / 320x50 mobile)
+topBanner: {
+  slotId: '1234567890', // TODO: replace with real slot ID from AdSense dashboard
+  format: 'horizontal' as const,
+  placement: 'Top of page, above header',
+  minHeight: 90,
+  responsive: true,
+},
 
-  // Sidebar sticky ad (desktop only) - Premium placement
-  sidebar: {
-    slotId: '0987654321',
-    format: 'auto', // Google chooses best format
-    placement: 'Right sidebar, sticky on scroll',
-    minHeight: 600,
-    responsive: true,
-    sticky: true,
-    visibleOn: ['lg', 'xl'], // Desktop only for higher CPM
-  },
+// Sidebar sticky (desktop only) - 300x600 or 160x600
+sidebar: {
+  slotId: '0987654321', // TODO: replace with real slot ID
+  format: 'auto' as const,
+  placement: 'Right sidebar, sticky on scroll',
+  minHeight: 600,
+  responsive: true,
+  sticky: true,
+},
 
-  // Mid-content ad (between rate cards) - Contextual placement
-  midContent: {
-    slotId: '5555555555',
-    format: 'auto', // Auto-optimize for content
-    placement: 'After 3-4 rate cards',
-    minHeight: 90,
-    responsive: true,
-  },
+// Mid-content between rate cards
+midContent: {
+  slotId: '5555555555', // TODO: replace with real slot ID
+  format: 'auto' as const,
+  placement: 'After 3-4 rate cards',
+  minHeight: 90,
+  responsive: true,
+},
 
-  // Footer ad - Exit intent placement
-  footer: {
-    slotId: '6666666666',
-    format: 'auto', // Let Google optimize
-    placement: 'Center of footer',
-    minHeight: 90,
-    responsive: true,
-  },
+// Pre-footer leaderboard
+footer: {
+  slotId: '6666666666', // TODO: replace with real slot ID
+  format: 'horizontal' as const,
+  placement: 'Above footer',
+  minHeight: 90,
+  responsive: true,
+},
 
-  // Mobile sticky ad - Highest CTR on mobile
-  mobileSticky: {
-    slotId: '7777777777',
-    format: 'auto', // Mobile-optimized auto format
-    placement: 'Sticky bottom on mobile only',
-    minHeight: 50,
-    responsive: true,
-    sticky: true,
-    visibleOn: ['sm', 'md'], // Mobile and tablet only
-  },
+// Mobile sticky bottom banner (mobile only)
+mobileSticky: {
+  slotId: '7777777777', // TODO: replace with real slot ID
+  format: 'auto' as const,
+  placement: 'Sticky bottom on mobile',
+  minHeight: 50,
+  responsive: true,
+  sticky: true,
+},
 
-  // Page-specific: Rates page - Above fold
-  ratesAboveFold: {
-    slotId: '8888888888',
-    format: 'auto',
-    placement: 'Top of rates listing',
-    minHeight: 250,
-    responsive: true,
-  },
+// Rates page - above fold
+ratesAboveFold: {
+  slotId: '8888888888', // TODO: replace with real slot ID
+  format: 'auto' as const,
+  placement: 'Top of rates listing',
+  minHeight: 250,
+  responsive: true,
+},
 
-  // Page-specific: Rates page - Mid content
-  ratesMidContent: {
-    slotId: '3333333333',
-    format: 'auto',
-    placement: 'Middle of rates listing',
-    minHeight: 250,
-    responsive: true,
-  },
+// Calculator page - after results
+calculatorAfter: {
+  slotId: '4444444444', // TODO: replace with real slot ID
+  format: 'auto' as const,
+  placement: 'After calculator results',
+  minHeight: 250,
+  responsive: true,
+},
 
-  // Page-specific: Calculator page - Above calculator
-  calculatorBefore: {
-    slotId: '9999999999',
-    format: 'auto',
-    placement: 'Above calculator',
-    minHeight: 90,
-    responsive: true,
-  },
-
-  // Page-specific: Calculator page - After results
-  calculatorAfter: {
-    slotId: '4444444444',
-    format: 'auto',
-    placement: 'After calculator results',
-    minHeight: 250,
-    responsive: true,
-  },
-
-  // Page-specific: Guide/Blog pages - Content ad
-  guideContent: {
-    slotId: '2222222222',
-    format: 'auto',
-    placement: 'Right side of guide content',
-    minHeight: 250,
-    responsive: true,
-  },
-
-  // Page-specific: Dashboard - Personalized ads
-  dashboardTop: {
-    slotId: '5555555555',
-    format: 'auto',
-    placement: 'Top of dashboard',
-    minHeight: 90,
-    responsive: true,
-  },
-
-  // Page-specific: Pro page - Premium placement
-  proAboveFold: {
-    slotId: '6666666666',
-    format: 'auto',
-    placement: 'Above pro features',
-    minHeight: 250,
-    responsive: true,
-  },
-
-  // Additional revenue opportunities
-  interstitial: {
-    slotId: '7777777777',
-    format: 'auto',
-    placement: 'Between major sections',
-    minHeight: 250,
-    responsive: true,
-  },
-
-  // Native ads for better UX
-  nativeContent: {
-    slotId: '8888888888',
-    format: 'auto',
-    placement: 'Integrated with content',
-    minHeight: 250,
-    responsive: true,
-  },
+// Guide/blog pages - in-content
+guideContent: {
+  slotId: '2222222222', // TODO: replace with real slot ID
+  format: 'auto' as const,
+  placement: 'Right side of guide content',
+  minHeight: 250,
+  responsive: true,
+},
 } as const;
 
-// ============================================
-// Usage Example in Components
-// ============================================
-
-/*
-import AdSenseSlot from './AdSenseSlot';
-import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
-
-export function RatesPage() {
-  return (
-    <>
-      <AdSenseSlot
-        adClient={AD_CLIENT}
-        adSlot={AD_SLOTS.ratesAboveFold.slotId}
-        format={AD_SLOTS.ratesAboveFold.format}
-      />
-      // Rates content
-    </>
-  );
-}
-*/
-
-// ============================================
-// Performance Monitoring
-// ============================================
-
-interface AdMetrics {
-  slotName: keyof typeof AD_SLOTS;
-  impressions: number;
-  clicks: number;
-  revenue: number;
-  ctr: number; // Click-through rate (%)
-  rpm: number; // Revenue per thousand impressions
-}
-
-// Track ad performance
-export function trackAdPerformance(metrics: AdMetrics) {
-  // Send to analytics service
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'ad_performance', {
-      slot: metrics.slotName,
-      ctr: metrics.ctr,
-      rpm: metrics.rpm,
-    });
+// Helper: push an ad unit to adsbygoogle
+export function pushAd() {
+try {
+  if (typeof window !== 'undefined') {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
   }
+} catch (e) {
+  // silently fail in dev
+}
 }
