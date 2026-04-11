@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://findmerates.com/sitemap.xml
+Disallow: /dashboard
+Disallow: /api/
+
+Sitemap: https://findmerates.pages.dev/sitemap.xml
