@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "powershell -ExecutionPolicy Bypass -File .cursor/hooks/before-shell-guard.ps1",
+        "matcher": "wrangler pages deploy dist",
+        "failClosed": false
+      }
+    ]
+  }
+}

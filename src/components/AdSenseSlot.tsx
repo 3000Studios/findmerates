@@ -41,11 +41,13 @@ export default function AdSenseSlot({
   onAdLoad,
   onAdError,
 }: AdSenseSlotProps) {
+  const adsEnabled = import.meta.env.VITE_ENABLE_ADS !== 'FALSE';
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isInView, setIsInView] = useState(!lazy); // If not lazy, always in view
   const adRef = useRef<HTMLDivElement>(null);
   const insRef = useRef<HTMLModElement>(null);
+  const isPlaceholderSlot = /^(1234567890|0987654321|2222222222|4444444444|5555555555|6666666666|7777777777|8888888888)$/.test(adSlot);
 
   // Intersection Observer for lazy loading
   useEffect(() => {
@@ -73,7 +75,7 @@ export default function AdSenseSlot({
 
   // Load ad when in view or not lazy
   useEffect(() => {
-    if (!visible || !isInView || isLoaded || hasError) return;
+    if (!visible || !isInView || isLoaded || hasError || isPlaceholderSlot) return;
 
     const loadAd = () => {
       try {
@@ -94,7 +96,7 @@ export default function AdSenseSlot({
     const timeoutId = setTimeout(loadAd, 100);
 
     return () => clearTimeout(timeoutId);
-  }, [visible, isInView, isLoaded, hasError, adSlot, onAdLoad, onAdError]);
+  }, [visible, isInView, isLoaded, hasError, adSlot, onAdLoad, onAdError, isPlaceholderSlot]);
 
   // Handle ad refresh (for dynamic content)
   const refreshAd = () => {
@@ -107,7 +109,7 @@ export default function AdSenseSlot({
     }
   };
 
-  if (!visible) return null;
+  if (!visible || !adsEnabled || isPlaceholderSlot) return null;
 
   return (
     <div

@@ -13,6 +13,8 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { rotateHeroStory } from "./src/services/newsService";
+import { getLiveRates } from "./src/services/liveRates";
+import { RateCategory } from "./src/types";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +22,7 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const PORT = 3000;
+  const cronSecret = process.env.CRON_SECRET;
 
   app.use(express.json());
 
@@ -31,36 +34,26 @@ async function startServer() {
   // Rate Data API (Mock for now, can be extended with Gemini)
   app.get("/api/rates", (req, res) => {
     const { category, location } = req.query;
-    // In a real app, this would fetch from a database or external API
-    // For now, returning mock data that looks production-ready
-    res.json({
-      category,
-      location: location || "National",
-      results: [
-        {
-          id: "1",
-          provider: "Global Trust Bank",
-          rate: 6.25,
-          apr: 6.35,
-          term: "30-Year Fixed",
-          category: category || "mortgage",
-          lastUpdated: new Date().toISOString(),
-          details: ["No application fee", "Fast closing"],
-          ctaUrl: "#",
-        },
-        {
-          id: "2",
-          provider: "Apex Financial",
-          rate: 5.99,
-          apr: 6.12,
-          term: "15-Year Fixed",
-          category: category || "mortgage",
-          lastUpdated: new Date().toISOString(),
-          details: ["Low down payment options", "Excellent customer service"],
-          ctaUrl: "#",
-        },
-      ],
-    });
+    const normalizedCategory = String(category || "mortgage")
+      .toLowerCase()
+      .replace("-", "_");
+    const allowedCategories = new Set(Object.values(RateCategory));
+    const resolvedCategory = (allowedCategories.has(normalizedCategory as RateCategory)
+      ? normalizedCategory
+      : RateCategory.MORTGAGE) as RateCategory;
+
+    getLiveRates(resolvedCategory)
+      .then((results) => {
+        res.json({
+          category: resolvedCategory,
+          location: location || "National",
+          results,
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching live rates:", error);
+        res.status(500).json({ error: "Failed to fetch live rates" });
+      });
   });
 
   // Trending Topics API
@@ -140,6 +133,13 @@ async function startServer() {
 
   // Manual Trigger for News Rotation (Simulating Cron)
   app.post("/api/cron/rotate-news", async (req, res) => {
+    if (cronSecret) {
+      const providedSecret = req.get("x-cron-secret");
+      if (providedSecret !== cronSecret) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+    }
+
     try {
       await rotateHeroStory();
       res.json({ status: "success", message: "Hero story rotated" });

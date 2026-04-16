@@ -334,13 +334,13 @@ export default function RateStories() {
 
             {/* AdSense Header Ad */}
             <div className="mt-8 flex justify-center">
-              <AdSenseSlot
-                adClient={AD_CLIENT}
-                adSlot={AD_SLOTS.hero.slotId}
-                format={AD_SLOTS.hero.format}
-                minHeight={250}
-                className="w-full max-w-4xl"
-              />
+            <AdSenseSlot
+              adClient={AD_CLIENT}
+              adSlot={AD_SLOTS.midContent.slotId}
+              format={AD_SLOTS.midContent.format}
+              minHeight={250}
+              className="w-full max-w-4xl"
+            />
             </div>
           </div>
         </div>

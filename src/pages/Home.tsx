@@ -1,302 +1,314 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
-Search,
-TrendingUp,
-Home as HomeIcon,
-CreditCard,
-Wallet,
-ArrowRight,
-Zap,
-ShieldCheck,
-Star,
-Clock,
-MessageSquare,
-Newspaper,
-TrendingDown,
-Sparkles,
-ChevronRight,
-Play,
+  ArrowRight,
+  BarChart3,
+  BriefcaseBusiness,
+  Home as HomeIcon,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  Wallet,
 } from "lucide-react";
-import { Story, RateCategory } from "../types";
-import { cn } from "../lib/utils";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import MortgageCalculator from "../components/MortgageCalculator";
 import BestOptionAnalyzer from "../components/BestOptionAnalyzer";
 import PredictiveBriefing from "../components/PredictiveBriefing";
+import { Story } from "../types";
 import { fetchLatestFinancialNews } from "../services/intelligenceService";
+import { playUiSound } from "../lib/sound";
+import financialRatesVideo from "../components/video/financial rates.mp4";
 
 export default function Home() {
-const [searchQuery, setSearchQuery] = useState("");
-const [topStories, setTopStories] = useState<Story[]>([]);
-const [loading, setLoading] = useState(true);
-const navigate = useNavigate();
-const { scrollY } = useScroll();
-const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [topStories, setTopStories] = useState<Story[]>([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-useEffect(() => {
-  const loadNews = async () => {
-    setLoading(true);
-    const news = await fetchLatestFinancialNews("general");
-    setTopStories(news);
-    setLoading(false);
+  useEffect(() => {
+    const loadNews = async () => {
+      setLoading(true);
+      const news = await fetchLatestFinancialNews("general");
+      setTopStories(news);
+      setLoading(false);
+    };
+    loadNews();
+  }, []);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/rates/mortgage?q=${encodeURIComponent(searchQuery)}`);
+    }
   };
-  loadNews();
-}, []);
 
-const handleSearch = (e: React.FormEvent) => {
-  e.preventDefault();
-  if (searchQuery.trim()) {
-    navigate(`/rates/mortgage?q=${encodeURIComponent(searchQuery)}`);
-  }
-};
+  const categories = [
+    { id: "mortgage", name: "Mortgages", icon: HomeIcon, image: "photo-1560518883-ce09059eeffa" },
+    { id: "cd", name: "CD Rates", icon: Wallet, image: "photo-1579621970563-ebec7560ff3e" },
+    { id: "auto_loan", name: "Auto Loans", icon: BarChart3, image: "photo-1533473359331-0135ef1b58bf" },
+    { id: "personal_loan", name: "Personal Loans", icon: BriefcaseBusiness, image: "photo-1554224155-6726b3ff858f" },
+  ];
 
-const categories = [
-  {
-    id: "mortgage",
-    name: "Mortgages",
-    icon: HomeIcon,
-    color: "text-accent-gold",
-    img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    id: "cd",
-    name: "CD Rates",
-    icon: Wallet,
-    color: "text-accent-gold",
-    img: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    id: "auto_loan",
-    name: "Auto Loans",
-    icon: CreditCard,
-    color: "text-accent-gold",
-    img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    id: "personal_loan",
-    name: "Personal",
-    icon: TrendingUp,
-    color: "text-accent-gold",
-    img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
-  },
-];
-
-return (
-  <div className="relative overflow-hidden">
-    {/* Hero Section with Video */}
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-white/5">
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover grayscale brightness-[0.2]"
-        >
-          <source
-            src="https://player.vimeo.com/external/434045526.sd.mp4?s=c27dc3699069539d210fd3b70d05d73b9c48dc1f&profile_id=164&oauth2_token_id=57447761"
-            type="video/mp4"
-          />
-        </video>
-        <div className="absolute inset-0 bg-brand-900/40" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="flex items-center justify-center gap-4 mb-12">
-            <span className="w-12 h-px bg-accent-gold" />
-            <span className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.5em]">
-              Autonomous Financial Intelligence
-            </span>
-            <span className="w-12 h-px bg-accent-gold" />
-          </div>
-
-          <h1 className="text-7xl md:text-[160px] font-display font-bold mb-12 uppercase tracking-tighter leading-[0.85] text-white">
-            FindMe<span className="text-accent-gold">Rates.</span>
-          </h1>
-
-          {/* FIXED: was text-slate-500 (low contrast on dark bg) → text-slate-200 */}
-          <p className="text-xl md:text-3xl text-slate-200 max-w-4xl mx-auto mb-20 font-medium leading-relaxed uppercase tracking-tight">
-            The world's most advanced autonomous rate tracking engine.{" "}
-            <br className="hidden md:block" />
-            Institutional intelligence for the modern investor.
-          </p>
-
-          <form
-            onSubmit={handleSearch}
-            className="max-w-3xl mx-auto relative group"
-          >
-            {/* FIXED: bg-brand-600 → bg-brand-800 (darker), placeholder:text-slate-700 → placeholder:text-slate-400 */}
-            <input
-              type="text"
-              placeholder="Search institutional rates (e.g. 30yr Fixed, 5yr CD)..."
-              className="w-full bg-brand-800 border border-white/20 px-10 py-8 text-white text-lg placeholder:text-slate-400 focus:outline-none focus:border-accent-gold/50 transition-all"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button
-              title="Search"
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-accent-gold text-brand-900 p-5 hover:bg-white transition-colors"
+  return (
+    <div className="overflow-hidden">
+      <section className="relative">
+        <div className="section-shell py-10 lg:py-16">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="relative z-10"
             >
-              <Search className="w-6 h-6" />
-            </button>
-          </form>
-        </motion.div>
-      </div>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-brand-800 shadow-sm backdrop-blur">
+                <Sparkles className="h-4 w-4" />
+                Award-inspired financial clarity, built original
+              </div>
+              <h1 className="max-w-4xl text-5xl leading-[0.95] tracking-tight text-slate-950 md:text-7xl lg:text-[5.5rem]">
+                Compare rates with a cleaner, calmer, more confident interface.
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+                A premium rate experience for mortgages, CDs, auto loans, and personal loans. Fast search, clearer actions, less noise.
+              </p>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-50">
-        <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-white">
-          Initialize Scroll
-        </span>
-        <div className="w-px h-12 bg-linear-to-b from-accent-gold to-transparent" />
-      </div>
-    </section>
+              <form onSubmit={handleSearch} className="mt-10 max-w-2xl">
+                <div className="surface flex items-center gap-3 rounded-full px-4 py-3">
+                  <Search className="ml-2 h-5 w-5 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Search a rate, term, or lender"
+                    className="min-w-0 flex-1 bg-transparent py-2 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <button type="submit" className="button-primary">
+                    Search
+                  </button>
+                </div>
+              </form>
 
-    {/* Categories Grid */}
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
-        {categories.map((cat, i) => (
-          <motion.div
-            key={cat.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="group relative overflow-hidden aspect-4/5 bg-brand-600 border border-white/5"
-          >
-            <img
-              src={cat.img}
-              alt={cat.name}
-              className="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.3] group-hover:scale-110 group-hover:brightness-[0.5] transition-all duration-700"
-            />
-            <div className="absolute inset-0 p-12 flex flex-col justify-between z-10">
-              <cat.icon className="w-10 h-10 text-accent-gold" />
-              <div>
-                <h3 className="text-3xl font-display font-bold text-white mb-6 uppercase tracking-tight">
-                  {cat.name}
-                </h3>
+              <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-600">
+                <span className="rounded-full border border-slate-200 bg-white/75 px-4 py-2">Daily rate updates</span>
+                <span className="rounded-full border border-slate-200 bg-white/75 px-4 py-2">AI briefing tools</span>
+                <span className="rounded-full border border-slate-200 bg-white/75 px-4 py-2">Clear comparison cards</span>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  to={`/rates/${cat.id}`}
-                  className="inline-flex items-center gap-3 text-[10px] font-bold text-accent-gold uppercase tracking-[0.3em] hover:text-white transition-colors"
+                  to="/pro"
+                  className="button-primary"
+                  onMouseEnter={() => playUiSound("hover")}
+                  onClickCapture={() => playUiSound("click")}
                 >
-                  Explore Sector <ArrowRight className="w-4 h-4" />
+                  Start Pro for $9.99
+                </Link>
+                <Link to="/guide" className="button-secondary" onMouseEnter={() => playUiSound("hover")}>
+                  Read guide
                 </Link>
               </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
+            </motion.div>
 
-    {/* Intelligence & Tools Grid */}
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-1">
-        <div className="lg:col-span-8">
-          <MortgageCalculator />
-        </div>
-        <div className="lg:col-span-4 space-y-1">
-          <BestOptionAnalyzer />
-          <PredictiveBriefing />
-        </div>
-      </div>
-    </section>
-
-    {/* News / Stories Section */}
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-      <div className="flex items-end justify-between mb-20">
-        <div>
-          <div className="flex items-center gap-4 mb-6">
-            <span className="w-8 h-px bg-accent-gold" />
-            <span className="text-accent-gold font-bold uppercase tracking-[0.5em] text-[10px]">
-              Financial Intelligence
-            </span>
-          </div>
-          <h2 className="text-5xl md:text-8xl font-display font-bold text-white uppercase tracking-tighter">
-            Market <span className="text-accent-gold">Briefings.</span>
-          </h2>
-        </div>
-        {/* FIXED: was text-slate-500 → text-slate-300 for better contrast */}
-        <Link
-          to="/stories"
-          className="hidden md:flex items-center gap-3 text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em] hover:text-white transition-colors"
-        >
-          View All Intelligence <ArrowRight className="w-4 h-4" />
-        </Link>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-        {topStories.map((story, i) => (
-          <motion.div
-            key={story.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="group"
-          >
-            <Link
-              to={`/stories/${story.slug}`}
-              className="block bg-brand-600 border border-white/10 p-12 hover:border-accent-gold/50 transition-all h-full"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="relative"
             >
-              <div className="flex items-center gap-3 text-accent-gold font-bold text-[9px] uppercase tracking-widest mb-8">
-                <Clock className="w-4 h-4" />{" "}
-                {new Date(story.publishedAt).toLocaleDateString()}
+              <div className="card relative overflow-hidden p-6 lg:p-8">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(47,140,255,0.16),transparent_40%),radial-gradient(circle_at_bottom_right,_rgba(200,163,90,0.14),transparent_35%)]" />
+                <div className="relative space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="section-kicker">Today&apos;s Snapshot</span>
+                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                      +0.12% Avg improvement
+                    </span>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="rounded-3xl bg-brand-900 p-5 text-white">
+                      <p className="text-sm text-brand-100">Best Mortgage</p>
+                      <p className="mt-2 text-4xl font-semibold">6.24%</p>
+                      <p className="mt-2 text-sm text-brand-100">30-year fixed, top-tier borrowers</p>
+                    </div>
+                    <div className="rounded-3xl border border-slate-200 bg-white p-5">
+                      <p className="text-sm text-slate-500">Best CD</p>
+                      <p className="mt-2 text-4xl font-semibold text-slate-950">4.75%</p>
+                      <p className="mt-2 text-sm text-slate-600">12-month term</p>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="rounded-3xl border border-slate-200 bg-white p-5">
+                      <p className="text-sm text-slate-500">Fastest Approval</p>
+                      <p className="mt-2 text-xl font-semibold text-slate-950">Personal loan offers</p>
+                      <p className="mt-2 text-sm text-slate-600">Pre-screened results in minutes</p>
+                    </div>
+                    <div className="rounded-3xl bg-brand-50 p-5 text-brand-900">
+                      <p className="text-sm font-semibold">Pro intelligence</p>
+                      <p className="mt-2 text-xl font-semibold">Actionable briefs and scenario tools</p>
+                      <Link to="/pro" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold">
+                        Explore Pro <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h4 className="text-xl md:text-2xl font-display font-bold text-white mb-8 uppercase tracking-tight group-hover:text-accent-gold transition-colors group-hover:scale-[1.02] origin-left truncate">
-                {story.title}
-              </h4>
-              {/* FIXED: was text-slate-500 (invisible on dark bg) → text-slate-300 */}
-              <p className="text-slate-300 text-xs font-medium leading-relaxed uppercase tracking-widest line-clamp-3">
-                {story.excerpt}
-              </p>
-              <div className="mt-12 flex items-center gap-3 text-white font-bold text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                Read Full Intel <ArrowRight className="w-4 h-4" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell py-8 lg:py-14">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {categories.map((cat, i) => (
+            <motion.div
+              key={cat.id}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="group overflow-hidden rounded-[28px] border border-white/70 bg-white/80 shadow-[0_18px_50px_rgba(16,34,68,0.08)]"
+            >
+              <div
+                className="h-60 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]"
+                style={{
+                  backgroundImage: `linear-gradient(180deg, rgba(16,34,68,0.12), rgba(16,34,68,0.62)), url(https://images.unsplash.com/${cat.image}?auto=format&fit=crop&q=80&w=900)`,
+                }}
+              />
+              <div className="p-6">
+                <cat.icon className="h-5 w-5 text-brand-700" />
+                <h3 className="mt-4 text-2xl text-slate-950">{cat.name}</h3>
+                <Link
+                  to={`/rates/${cat.id}`}
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-800"
+                >
+                  Explore <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-shell py-8 lg:py-14">
+        <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="card overflow-hidden bg-brand-900 text-white">
+            <div className="grid gap-0 md:grid-cols-2">
+              <div className="p-8 md:p-10">
+                <div className="section-kicker text-brand-200">Immersive rates</div>
+                <h2 className="mt-3 text-4xl text-white">Video-first rate insights.</h2>
+                <p className="mt-4 text-brand-100">
+                  Watch the market, click to explore, and jump between tools without leaving the page.
+                </p>
+                <div className="mt-6 flex gap-3">
+                  <Link to="/stories" className="button-secondary border-white/10 bg-white text-brand-900" onMouseEnter={() => playUiSound("hover")}>
+                    View stories
+                  </Link>
+                </div>
+              </div>
+              <div className="min-h-72 bg-[radial-gradient(circle_at_top_left,rgba(200,163,90,0.35),transparent_35%),linear-gradient(135deg,#102244,#184fb4)] p-8">
+                <video
+                  className="h-full w-full rounded-[24px] object-cover shadow-2xl"
+                  src={financialRatesVideo}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="card p-8">
+            <div className="section-kicker">Pro perks</div>
+            <h2 className="mt-3 text-3xl text-slate-950">More useful, more interactive.</h2>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              {[
+                "Priority briefing tools",
+                "Rate alerts and scenario runs",
+                "6 month special pricing",
+                "Direct subscription access",
+              ].map((item) => (
+                <div key={item} className="rounded-3xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <Link to="/pro" className="button-primary mt-6 w-full" onClickCapture={() => playUiSound("click")}>
+              Go to subscription
             </Link>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-
-    {/* AdSense Placement */}
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-      <div className="ad-slot">
-        <div className="text-center">
-          <p className="text-slate-500 mb-2">ADVERTISEMENT</p>
-          <div className="w-full h-px bg-slate-200 mb-2" />
-          <p className="text-slate-600">GOOGLE ADSENSE PLACEMENT</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Pro CTA */}
-    <section className="bg-accent-gold py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="flex items-center justify-center gap-4 mb-12">
-          <span className="w-12 h-px bg-brand-900" />
-          <span className="text-[10px] font-bold text-brand-900 uppercase tracking-[0.5em]">
-            Premium Access
-          </span>
-          <span className="w-12 h-px bg-brand-900" />
+      <section className="section-shell py-8 lg:py-14">
+        <div className="grid gap-4 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <MortgageCalculator />
+          </div>
+          <div className="grid gap-4 lg:col-span-4">
+            <BestOptionAnalyzer />
+            <PredictiveBriefing />
+          </div>
         </div>
-        <h2 className="text-6xl md:text-9xl font-display font-bold text-brand-900 mb-12 uppercase tracking-tighter leading-[0.85]">
-          Unlock Institutional
-          <br />
-          <span className="opacity-70">Intelligence.</span>
-        </h2>
-        <Link
-          to="/pro"
-          className="btn-corporate bg-brand-900 text-white border-none inline-flex items-center gap-4 text-xl"
-        >
-          Initialize Pro Subscription <Zap className="w-6 h-6" />
-        </Link>
-      </div>
-    </section>
-  </div>
-);
+      </section>
+
+      <section className="section-shell py-8 lg:py-14">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <div className="section-kicker">Market briefing</div>
+            <h2 className="mt-3 text-4xl text-slate-950 md:text-6xl">Recent stories, without the clutter.</h2>
+          </div>
+          <Link to="/stories" className="hidden items-center gap-2 text-sm font-semibold text-brand-800 md:inline-flex">
+            View all <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {loading ? (
+          <div className="card p-10 text-center text-slate-500">Loading stories...</div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {topStories.map((story, i) => (
+              <motion.div
+                key={story.id}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <Link to={`/stories/${story.slug}`} className="card group block p-6 transition-transform hover:-translate-y-1">
+                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-brand-700">
+                    <ShieldCheck className="h-4 w-4" />
+                    {new Date(story.publishedAt).toLocaleDateString()}
+                  </div>
+                  <h3 className="mt-5 text-2xl leading-tight text-slate-950 group-hover:text-brand-800">
+                    {story.title}
+                  </h3>
+                  <p className="mt-4 line-clamp-3 text-sm leading-7 text-slate-600">
+                    {story.excerpt}
+                  </p>
+                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand-800">
+                    Read story <ArrowRight className="h-4 w-4" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="section-shell py-8 lg:py-14">
+        <div className="card flex flex-col gap-8 bg-brand-900 px-6 py-10 text-white md:flex-row md:items-center md:justify-between md:px-10">
+          <div>
+            <div className="section-kicker text-brand-200">Premium access</div>
+            <h2 className="mt-3 text-3xl md:text-5xl">Unlock the sharper tools.</h2>
+            <p className="mt-4 max-w-2xl text-brand-100">
+              Pro brings deeper analysis, clearer briefing flows, and a stronger decision layer for active rate shoppers.
+            </p>
+          </div>
+          <Link to="/pro" className="button-secondary border-white/15 bg-white text-brand-900">
+            Initialize Pro
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
 }

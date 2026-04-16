@@ -109,6 +109,9 @@ return (
         <p className="text-lg text-slate-600 leading-relaxed">
           Have a question, a correction, or want to partner with us? We'd love to hear from you.
         </p>
+        <p className="text-sm text-slate-500 leading-relaxed mt-4">
+          Contact: hello@findmerates.com
+        </p>
         <div className="mt-8">
           <Link
             to="/contact"

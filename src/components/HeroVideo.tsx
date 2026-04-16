@@ -115,11 +115,13 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
   const [timeUntilNext, setTimeUntilNext] = useState(3600); // 1 hour in seconds
   const videoRef = useRef<HTMLVideoElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const storyRef = useRef<HeroStory | null>(null);
 
   // Initialize with first story
   useEffect(() => {
     const stories = generateHeroStories();
     setCurrentStory(stories[0]);
+    storyRef.current = stories[0];
     onStoryChange?.(stories[0]);
   }, [onStoryChange]);
 
@@ -127,17 +129,17 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
   useEffect(() => {
     const rotateStory = () => {
       const stories = generateHeroStories();
-      const currentIndex = stories.findIndex(s => s.id === currentStory?.id) || 0;
+      const currentIndex = stories.findIndex(s => s.id === storyRef.current?.id);
       const nextIndex = (currentIndex + 1) % stories.length;
       const nextStory = stories[nextIndex];
 
       // Archive the current story before rotating
-      if (currentStory) {
-        archiveStory(currentStory);
-        console.log('Story archived to rate stories:', currentStory.title);
+      if (storyRef.current) {
+        archiveStory(storyRef.current);
       }
 
       setCurrentStory(nextStory);
+      storyRef.current = nextStory;
       onStoryChange?.(nextStory);
       setTimeUntilNext(3600); // Reset countdown
     };
@@ -158,7 +160,7 @@ export default function HeroVideo({ onStoryChange, className }: HeroVideoProps) 
         clearInterval(intervalRef.current);
       }
     };
-  }, [currentStory, onStoryChange]);
+  }, [onStoryChange]);
 
   // Video controls - simplified for auto-play only
   // Removed toggle functions as per requirements (no media buttons)

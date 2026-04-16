@@ -76,7 +76,9 @@ export default function Calculators() {
           <div className="bg-brand-900 rounded-2xl p-8 text-white mt-8">
             <h4 className="font-display font-bold mb-2">Need a pro opinion?</h4>
             <p className="text-brand-200 text-sm mb-6">Our AI assistant can help you analyze your specific scenario.</p>
-            <button className="w-full py-3 bg-brand-500 hover:bg-brand-400 rounded-lg font-semibold transition-colors">Ask AI Assistant</button>
+            <Link to="/pro" className="block w-full py-3 bg-brand-500 hover:bg-brand-400 rounded-lg font-semibold transition-colors text-center">
+              Ask AI Assistant
+            </Link>
           </div>
         </div>
       </div>

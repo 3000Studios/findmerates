@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleGenAI } from '@google/genai';
-import { Sparkles, TrendingDown, TrendingUp, Calendar, ArrowRight, Loader2 } from 'lucide-react';
-import { auth, db } from '../lib/firebase';
-import { collection, query, getDocs, limit } from 'firebase/firestore';
+import React, { useState } from "react";
+import { GoogleGenAI } from "@google/genai";
+import { ArrowRight, Loader2, Sparkles, TrendingDown } from "lucide-react";
+import { auth, db } from "../lib/firebase";
+import { collection, getDocs, limit, query } from "firebase/firestore";
 
 export default function PredictiveBriefing() {
   const [briefing, setBriefing] = useState<string | null>(null);
@@ -13,65 +13,58 @@ export default function PredictiveBriefing() {
     try {
       const user = auth.currentUser;
       let context = "General market outlook.";
-      
+
       if (user) {
-        const searches = await getDocs(query(collection(db, `users/${user.uid}/savedSearches`), limit(3)));
+        const searches = await getDocs(
+          query(collection(db, `users/${user.uid}/savedSearches`), limit(3)),
+        );
         if (!searches.empty) {
-          context = `User is interested in: ${searches.docs.map(d => d.data().query).join(', ')}`;
+          context = `User is interested in: ${searches.docs.map((d) => d.data().query).join(", ")}`;
         }
       }
 
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: `Generate a short, predictive financial rate briefing for 2026. Context: ${context}. Focus on trends and whether users should act now or wait. Keep it under 150 words.`,
+        model: "gemini-3-flash-preview",
+        contents: `Generate a short predictive financial rate briefing for 2026. Context: ${context}. Keep it under 150 words.`,
       });
 
       setBriefing(response.text || null);
     } catch (error) {
-      console.error('Briefing error:', error);
+      console.error("Briefing error:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-gradient-to-br from-brand-900 to-slate-900 rounded-3xl p-8 text-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-8 opacity-10">
-        <Sparkles className="w-32 h-32" />
+    <div className="card relative overflow-hidden p-6 text-slate-950">
+      <div className="absolute right-0 top-0 p-6 opacity-10">
+        <Sparkles className="h-24 w-24" />
       </div>
-      
-      <div className="relative z-10">
-        <div className="flex items-center gap-2 text-brand-400 font-bold text-xs uppercase tracking-widest mb-4">
-          <Sparkles className="w-4 h-4" /> AI Predictive Intelligence
-        </div>
-        <h2 className="text-3xl font-display font-bold mb-6">Your Personalized Rate Briefing</h2>
-        
+
+      <div className="relative">
+        <div className="section-kicker">AI briefing</div>
+        <h2 className="mt-3 text-3xl text-slate-950">Your personalized rate briefing</h2>
+
         {briefing ? (
-          <div className="space-y-6">
-            <p className="text-brand-100 leading-relaxed text-lg">
-              {briefing}
-            </p>
-            <div className="flex items-center gap-6 pt-6 border-t border-white/10">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold">
-                <TrendingDown className="w-5 h-5" /> ACT NOW
+          <div className="mt-6 space-y-5">
+            <p className="text-sm leading-7 text-slate-600">{briefing}</p>
+            <div className="flex items-center justify-between rounded-3xl bg-brand-50 px-4 py-3">
+              <div className="flex items-center gap-2 text-sm font-semibold text-emerald-700">
+                <TrendingDown className="h-4 w-4" />
+                Action bias
               </div>
-              <div className="text-sm text-brand-300">
-                Market indicators suggest a 0.25% rise in the next 30 days.
-              </div>
+              <span className="text-sm text-slate-500">Act now if locking a rate matters</span>
             </div>
           </div>
         ) : (
-          <div className="py-12 text-center">
-            <button
-              onClick={generateBriefing}
-              disabled={loading}
-              className="inline-flex items-center px-8 py-4 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-400 transition-all shadow-lg disabled:opacity-50"
-            >
-              {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Sparkles className="w-5 h-5 mr-2" />}
-              Generate My Briefing
+          <div className="mt-8 text-center">
+            <button onClick={generateBriefing} disabled={loading} className="button-primary w-full">
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+              Generate briefing
             </button>
-            <p className="mt-4 text-brand-300 text-sm">Analyzes your behavior to predict market moves.</p>
+            <p className="mt-3 text-sm text-slate-500">Creates a quick summary from your recent activity.</p>
           </div>
         )}
       </div>

@@ -89,6 +89,15 @@ service cloud.firestore {
              data.createdAt is timestamp;
     }
 
+    function isValidComment(data) {
+      return hasOnlyAllowedFields(['uid', 'displayName', 'photoURL', 'text', 'createdAt', 'storyId']) &&
+             data.uid is string && data.uid.size() > 0 &&
+             data.displayName is string && data.displayName.size() > 0 &&
+             data.text is string && data.text.size() > 0 && data.text.size() <= 2000 &&
+             data.storyId is string && data.storyId.size() > 0 &&
+             data.createdAt is timestamp;
+    }
+
     // ===============================================================
     // Match Rules
     // ===============================================================
@@ -113,6 +122,21 @@ service cloud.firestore {
       allow create: if isOwner(uid) && isValidRateAlert(request.resource.data);
       allow update: if isOwner(uid) && isValidRateAlert(request.resource.data);
       allow delete: if isOwner(uid) || isAdmin();
+    }
+
+    match /stories/{storyId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if isAuthenticated() &&
+                      isValidComment(request.resource.data) &&
+                      request.resource.data.uid == request.auth.uid &&
+                      request.resource.data.storyId == storyId;
+        allow update, delete: if isAuthenticated() &&
+                              resource.data.uid == request.auth.uid;
+      }
     }
   }
 }

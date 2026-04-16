@@ -1,43 +1,96 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
 @theme {
---font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
---font-display: "Outfit", sans-serif;
---font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
---color-brand-50: #f0f9ff;
---color-brand-100: #e0f2fe;
---color-brand-200: #bae6fd;
---color-brand-500: #0ea5e9;
---color-brand-600: #0284c7;
---color-brand-700: #0369a1;
---color-brand-800: #075985;
---color-brand-900: #0c4a6e;
+  --color-brand-50: #f5fbff;
+  --color-brand-100: #e6f4ff;
+  --color-brand-200: #c6e8ff;
+  --color-brand-300: #95d1ff;
+  --color-brand-400: #5fb6ff;
+  --color-brand-500: #2f8cff;
+  --color-brand-600: #1c66db;
+  --color-brand-700: #184fb4;
+  --color-brand-800: #173c84;
+  --color-brand-900: #102244;
 
---color-accent-gold: #f59e0b;
---color-accent-gold-dark: #b45309;
+  --color-accent-gold: #c8a35a;
+  --color-accent-emerald: #28c18c;
 }
 
 @layer base {
-body {
-  @apply font-sans bg-white text-slate-900;
-}
-h1, h2, h3, h4, h5, h6 {
-  @apply font-display font-semibold tracking-tight text-slate-900;
-}
-p {
-  @apply text-slate-700;
-}
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-slate-900 antialiased;
+    background:
+      radial-gradient(circle at top, rgba(47, 140, 255, 0.14), transparent 36%),
+      radial-gradient(circle at right, rgba(200, 163, 90, 0.12), transparent 24%),
+      linear-gradient(180deg, #f7f9fc 0%, #eef3f9 100%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-semibold tracking-tight text-slate-950;
+  }
+
+  p {
+    @apply text-slate-600;
+  }
+
+  ::selection {
+    background: rgba(47, 140, 255, 0.18);
+  }
 }
 
-/* On dark backgrounds, override slate-500 to slate-200 for contrast */
+@layer utilities {
+  .surface {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 18px 60px rgba(16, 34, 68, 0.08);
+    backdrop-filter: blur(24px);
+  }
+
+  .section-shell {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-kicker {
+    @apply text-[10px] font-semibold uppercase tracking-[0.35em] text-brand-700;
+  }
+
+  .button-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-900 px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-brand-800;
+  }
+
+  .button-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-brand-200 hover:bg-brand-50;
+  }
+
+  .card {
+    @apply rounded-[28px];
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 18px 60px rgba(16, 34, 68, 0.08);
+    backdrop-filter: blur(24px);
+  }
+}
+
 .dark-section p,
 .dark-section span,
 .dark-section li {
-color: #e2e8f0; /* slate-200 */
+  color: #d6dde8;
 }
 
 .ad-slot {
-@apply bg-slate-100 border border-slate-200 rounded-lg flex items-center justify-center text-slate-400 text-xs font-mono uppercase tracking-widest min-h-[100px] my-8;
+  @apply my-8 flex min-h-[90px] items-center justify-center rounded-2xl border border-slate-200/80 bg-white/70 text-slate-400;
 }

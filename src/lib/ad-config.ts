@@ -6,7 +6,7 @@
 
 declare global {
 interface Window {
-  adsbygoogle: unknown[];
+  adsbygoogle: any[];
 }
 }
 

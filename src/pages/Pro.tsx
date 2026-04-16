@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { Check, Zap, Star, ShieldCheck, ArrowRight, Download, Bell, Search, CreditCard, Sparkles, Globe, BarChart3, Lock, Loader2 } from 'lucide-react';
+import { Check, Zap, Star, ShieldCheck, ArrowRight, Download, Bell, Search, CreditCard, Sparkles, Globe, BarChart3, Lock, Loader2, Coins } from 'lucide-react';
 import { motion } from 'motion/react';
 import { auth, db } from '../lib/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { playUiSound } from '../lib/sound';
 
 export default function Pro() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const stripeLink = import.meta.env.VITE_STRIPE_PAYMENT_LINK as string | undefined;
+  const stripeSixMonthLink = import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined;
+  const paypalLink = import.meta.env.VITE_PAYPAL_PAYMENT_LINK as string | undefined;
 
   const handleSubscribe = async () => {
     const user = auth.currentUser;
@@ -31,11 +35,16 @@ export default function Pro() {
     }
   };
 
+  const openPaymentLink = (url?: string) => {
+    if (!url) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   const features = [
     { icon: Bell, title: 'Instant Rate Alerts', desc: 'Get notified the second rates drop below your target.' },
     { icon: Search, title: 'Advanced Search', desc: 'Filter by credit score, LTV, and hyper-local data.' },
-    { icon: Zap, title: 'Priority Updates', desc: 'See new rates up to 4 hours before free users.' },
-    { icon: Download, title: 'Rate Finder Pro Guide', desc: 'Exclusive 50-page guide to mastering financial rates.' },
+    { icon: Zap, title: 'Priority Updates', desc: 'See new rates before free users.' },
+    { icon: Download, title: 'Rate Finder Pro Guide', desc: 'Sharper guide to financial rates.' },
   ];
 
   return (
@@ -66,7 +75,7 @@ export default function Pro() {
               FindMeRates <span className="text-accent-gold">PRO.</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-500 max-w-3xl mx-auto mb-24 font-medium leading-relaxed">
-              The ultimate tool for institutional-grade financial optimization. Save thousands with real-time intelligence and automated predictive alerts.
+              Pro now starts at $9.99/month or $39.99 when paid in full for 6 months.
             </p>
           </motion.div>
 
@@ -97,14 +106,18 @@ export default function Pro() {
               <div>
                 <div className="flex justify-between items-center mb-12">
                   <h3 className="text-brand-900 text-2xl font-display font-bold uppercase tracking-tight">Pro Access</h3>
-                  <span className="px-4 py-1 bg-brand-900 text-white text-[9px] font-bold uppercase tracking-widest">Annual Plan</span>
+                  <span className="px-4 py-1 bg-brand-900 text-white text-[9px] font-bold uppercase tracking-widest">Monthly or 6-month</span>
                 </div>
                 <div className="flex items-baseline gap-2 mb-12">
-                  <span className="text-8xl font-display font-bold text-brand-900">$49</span>
+                  <span className="text-8xl font-display font-bold text-brand-900">$9.99</span>
                   <span className="text-brand-900/60 text-xl font-bold uppercase tracking-widest">/mo</span>
                 </div>
+                <div className="mb-8 rounded-3xl bg-brand-900/10 p-4 text-brand-900">
+                  <p className="text-sm font-bold uppercase tracking-widest">6 month special</p>
+                  <p className="mt-1 text-lg font-semibold">$39.99 paid in full</p>
+                </div>
                 <ul className="space-y-6 mb-16">
-                  {['Unlimited Rate Comparisons', 'Real-time AI Briefings', 'Custom Rate Alerts', 'API Access (Beta)', 'Priority Support'].map((item) => (
+                  {['Unlimited Rate Comparisons', 'Real-time AI Briefings', 'Custom Rate Alerts', 'Premium guide library', 'Priority Support'].map((item) => (
                     <li key={item} className="flex items-center gap-4 text-brand-900 text-sm font-bold uppercase tracking-widest">
                       <div className="w-2 h-2 bg-brand-900" /> {item}
                     </li>
@@ -114,11 +127,47 @@ export default function Pro() {
               <button 
                 onClick={handleSubscribe}
                 disabled={loading}
+                onMouseEnter={() => playUiSound("hover")}
+                onClickCapture={() => playUiSound("click")}
                 className="w-full btn-corporate bg-brand-900 text-white border-none flex items-center justify-center gap-4 text-lg disabled:opacity-50"
               >
                 {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Zap className="w-6 h-6" />}
-                Initialize Subscription <ArrowRight className="w-6 h-6" />
+                Subscribe now <ArrowRight className="w-6 h-6" />
               </button>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => openPaymentLink(stripeLink)}
+                  disabled={!stripeLink}
+                  className="button-secondary w-full"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  Stripe monthly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openPaymentLink(stripeSixMonthLink)}
+                  disabled={!stripeSixMonthLink}
+                  className="button-secondary w-full"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  Stripe 6 months
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openPaymentLink(paypalLink)}
+                  disabled={!paypalLink}
+                  className="button-secondary w-full"
+                >
+                  <Coins className="h-4 w-4" />
+                  PayPal checkout
+                </button>
+              </div>
+              {(!stripeLink || !stripeSixMonthLink || !paypalLink) && (
+                <p className="mt-4 text-xs leading-6 text-brand-900/70">
+                  Add `VITE_STRIPE_PAYMENT_LINK`, `VITE_STRIPE_6MONTH_LINK`, and `VITE_PAYPAL_PAYMENT_LINK` to enable one-click checkout buttons.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -155,10 +204,10 @@ export default function Pro() {
             </div>
             <h2 className="text-4xl md:text-7xl font-display font-bold text-white mb-10 uppercase tracking-tighter leading-tight">Rate Finder <span className="text-accent-gold">Pro Guide.</span></h2>
             <p className="text-slate-500 text-xl mb-16 max-w-2xl font-medium leading-relaxed">
-              Institutional secrets of the banking industry. We reveal exactly when to lock your rate, how to negotiate fees, and how to spot hidden costs.
+              Practical decision tools, alerts, and a sharper guide to comparing products.
             </p>
             <div className="flex flex-wrap gap-1">
-              {['50+ Pages', 'Updated Monthly', '$49.99 Value'].map(tag => (
+              {['50+ Pages', 'Updated Monthly', '$39.99 6-month special'].map(tag => (
                 <div key={tag} className="px-8 py-4 bg-brand-900 border border-white/5 text-white text-[10px] font-bold uppercase tracking-widest">
                   {tag}
                 </div>

@@ -42,8 +42,12 @@ export default function StoryDetail() {
     const fetchStory = async () => {
       setIsLoading(true);
       try {
+        if (!slug) {
+          setStory(null);
+          return;
+        }
         const news = await fetchLatestFinancialNews("general");
-        const foundStory = news.find((s: Story) => s.slug === slug) || news[0];
+        const foundStory = news.find((s: Story) => s.slug === slug) || null;
         setStory(foundStory);
       } catch (err) {
         console.error("Failed to fetch story:", err);
@@ -55,7 +59,10 @@ export default function StoryDetail() {
   }, [slug]);
 
   useEffect(() => {
-    if (!story) return;
+    if (!story) {
+      setComments([]);
+      return;
+    }
     const q = query(
       collection(db, "stories", story.id, "comments"),
       orderBy("createdAt", "desc"),

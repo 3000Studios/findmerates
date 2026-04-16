@@ -13,6 +13,10 @@ import CategoryPage from "./pages/CategoryPage";
 import ProGuide from "./pages/ProGuide";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
+import Disclaimer from "./pages/Disclaimer";
 import GeminiChat from "./components/GeminiChat";
 import ErrorBoundary from "./components/ErrorBoundary";
 
@@ -35,6 +39,10 @@ return (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/stories/:slug" element={<StoryDetail />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/cookies" element={<CookiePolicy />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/:type" element={<Legal />} />
         </Routes>
         <GeminiChat />

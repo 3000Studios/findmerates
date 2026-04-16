@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   const allowedEnv = {
     VITE_ADSENSE_CLIENT_ID: env.VITE_ADSENSE_CLIENT_ID || '',
     VITE_API_BASE_URL: env.VITE_API_BASE_URL || '',
-    VITE_ENABLE_ADS: env.VITE_ENABLE_ADS || 'FALSE',
+    VITE_ENABLE_ADS: env.VITE_ENABLE_ADS || 'TRUE',
     GEMINI_API_KEY: env.GEMINI_API_KEY || '',
   };
 

@@ -1,58 +1,62 @@
-import React from 'react';
-import { RateResult } from '../types';
-import { formatCurrency, formatPercent, cn } from '../lib/utils';
-import { ExternalLink, Info, TrendingUp, ShieldCheck } from 'lucide-react';
+import React from "react";
+import { ExternalLink, Info, ShieldCheck } from "lucide-react";
+import { RateResult } from "../types";
+import { formatPercent } from "../lib/utils";
 
 export default function RateCard({ result }: { result: RateResult }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex flex-col md:flex-row gap-6 items-center">
-        <div className="flex-shrink-0 w-full md:w-48 flex flex-col items-center md:items-start gap-2">
-          <div className="h-12 w-full bg-slate-50 rounded flex items-center justify-center border border-slate-100">
-            <span className="font-display font-bold text-slate-400">{result.provider}</span>
+    <div className="card p-6 transition-transform hover:-translate-y-1">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
+        <div className="lg:w-52">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-center">
+            <span className="text-sm font-semibold text-slate-500">{result.provider}</span>
           </div>
-          <div className="flex items-center gap-1 text-[10px] text-slate-400 font-medium uppercase tracking-wider">
-            <ShieldCheck className="w-3 h-3" /> FDIC Insured
-          </div>
-        </div>
-
-        <div className="flex-grow grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
-          <div className="text-center md:text-left">
-            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Rate</p>
-            <p className="text-3xl font-display font-bold text-slate-900">{formatPercent(result.rate)}</p>
-          </div>
-          <div className="text-center md:text-left">
-            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">APR</p>
-            <p className="text-3xl font-display font-bold text-slate-900">{formatPercent(result.apr || result.rate)}</p>
-          </div>
-          <div className="hidden md:block">
-            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Term</p>
-            <p className="text-lg font-semibold text-slate-700">{result.term}</p>
+          <div className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+            <ShieldCheck className="h-3 w-3" />
+            FDIC insured
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 w-full md:w-auto">
+        <div className="grid flex-1 grid-cols-2 gap-4 lg:grid-cols-3">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Rate</p>
+            <p className="mt-2 text-3xl text-slate-950">{formatPercent(result.rate)}</p>
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-400">APR</p>
+            <p className="mt-2 text-3xl text-slate-950">{formatPercent(result.apr || result.rate)}</p>
+          </div>
+          <div className="hidden lg:block">
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Term</p>
+            <p className="mt-2 text-lg font-medium text-slate-700">{result.term}</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3 lg:w-52">
           <a
             href={result.ctaUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 bg-brand-600 text-white font-semibold rounded-lg hover:bg-brand-700 transition-colors shadow-sm"
+            className="button-primary w-full"
           >
-            Check Rate <ExternalLink className="ml-2 w-4 h-4" />
+            Check rate <ExternalLink className="h-4 w-4" />
           </a>
-          <button className="text-xs text-slate-500 font-medium hover:text-brand-600 transition-colors flex items-center justify-center gap-1">
-            <Info className="w-3 h-3" /> View Details
+          <button className="inline-flex items-center justify-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-900">
+            <Info className="h-4 w-4" />
+            View details
           </button>
         </div>
       </div>
-      
-      <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-4">
+
+      <div className="mt-6 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
         {result.details.map((detail, i) => (
-          <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+          <span key={i} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
             {detail}
           </span>
         ))}
-        <span className="ml-auto text-[10px] text-slate-400">Last updated: {new Date(result.lastUpdated).toLocaleDateString()}</span>
+        <span className="ml-auto text-xs text-slate-400">
+          Updated {new Date(result.lastUpdated).toLocaleDateString()}
+        </span>
       </div>
     </div>
   );

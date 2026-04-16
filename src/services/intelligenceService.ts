@@ -1,10 +1,45 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import { Story, RateResult, RateCategory } from '../types';
+import { getLiveRates } from './liveRates';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : undefined);
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
+
+function fallbackStories(category: string): Story[] {
+  const items = [
+    {
+      title: `${category} rates stay selective as markets reset`,
+      slug: `${category}-rates-selective-markets-reset`,
+      excerpt: "A practical update on where the best offers are still appearing and what shoppers should watch next.",
+      content: "## Rate update\n\nThe market remains selective. Compare fees, term length, and lock timing together.",
+      imageSearchQuery: "finance dashboard",
+      category,
+      author: "FindMeRates Desk",
+      isTopStory: true,
+    },
+    {
+      title: `What rate shoppers should do this week`,
+      slug: `rate-shoppers-should-do-this-week`,
+      excerpt: "A short action list for borrowers and savers looking to move quickly without missing details.",
+      content: "## Action list\n\nRe-run your search, compare the same term, and verify any promos in writing.",
+      imageSearchQuery: "market analysis",
+      category,
+      author: "FindMeRates Desk",
+      isTopStory: false,
+    },
+  ];
+
+  return items.map((s, i) => ({
+    ...s,
+    id: `${category}-${i}`,
+    publishedAt: new Date().toISOString(),
+    imageUrl: `https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1000&sig=${i}`,
+  }));
+}
 
 export async function fetchLatestFinancialNews(category: string): Promise<Story[]> {
   try {
+    if (!ai) return fallbackStories(category);
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Generate 6 unique, professional financial news stories for the category: ${category}. 
@@ -48,12 +83,15 @@ export async function fetchLatestFinancialNews(category: string): Promise<Story[
     }));
   } catch (error) {
     console.error('Error fetching financial news:', error);
-    return [];
+    return fallbackStories(category);
   }
 }
 
 export async function generateMarketRates(category: RateCategory): Promise<RateResult[]> {
   try {
+    const liveRates = await getLiveRates(category);
+    if (liveRates.length > 0) return liveRates;
+    if (!ai) return [];
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Generate 5 realistic, current market rate results for ${category}. 
@@ -101,6 +139,9 @@ export async function generateMarketRates(category: RateCategory): Promise<RateR
 
 export async function generateProGuide(): Promise<string> {
   try {
+    if (!ai) {
+      return `# Rate Finder Pro Guide\n\n## 1. Compare the full cost\nLook at rate, fees, term, and lock rules together.\n\n## 2. Match the product\nChoose the product that fits the use case, not just the headline rate.\n\n## 3. Verify the details\nConfirm assumptions in writing before you commit.`;
+    }
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Write a comprehensive, 50-page (equivalent) financial intelligence guide titled "Rate Finder Pro Guide: Mastering Institutional Financial Optimization". 
@@ -119,6 +160,6 @@ export async function generateProGuide(): Promise<string> {
     return response.text || "Guide content unavailable.";
   } catch (error) {
     console.error('Error generating Pro Guide:', error);
-    return "Error generating guide.";
+    return `# Rate Finder Pro Guide\n\n## 1. Compare the full cost\nLook at rate, fees, term, and lock rules together.\n\n## 2. Match the product\nChoose the product that fits the use case, not just the headline rate.\n\n## 3. Verify the details\nConfirm assumptions in writing before you commit.`;
   }
 }

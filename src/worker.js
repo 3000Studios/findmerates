@@ -7,31 +7,13 @@ export default {
       if (url.pathname.startsWith('/api/')) {
         return handleApiRequest(request, env);
       }
-      
-      // For all other requests, serve the SPA
-      const indexHtml = `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-adsense-account" content="${env.VITE_ADSENSE_CLIENT_ID || ''}">
-    <title>FindMeRates - Compare Mortgage Rates, CD Rates & Loan Options</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${env.VITE_ADSENSE_CLIENT_ID || ''}"
-     crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/index-CsHE5ebA.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/assets/index-DCAfw8_I.js"></script>
-  </body>
-</html>`;
-      
-      return new Response(indexHtml, {
-        headers: {
-          'Content-Type': 'text/html',
-          'Cache-Control': 'public, max-age=3600',
-        },
-      });
+
+      // Delegate static asset and SPA handling to Pages assets binding.
+      if (env.ASSETS && typeof env.ASSETS.fetch === "function") {
+        return env.ASSETS.fetch(request);
+      }
+
+      return new Response("Assets binding is not configured", { status: 500 });
     } catch (error) {
       return new Response('Internal Server Error', { status: 500 });
     }
@@ -46,7 +28,8 @@ async function handleApiRequest(request, env) {
   }
   
   if (url.pathname === '/api/rates') {
-    const { category, location } = url.searchParams;
+    const category = url.searchParams.get('category');
+    const location = url.searchParams.get('location');
     return Response.json({
       category,
       location: location || 'National',

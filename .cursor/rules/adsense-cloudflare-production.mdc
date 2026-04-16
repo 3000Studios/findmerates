@@ -1,0 +1,23 @@
+---
+description: AdSense and Cloudflare production guardrails for findmerates
+alwaysApply: true
+---
+
+# FindMeRates Production Standard
+
+- Deploy only to Cloudflare Pages project `findmerates` on branch `main`.
+- Keep `wrangler.toml` `compatibility_date` current when deploying.
+- Keep `ads.txt`, `robots.txt`, and `sitemap.xml` present and publicly reachable.
+- Keep `index.html` with:
+  - `meta name="google-adsense-account"` matching the publisher ID
+  - AdSense script loaded with the same client ID
+  - canonical URL pointing to `https://findmerates.com/`
+- Never commit real secrets or tokens in `.env*` examples or docs.
+- Default `VITE_ENABLE_ADS` to `TRUE` for production builds.
+- If ad slot IDs are placeholders, suppress placeholders in production UI.
+- Verify before release:
+  - `npm run lint`
+  - `npm run build`
+  - `npm run deploy` (or `deploy:dry-run` first)
+  - confirm latest deployment appears under project `findmerates`
+- Keep crawler access open for review on production routes; do not gate primary pages behind Cloudflare Access or bot challenges that block Google review crawlers.

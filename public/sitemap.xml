@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-  <loc>https://findmerates.pages.dev/</loc>
+  <loc>https://findmerates.com/</loc>
   <changefreq>daily</changefreq>
   <priority>1.0</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/about</loc>
+  <loc>https://findmerates.com/about</loc>
   <changefreq>monthly</changefreq>
   <priority>0.8</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/contact</loc>
+  <loc>https://findmerates.com/contact</loc>
   <changefreq>monthly</changefreq>
   <priority>0.8</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/rates/mortgage</loc>
+  <loc>https://findmerates.com/rates/mortgage</loc>
   <changefreq>daily</changefreq>
   <priority>0.9</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/rates/cd</loc>
+  <loc>https://findmerates.com/rates/cd</loc>
   <changefreq>daily</changefreq>
   <priority>0.9</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/rates/auto</loc>
+  <loc>https://findmerates.com/rates/auto</loc>
   <changefreq>daily</changefreq>
   <priority>0.9</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/rates/personal</loc>
+  <loc>https://findmerates.com/rates/personal</loc>
   <changefreq>daily</changefreq>
   <priority>0.9</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/calculators</loc>
+  <loc>https://findmerates.com/calculators</loc>
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/guide</loc>
+  <loc>https://findmerates.com/guide</loc>
   <changefreq>weekly</changefreq>
   <priority>0.7</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/stories</loc>
+  <loc>https://findmerates.com/stories</loc>
   <changefreq>daily</changefreq>
   <priority>0.7</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/privacy</loc>
+  <loc>https://findmerates.com/privacy</loc>
   <changefreq>yearly</changefreq>
   <priority>0.3</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/terms</loc>
+  <loc>https://findmerates.com/terms</loc>
   <changefreq>yearly</changefreq>
   <priority>0.3</priority>
 </url>
 <url>
-  <loc>https://findmerates.pages.dev/cookies</loc>
+  <loc>https://findmerates.com/cookies</loc>
   <changefreq>yearly</changefreq>
   <priority>0.3</priority>
 </url>
