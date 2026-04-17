@@ -1,43 +1,65 @@
 import React, { useState } from 'react';
 import { Check, Zap, Star, ShieldCheck, ArrowRight, Download, Bell, Search, CreditCard, Sparkles, Globe, BarChart3, Lock, Loader2, Coins } from 'lucide-react';
 import { motion } from 'motion/react';
-import { auth, db } from '../lib/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { auth, db, googleProvider } from '../lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import { playUiSound } from '../lib/sound';
+import { signInWithPopup } from 'firebase/auth';
 
 export default function Pro() {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const stripeLink = import.meta.env.VITE_STRIPE_PAYMENT_LINK as string | undefined;
   const stripeSixMonthLink = import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined;
   const paypalLink = import.meta.env.VITE_PAYPAL_PAYMENT_LINK as string | undefined;
 
-  const handleSubscribe = async () => {
+  const createUserRecord = async () => {
     const user = auth.currentUser;
-    if (!user) {
-      alert('Please sign in to subscribe.');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await updateDoc(doc(db, 'users', user.uid), {
-        isPro: true,
-        hasSeenProWelcome: false
-      });
-      
-      navigate('/');
-    } catch (error) {
-      console.error('Subscription error:', error);
-    } finally {
-      setLoading(false);
-    }
+    if (!user) return false;
+    await setDoc(
+      doc(db, 'users', user.uid),
+      {
+        uid: user.uid,
+        email: user.email || '',
+        displayName: user.displayName || 'Member',
+        photoURL: user.photoURL || null,
+        isPro: false,
+        role: 'member',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { merge: true },
+    );
+    return true;
   };
 
   const openPaymentLink = (url?: string) => {
     if (!url) return;
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleSubscribe = async () => {
+    setLoading(true);
+    try {
+      if (!auth.currentUser) {
+        await signInWithPopup(auth, googleProvider);
+      }
+      const recordReady = await createUserRecord();
+      if (!recordReady) {
+        alert('Could not initialize your account. Please try again.');
+        return;
+      }
+      const preferredLink = stripeLink || stripeSixMonthLink || paypalLink;
+      if (preferredLink) {
+        openPaymentLink(preferredLink);
+        return;
+      }
+      alert('Payment checkout is currently unavailable. Please try again shortly.');
+    } catch (error) {
+      console.error('Subscription error:', error);
+      alert('Sign-in or checkout failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const features = [
@@ -132,7 +154,7 @@ export default function Pro() {
                 className="w-full btn-corporate bg-brand-900 text-white border-none flex items-center justify-center gap-4 text-lg disabled:opacity-50"
               >
                 {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Zap className="w-6 h-6" />}
-                Subscribe now <ArrowRight className="w-6 h-6" />
+                Sign in & checkout <ArrowRight className="w-6 h-6" />
               </button>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <button

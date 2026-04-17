@@ -11,6 +11,13 @@ export default function PredictiveBriefing() {
   const generateBriefing = async () => {
     setLoading(true);
     try {
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        setBriefing(
+          "Live briefing is temporarily unavailable because the AI key is missing. You can still compare current live rates and use the calculators.",
+        );
+        return;
+      }
       const user = auth.currentUser;
       let context = "General market outlook.";
 
@@ -23,7 +30,7 @@ export default function PredictiveBriefing() {
         }
       }
 
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: `Generate a short predictive financial rate briefing for 2026. Context: ${context}. Keep it under 150 words.`,
@@ -32,6 +39,9 @@ export default function PredictiveBriefing() {
       setBriefing(response.text || null);
     } catch (error) {
       console.error("Briefing error:", error);
+      setBriefing(
+        "We could not generate the live briefing right now. Please try again in a moment.",
+      );
     } finally {
       setLoading(false);
     }

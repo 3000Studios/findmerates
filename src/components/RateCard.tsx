@@ -41,10 +41,15 @@ export default function RateCard({ result }: { result: RateResult }) {
           >
             Check rate <ExternalLink className="h-4 w-4" />
           </a>
-          <button className="inline-flex items-center justify-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-900">
+          <a
+            href={result.ctaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-900"
+          >
             <Info className="h-4 w-4" />
-            View details
-          </button>
+            View lender details
+          </a>
         </div>
       </div>
 

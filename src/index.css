@@ -94,3 +94,24 @@
 .ad-slot {
   @apply my-8 flex min-h-[90px] items-center justify-center rounded-2xl border border-slate-200/80 bg-white/70 text-slate-400;
 }
+
+.floating-money {
+  transform: translateZ(0);
+  animation: floatMoney 9s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.25));
+}
+
+@keyframes floatMoney {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translate3d(0, -16px, 0) rotate(8deg);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0.15;
+  }
+}

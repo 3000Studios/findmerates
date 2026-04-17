@@ -167,21 +167,24 @@ export default function Home() {
               transition={{ delay: i * 0.08 }}
               className="group overflow-hidden rounded-[28px] border border-white/70 bg-white/80 shadow-[0_18px_50px_rgba(16,34,68,0.08)]"
             >
-              <div
-                className="h-60 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]"
-                style={{
-                  backgroundImage: `linear-gradient(180deg, rgba(16,34,68,0.12), rgba(16,34,68,0.62)), url(https://images.unsplash.com/${cat.image}?auto=format&fit=crop&q=80&w=900)`,
-                }}
-              />
-              <div className="p-6">
-                <cat.icon className="h-5 w-5 text-brand-700" />
-                <h3 className="mt-4 text-2xl text-slate-950">{cat.name}</h3>
-                <Link
-                  to={`/rates/${cat.id}`}
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-800"
-                >
-                  Explore <ArrowRight className="h-4 w-4" />
-                </Link>
+              <div className="grid grid-cols-[42%_58%] md:block">
+                <div
+                  className="h-36 md:h-60 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
+                  style={{
+                    backgroundImage: `linear-gradient(180deg, rgba(16,34,68,0.10), rgba(16,34,68,0.42)), url(https://images.unsplash.com/${cat.image}?auto=format&fit=crop&q=80&w=900)`,
+                  }}
+                />
+                <div className="p-5 md:p-6">
+                  <cat.icon className="h-5 w-5 text-brand-700" />
+                  <h3 className="mt-3 text-xl md:text-2xl text-slate-950">{cat.name}</h3>
+                  <p className="mt-2 text-sm text-slate-700">Live lender benchmarks and clearer comparisons.</p>
+                  <Link
+                    to={`/rates/${cat.id}`}
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800"
+                  >
+                    Explore <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -193,9 +196,9 @@ export default function Home() {
           <div className="card overflow-hidden bg-brand-900 text-white">
             <div className="grid gap-0 md:grid-cols-2">
               <div className="p-8 md:p-10">
-                <div className="section-kicker text-brand-200">Immersive rates</div>
+                <div className="section-kicker text-brand-100">Immersive rates</div>
                 <h2 className="mt-3 text-4xl text-white">Video-first rate insights.</h2>
-                <p className="mt-4 text-brand-100">
+                <p className="mt-4 text-brand-50">
                   Watch the market, click to explore, and jump between tools without leaving the page.
                 </p>
                 <div className="mt-6 flex gap-3">
@@ -218,7 +221,7 @@ export default function Home() {
           </div>
 
           <div className="card p-8">
-            <div className="section-kicker">Pro perks</div>
+            <div className="section-kicker text-brand-700">Pro perks</div>
             <h2 className="mt-3 text-3xl text-slate-950">More useful, more interactive.</h2>
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               {[
@@ -298,9 +301,9 @@ export default function Home() {
       <section className="section-shell py-8 lg:py-14">
         <div className="card flex flex-col gap-8 bg-brand-900 px-6 py-10 text-white md:flex-row md:items-center md:justify-between md:px-10">
           <div>
-            <div className="section-kicker text-brand-200">Premium access</div>
+            <div className="section-kicker text-brand-100">Premium access</div>
             <h2 className="mt-3 text-3xl md:text-5xl">Unlock the sharper tools.</h2>
-            <p className="mt-4 max-w-2xl text-brand-100">
+            <p className="mt-4 max-w-2xl text-brand-50">
               Pro brings deeper analysis, clearer briefing flows, and a stronger decision layer for active rate shoppers.
             </p>
           </div>

@@ -35,7 +35,23 @@ export default function BestOptionAnalyzer() {
   const handleAnalyze = async () => {
     setLoading(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        setRecommendation({
+          title: "Live AI analysis unavailable",
+          reason:
+            "The AI key is not configured, so advanced analysis cannot run right now. You can still compare live rates and use the calculators.",
+          action: "Set VITE_GEMINI_API_KEY in your deployment environment and rerun this analysis.",
+          pros: [
+            "Core rates still load live",
+            "Calculators remain available",
+            "No data loss from this limitation",
+          ],
+        });
+        setStep(3);
+        return;
+      }
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: `Analyze the best financial option for a user interested in ${category} with a primary goal of ${goals[goal]}.`,

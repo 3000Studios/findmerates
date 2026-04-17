@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronUp, Menu, Search, ShieldCheck, TrendingUp, X } from "lucide-react";
+import { ChevronUp, DollarSign, LogIn, LogOut, Menu, Search, ShieldCheck, X } from "lucide-react";
 import AdSenseSlot from "./AdSenseSlot";
 import { AD_CLIENT, AD_SLOTS } from "../lib/ad-config";
 import { playUiSound } from "../lib/sound";
+import { auth, googleProvider } from "../lib/firebase";
+import { onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth";
+import BrandLogo, { nextLogoVariant } from "./BrandLogo";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -11,6 +14,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
   const [showTop, setShowTop] = useState(false);
   const [showPromo, setShowPromo] = useState(false);
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+  const [logoVariant, setLogoVariant] = useState<"crest" | "pulse" | "stack">("crest");
   const location = useLocation();
 
   useEffect(() => {
@@ -34,10 +39,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (nextUser) => setUser(nextUser));
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("fmr-logo-variant");
+    if (stored === "crest" || stored === "pulse" || stored === "stack") {
+      setLogoVariant(stored);
+    }
+  }, []);
+
   const navLinks = [
     { to: "/rates/mortgage", label: "Mortgages" },
     { to: "/rates/cd", label: "CD Rates" },
-    { to: "/rates/auto", label: "Auto Loans" },
+    { to: "/rates/auto_loan", label: "Auto Loans" },
+    { to: "/rates/personal_loan", label: "Personal Loans" },
     { to: "/calculators", label: "Calculators" },
     { to: "/stories", label: "News" },
     { to: "/guide", label: "Guides" },
@@ -51,6 +69,31 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const trimmed = value.trim();
     if (!trimmed) return;
     window.location.href = `/rates/search?q=${encodeURIComponent(trimmed)}`;
+  };
+
+  const handleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error("Sign-in failed:", error);
+      alert("Sign-in failed. Please try again.");
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Sign-out failed:", error);
+    }
+  };
+
+  const cycleLogoVariant = () => {
+    setLogoVariant((current) => {
+      const next = nextLogoVariant(current);
+      localStorage.setItem("fmr-logo-variant", next);
+      return next;
+    });
   };
 
   return (
@@ -77,8 +120,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="section-shell">
           <div className="flex min-h-16 items-center justify-between gap-4 py-2">
             <Link to="/" className="flex items-center gap-3 text-slate-950">
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-900 text-white shadow-lg shadow-brand-900/15">
-                <TrendingUp className="h-5 w-5" />
+              <span
+                role="button"
+                tabIndex={0}
+                aria-label="Switch logo style"
+                onClick={(e) => {
+                  e.preventDefault();
+                  cycleLogoVariant();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    cycleLogoVariant();
+                  }
+                }}
+              >
+                <BrandLogo variant={logoVariant} />
               </span>
               <span className="text-lg font-semibold tracking-tight">FindMeRates</span>
             </Link>
@@ -102,7 +159,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </button>
             </div>
 
-            <nav className="hidden items-center gap-1 xl:flex">
+            <nav className="hidden items-center gap-1 lg:flex">
               {navLinks.map(({ to, label }) => {
                 const active = location.pathname.startsWith(to);
                 return (
@@ -125,6 +182,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Link to="/pro" className="button-primary" onMouseEnter={() => playUiSound("hover")}>
                 Go Pro
               </Link>
+              {user ? (
+                <button className="button-secondary" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              ) : (
+                <button className="button-secondary" onClick={handleSignIn}>
+                  <LogIn className="h-4 w-4" />
+                  Sign in
+                </button>
+              )}
             </div>
 
               <button
@@ -161,6 +229,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   {label}
                 </Link>
               ))}
+              {user ? (
+                <button className="button-secondary w-full" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              ) : (
+                <button className="button-secondary w-full" onClick={handleSignIn}>
+                  <LogIn className="h-4 w-4" />
+                  Sign in
+                </button>
+              )}
               <Link to="/pro" className="button-primary w-full" onMouseEnter={() => playUiSound("hover")}>
                 Go Pro
               </Link>
@@ -185,14 +264,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      <footer className="border-t border-white/70 bg-brand-900 text-slate-300">
-        <div className="section-shell py-14">
+      <footer className="relative overflow-hidden border-t border-white/70 bg-brand-900 text-slate-300">
+        <div className="absolute inset-0 pointer-events-none">
+          {Array.from({ length: 15 }).map((_, i) => (
+            <span
+              key={i}
+              className="absolute text-emerald-400/25 floating-money"
+              style={{
+                left: `${(i * 7) % 100}%`,
+                top: `${(i * 13) % 100}%`,
+                fontSize: `${20 + (i % 5) * 8}px`,
+                animationDelay: `${i * 0.6}s`,
+              }}
+            >
+              <DollarSign />
+            </span>
+          ))}
+        </div>
+        <div className="section-shell relative z-10 py-14">
           <div className="grid gap-10 md:grid-cols-4">
             <div className="md:col-span-1">
               <Link to="/" className="mb-4 flex items-center gap-3 text-white">
-                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
-                  <TrendingUp className="h-5 w-5" />
-                </span>
+                <BrandLogo variant={logoVariant} className="bg-white/10 shadow-none" />
                 <span className="text-lg font-semibold">FindMeRates</span>
               </Link>
               <p className="text-sm leading-6 text-slate-400">
@@ -205,8 +298,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-2 text-sm">
                 <li><Link to="/rates/mortgage" className="hover:text-white">Mortgage Rates</Link></li>
                 <li><Link to="/rates/cd" className="hover:text-white">CD Rates</Link></li>
-                <li><Link to="/rates/auto" className="hover:text-white">Auto Loan Rates</Link></li>
-                <li><Link to="/rates/personal" className="hover:text-white">Personal Loan Rates</Link></li>
+                <li><Link to="/rates/auto_loan" className="hover:text-white">Auto Loan Rates</Link></li>
+                <li><Link to="/rates/personal_loan" className="hover:text-white">Personal Loan Rates</Link></li>
                 <li><Link to="/calculators" className="hover:text-white">Calculators</Link></li>
               </ul>
             </div>
