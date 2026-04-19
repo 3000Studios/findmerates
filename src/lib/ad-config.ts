@@ -12,6 +12,11 @@ interface Window {
 
 export const AD_CLIENT = 'ca-pub-5800977493749262';
 
+function getSlotEnv(key: string): string {
+  const value = (import.meta as any)?.env?.[key];
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 // Revenue optimization settings
 export const AD_OPTIMIZATION = {
 autoOptimize: true,
@@ -24,12 +29,12 @@ enableAnalytics: true,
 
 // Ad slot definitions
 // NOTE: slotId values must match the ad units you create in your AdSense dashboard.
-// Until you create them, AdSense will not serve ads on those slots.
+// Set these at deploy time (Cloudflare Pages env vars) so we never hardcode them in git.
 // Format: "auto" lets Google pick the best format for the placement.
 export const AD_SLOTS = {
 // Top of page - leaderboard (728x90 desktop / 320x50 mobile)
 topBanner: {
-  slotId: '1234567890', // TODO: replace with real slot ID from AdSense dashboard
+  slotId: getSlotEnv('VITE_AD_SLOT_TOP_BANNER'),
   format: 'horizontal' as const,
   placement: 'Top of page, above header',
   minHeight: 90,
@@ -38,7 +43,7 @@ topBanner: {
 
 // Sidebar sticky (desktop only) - 300x600 or 160x600
 sidebar: {
-  slotId: '0987654321', // TODO: replace with real slot ID
+  slotId: getSlotEnv('VITE_AD_SLOT_SIDEBAR'),
   format: 'auto' as const,
   placement: 'Right sidebar, sticky on scroll',
   minHeight: 600,
@@ -48,7 +53,7 @@ sidebar: {
 
 // Mid-content between rate cards
 midContent: {
-  slotId: '5555555555', // TODO: replace with real slot ID
+  slotId: getSlotEnv('VITE_AD_SLOT_MID_CONTENT'),
   format: 'auto' as const,
   placement: 'After 3-4 rate cards',
   minHeight: 90,
@@ -57,7 +62,7 @@ midContent: {
 
 // Pre-footer leaderboard
 footer: {
-  slotId: '6666666666', // TODO: replace with real slot ID
+  slotId: getSlotEnv('VITE_AD_SLOT_FOOTER'),
   format: 'horizontal' as const,
   placement: 'Above footer',
   minHeight: 90,
@@ -66,7 +71,7 @@ footer: {
 
 // Mobile sticky bottom banner (mobile only)
 mobileSticky: {
-  slotId: '7777777777', // TODO: replace with real slot ID
+  slotId: getSlotEnv('VITE_AD_SLOT_MOBILE_STICKY'),
   format: 'auto' as const,
   placement: 'Sticky bottom on mobile',
   minHeight: 50,
@@ -76,7 +81,7 @@ mobileSticky: {
 
 // Rates page - above fold
 ratesAboveFold: {
-  slotId: '8888888888', // TODO: replace with real slot ID
+  slotId: getSlotEnv('VITE_AD_SLOT_RATES_ABOVE_FOLD'),
   format: 'auto' as const,
   placement: 'Top of rates listing',
   minHeight: 250,
@@ -85,7 +90,7 @@ ratesAboveFold: {
 
 // Calculator page - after results
 calculatorAfter: {
-  slotId: '4444444444', // TODO: replace with real slot ID
+  slotId: getSlotEnv('VITE_AD_SLOT_CALCULATOR_AFTER'),
   format: 'auto' as const,
   placement: 'After calculator results',
   minHeight: 250,
@@ -94,7 +99,7 @@ calculatorAfter: {
 
 // Guide/blog pages - in-content
 guideContent: {
-  slotId: '2222222222', // TODO: replace with real slot ID
+  slotId: getSlotEnv('VITE_AD_SLOT_GUIDE_CONTENT'),
   format: 'auto' as const,
   placement: 'Right side of guide content',
   minHeight: 250,

@@ -47,7 +47,8 @@ export default function AdSenseSlot({
   const [isInView, setIsInView] = useState(!lazy); // If not lazy, always in view
   const adRef = useRef<HTMLDivElement>(null);
   const insRef = useRef<HTMLModElement>(null);
-  const isPlaceholderSlot = /^(1234567890|0987654321|2222222222|4444444444|5555555555|6666666666|7777777777|8888888888)$/.test(adSlot);
+  const normalizedSlot = String(adSlot || '').trim();
+  const isPlaceholderSlot = /^(1234567890|0987654321|2222222222|4444444444|5555555555|6666666666|7777777777|8888888888)$/.test(normalizedSlot);
 
   // Intersection Observer for lazy loading
   useEffect(() => {
@@ -98,27 +99,14 @@ export default function AdSenseSlot({
     return () => clearTimeout(timeoutId);
   }, [visible, isInView, isLoaded, hasError, adSlot, onAdLoad, onAdError, isPlaceholderSlot]);
 
-  // Handle ad refresh (for dynamic content)
-  const refreshAd = () => {
-    if (!insRef.current) return;
-
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (error) {
-      console.warn('AdSense refresh error:', error);
-    }
-  };
-
-  if (!visible || !adsEnabled || isPlaceholderSlot) return null;
+  if (!visible || !adsEnabled || !normalizedSlot || isPlaceholderSlot || hasError) return null;
 
   return (
     <div
       ref={adRef}
       className={cn(
         sticky && 'sticky top-0 z-40',
-        'flex justify-center items-center bg-slate-50 rounded-lg border border-slate-200 transition-all duration-200',
-        isLoaded && 'bg-transparent border-transparent', // Hide background when ad loads
-        hasError && 'bg-red-50 border-red-200', // Error state styling
+        'flex justify-center items-center',
         className
       )}
       style={{
@@ -126,7 +114,7 @@ export default function AdSenseSlot({
         ...style,
       }}
     >
-      {isInView && !hasError && (
+      {isInView && (
         <ins
           ref={insRef}
           className="adsbygoogle"
@@ -136,24 +124,10 @@ export default function AdSenseSlot({
             width: '100%',
           }}
           data-ad-client={adClient}
-          data-ad-slot={adSlot}
+          data-ad-slot={normalizedSlot}
           data-ad-format={format}
           data-full-width-responsive={responsive.toString()}
         />
-      )}
-
-      {/* Loading state */}
-      {!isLoaded && !hasError && isInView && (
-        <div className="flex items-center justify-center text-slate-400 text-sm">
-          <div className="animate-pulse">Loading ad...</div>
-        </div>
-      )}
-
-      {/* Error state */}
-      {hasError && (
-        <div className="flex items-center justify-center text-red-500 text-sm p-4">
-          <div>Ad temporarily unavailable</div>
-        </div>
       )}
     </div>
   );

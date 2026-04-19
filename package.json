@@ -1,18 +1,17 @@
 {
-  "name": "react-example",
+  "name": "findmerates-com",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx server.ts",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "lint": "tsc --noEmit",
     "deploy": "npx wrangler pages deploy dist --project-name findmerates --branch main",
-    "deploy:staging": "npx wrangler pages deploy dist --project-name findmerates --branch staging",
     "deploy:dry-run": "npx wrangler pages deploy dist --project-name findmerates --branch main --dry-run",
-    "dev:wrangler": "wrangler dev"
+    "dev:wrangler": "wrangler pages dev dist"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

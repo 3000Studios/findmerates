@@ -52,6 +52,14 @@ export default function Rates() {
         </div>
       </div>
 
+      <AdSenseSlot
+        adClient={AD_CLIENT}
+        adSlot={AD_SLOTS.ratesAboveFold.slotId}
+        format={AD_SLOTS.ratesAboveFold.format}
+        minHeight={AD_SLOTS.ratesAboveFold.minHeight}
+        className="w-full mb-10"
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Sidebar Filters - Desktop */}
         <div className="hidden lg:block space-y-8">
@@ -111,7 +119,13 @@ export default function Rates() {
               ))}
               
               {/* Ad Slot in middle of results */}
-              <div className="ad-slot">Advertisement - Sponsored Rates</div>
+              <AdSenseSlot
+                adClient={AD_CLIENT}
+                adSlot={AD_SLOTS.midContent.slotId}
+                format={AD_SLOTS.midContent.format}
+                minHeight={AD_SLOTS.midContent.minHeight}
+                className="w-full"
+              />
               
               {rates.map(rate => (
                 <RateCard key={`extra-${rate.id}`} result={rate} />
