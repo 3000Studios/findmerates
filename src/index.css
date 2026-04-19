@@ -6,19 +6,21 @@
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-brand-50: #f5fbff;
-  --color-brand-100: #e6f4ff;
-  --color-brand-200: #c6e8ff;
-  --color-brand-300: #95d1ff;
-  --color-brand-400: #5fb6ff;
-  --color-brand-500: #2f8cff;
-  --color-brand-600: #1c66db;
-  --color-brand-700: #184fb4;
-  --color-brand-800: #173c84;
-  --color-brand-900: #102244;
+  /* FindMeRates branding (logo-derived) */
+  --color-brand-50: #effcff;
+  --color-brand-100: #d7f7ff;
+  --color-brand-200: #a9eeff;
+  --color-brand-300: #6ee3ff;
+  --color-brand-400: #2bd1f4;
+  --color-brand-500: #0ab4d6;
+  --color-brand-600: #078fb3;
+  --color-brand-700: #066b8c;
+  --color-brand-800: #084a67;
+  --color-brand-900: #06162e;
 
-  --color-accent-gold: #c8a35a;
-  --color-accent-emerald: #28c18c;
+  --color-accent-gold: #f5b02a;
+  --color-accent-emerald: #18d67b;
+  --color-accent-purple: #7c3aed;
 }
 
 @layer base {
@@ -29,9 +31,10 @@
   body {
     @apply font-sans text-slate-900 antialiased;
     background:
-      radial-gradient(circle at top, rgba(47, 140, 255, 0.14), transparent 36%),
-      radial-gradient(circle at right, rgba(200, 163, 90, 0.12), transparent 24%),
-      linear-gradient(180deg, #f7f9fc 0%, #eef3f9 100%);
+      radial-gradient(circle at 18% 16%, rgba(10, 180, 214, 0.18), transparent 42%),
+      radial-gradient(circle at 86% 14%, rgba(124, 58, 237, 0.16), transparent 40%),
+      radial-gradient(circle at 78% 82%, rgba(24, 214, 123, 0.12), transparent 44%),
+      linear-gradient(180deg, #0a1a35 0%, #060f1f 55%, #050a14 100%);
   }
 
   h1,
@@ -48,7 +51,7 @@
   }
 
   ::selection {
-    background: rgba(47, 140, 255, 0.18);
+    background: rgba(10, 180, 214, 0.22);
   }
 }
 
@@ -69,7 +72,9 @@
   }
 
   .button-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-900 px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-brand-800;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5;
+    background: linear-gradient(90deg, #f5b02a 0%, #0ab4d6 40%, #18d67b 100%);
+    box-shadow: 0 18px 50px rgba(6, 22, 46, 0.45);
   }
 
   .button-secondary {
@@ -82,6 +87,27 @@
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 18px 60px rgba(16, 34, 68, 0.08);
     backdrop-filter: blur(24px);
+  }
+
+  .card:hover {
+    box-shadow:
+      0 22px 70px rgba(6, 22, 46, 0.18),
+      0 0 0 1px rgba(10, 180, 214, 0.22);
+  }
+
+  .brand-wordmark {
+    background: linear-gradient(90deg, #f5b02a 0%, #0ab4d6 48%, #18d67b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .brand-glass {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(10, 180, 214, 0.22), transparent 46%),
+      radial-gradient(circle at 100% 30%, rgba(124, 58, 237, 0.18), transparent 48%),
+      radial-gradient(circle at 80% 100%, rgba(24, 214, 123, 0.14), transparent 50%),
+      linear-gradient(180deg, rgba(6, 22, 46, 0.86), rgba(6, 22, 46, 0.72));
   }
 }
 

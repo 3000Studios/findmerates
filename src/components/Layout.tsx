@@ -114,12 +114,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <header
         className={`sticky top-0 z-40 border-b transition-all duration-300 ${
-          scrolled ? "border-white/70 bg-white/85 shadow-lg backdrop-blur-xl" : "border-transparent bg-white/55 backdrop-blur-xl"
+          scrolled ? "border-white/10 brand-glass shadow-2xl backdrop-blur-xl" : "border-transparent brand-glass backdrop-blur-xl"
         }`}
       >
         <div className="section-shell">
           <div className="flex min-h-16 items-center justify-between gap-4 py-2">
-            <Link to="/" className="flex items-center gap-3 text-slate-950">
+            <Link to="/" className="flex items-center gap-3 text-white">
               <span
                 role="button"
                 tabIndex={0}
@@ -137,17 +137,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               >
                 <BrandLogo variant={logoVariant} />
               </span>
-              <span className="text-lg font-semibold tracking-tight">FindMeRates</span>
+              <span className="text-lg font-semibold tracking-tight">
+                <span className="brand-wordmark">FindMeRates</span>
+                <span className="text-white/70">.com</span>
+              </span>
             </Link>
 
-            <div className="hidden w-full max-w-xl items-center rounded-full border border-slate-200 bg-white/85 px-3 py-2 shadow-sm lg:flex">
-              <Search className="ml-1 h-4 w-4 text-slate-400" />
+            <div className="hidden w-full max-w-xl items-center rounded-full border border-white/10 bg-white/5 px-3 py-2 shadow-sm lg:flex">
+              <Search className="ml-1 h-4 w-4 text-white/60" />
               <input
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && submitSearch(searchValue)}
                 placeholder="Search mortgages, CDs, auto loans, or a lender"
-                className="ml-3 w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                className="ml-3 w-full bg-transparent text-sm text-white placeholder:text-white/45 focus:outline-none"
               />
               <button
                 onClick={() => submitSearch(searchValue)}
@@ -168,8 +171,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     to={to}
                     className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                       active
-                        ? "bg-brand-900 text-white"
-                        : "text-slate-600 hover:bg-white hover:text-slate-950"
+                        ? "bg-white/10 text-white border border-white/10"
+                        : "text-white/70 hover:bg-white/10 hover:text-white"
                     }`}
                   >
                     {label}
@@ -183,12 +186,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Go Pro
               </Link>
               {user ? (
-                <button className="button-secondary" onClick={handleSignOut}>
+                <button className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10" onClick={handleSignOut}>
                   <LogOut className="h-4 w-4" />
                   Sign out
                 </button>
               ) : (
-                <button className="button-secondary" onClick={handleSignIn}>
+                <button className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10" onClick={handleSignIn}>
                   <LogIn className="h-4 w-4" />
                   Sign in
                 </button>
@@ -196,7 +199,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
               <button
-                className="rounded-full border border-slate-200 bg-white/80 p-2 text-slate-700 md:hidden"
+                className="rounded-full border border-white/15 bg-white/5 p-2 text-white md:hidden"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
                 onMouseEnter={() => playUiSound("hover")}
@@ -208,34 +211,34 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         {mobileOpen && (
-          <div className="border-t border-white/60 bg-white/90 md:hidden">
+          <div className="border-t border-white/10 brand-glass md:hidden">
             <div className="section-shell space-y-3 py-4">
-              <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3">
-                <Search className="h-4 w-4 text-slate-400" />
+              <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                <Search className="h-4 w-4 text-white/60" />
                 <input
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && submitSearch(searchValue)}
                   placeholder="Search rates"
-                  className="w-full bg-transparent text-sm focus:outline-none"
+                  className="w-full bg-transparent text-sm text-white placeholder:text-white/45 focus:outline-none"
                 />
               </div>
               {navLinks.map(({ to, label }) => (
                 <Link
                   key={to}
                   to={to}
-                  className="block rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  className="block rounded-2xl px-4 py-3 text-sm font-medium text-white/80 hover:bg-white/10"
                 >
                   {label}
                 </Link>
               ))}
               {user ? (
-                <button className="button-secondary w-full" onClick={handleSignOut}>
+                <button className="button-secondary w-full border-white/15 bg-white/5 text-white hover:bg-white/10" onClick={handleSignOut}>
                   <LogOut className="h-4 w-4" />
                   Sign out
                 </button>
               ) : (
-                <button className="button-secondary w-full" onClick={handleSignIn}>
+                <button className="button-secondary w-full border-white/15 bg-white/5 text-white hover:bg-white/10" onClick={handleSignIn}>
                   <LogIn className="h-4 w-4" />
                   Sign in
                 </button>
@@ -286,7 +289,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="md:col-span-1">
               <Link to="/" className="mb-4 flex items-center gap-3 text-white">
                 <BrandLogo variant={logoVariant} className="bg-white/10 shadow-none" />
-                <span className="text-lg font-semibold">FindMeRates</span>
+                <span className="text-lg font-semibold">
+                  <span className="brand-wordmark">FindMeRates</span>
+                  <span className="text-white/70">.com</span>
+                </span>
               </Link>
               <p className="text-sm leading-6 text-slate-400">
                 Clean comparisons for mortgages, CDs, auto loans, and personal loans.
