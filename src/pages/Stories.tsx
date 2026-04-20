@@ -55,7 +55,7 @@ export default function Stories() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-1">
           <div className="lg:col-span-12 mb-8">
-            <FinanceVideoStrip />
+            <FinanceVideoStrip variant="college" />
           </div>
           <div className="lg:col-span-8 space-y-4">
             {isLoading ? (

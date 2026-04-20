@@ -4,6 +4,7 @@ import { Calculator, Home, RefreshCw, Wallet, CreditCard, ShieldCheck } from 'lu
 import { Link } from 'react-router-dom';
 import AdSenseSlot from '../components/AdSenseSlot';
 import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
+import FinanceVideoStrip from "../components/FinanceVideoStrip";
 
 export default function Calculators() {
   const calcs = [
@@ -25,6 +26,7 @@ export default function Calculators() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2 space-y-12">
+          <FinanceVideoStrip variant="calculator" />
           <MortgageCalculator />
           
           {/* AdSense Mid-Content Ad */}

@@ -3,15 +3,30 @@ import { cn } from "../lib/utils";
 
 import financialRatesVideo from "./video/financial rates.mp4";
 import cashCalcVideo from "./video/cash calc.mp4";
+import phoneFinanceVideo from "./video/findmerates-phone-finance.mp4";
+import savingsVideo from "./video/findmerates-savings.mp4";
+import calculatorVideo from "./video/findmerates-calculator.mp4";
+import collegeVideo from "./video/findmerates-college.mp4";
 
 export default function FinanceVideoStrip({
   className,
   variant = "rates",
 }: {
   className?: string;
-  variant?: "rates" | "cash";
+  variant?: "rates" | "cash" | "phone" | "savings" | "calculator" | "college";
 }) {
-  const src = variant === "cash" ? cashCalcVideo : financialRatesVideo;
+  const src =
+    variant === "cash"
+      ? cashCalcVideo
+      : variant === "phone"
+        ? phoneFinanceVideo
+        : variant === "savings"
+          ? savingsVideo
+          : variant === "calculator"
+            ? calculatorVideo
+            : variant === "college"
+              ? collegeVideo
+              : financialRatesVideo;
   return (
     <div className={cn("relative overflow-hidden rounded-[28px]", className)}>
       <video
@@ -37,4 +52,3 @@ export default function FinanceVideoStrip({
     </div>
   );
 }
-

@@ -19,6 +19,7 @@ import { Story } from "../types";
 import { fetchLatestFinancialNews } from "../services/intelligenceService";
 import { playUiSound } from "../lib/sound";
 import financialRatesVideo from "../components/video/financial rates.mp4";
+import loopBackgroundVideo from "../components/video/findmerates-loop-bg.mp4";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,6 +54,15 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       <section className="relative">
+        <video
+          className="absolute inset-0 h-full w-full object-cover opacity-30"
+          src={loopBackgroundVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/5" />
         <div className="section-shell py-10 lg:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             <motion.div

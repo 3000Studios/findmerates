@@ -70,7 +70,7 @@ export default function Rates() {
       />
 
       <div className="mb-10 space-y-6">
-        <FinanceVideoStrip />
+        <FinanceVideoStrip variant="phone" />
         <PartnerOffers category={resolvedCategory} />
         <LeadCaptureForm category={resolvedCategory} />
       </div>
