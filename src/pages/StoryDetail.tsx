@@ -28,6 +28,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import { motion } from "motion/react";
 import { fetchLatestFinancialNews } from "../services/intelligenceService";
+import { trackEvent } from "../lib/analytics";
 
 export default function StoryDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -49,6 +50,14 @@ export default function StoryDetail() {
         const news = await fetchLatestFinancialNews("general");
         const foundStory = news.find((s: Story) => s.slug === slug) || null;
         setStory(foundStory);
+        if (foundStory) {
+          trackEvent("page_view", {
+            kind: "story",
+            storyId: foundStory.id,
+            slug: foundStory.slug,
+            category: foundStory.category,
+          });
+        }
       } catch (err) {
         console.error("Failed to fetch story:", err);
       } finally {

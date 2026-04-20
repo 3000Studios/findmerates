@@ -5,6 +5,7 @@ import { auth, db, googleProvider } from '../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { playUiSound } from '../lib/sound';
 import { signInWithPopup } from 'firebase/auth';
+import { trackEvent } from '../lib/analytics';
 
 export default function Pro() {
   const [loading, setLoading] = useState(false);
@@ -38,9 +39,16 @@ export default function Pro() {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const handleCheckoutClick = async (provider: "stripe" | "paypal", plan: string, url?: string) => {
+    if (!url) return;
+    await trackEvent("checkout_click", { provider, plan, url, surface: "pro_buttons" });
+    openPaymentLink(url);
+  };
+
   const handleSubscribe = async () => {
     setLoading(true);
     try {
+      await trackEvent('pro_signup_start', { surface: 'pro_primary' });
       if (!auth.currentUser) {
         await signInWithPopup(auth, googleProvider);
       }
@@ -51,6 +59,12 @@ export default function Pro() {
       }
       const preferredLink = stripeLink || stripeSixMonthLink || paypalLink || paypalSixMonthLink;
       if (preferredLink) {
+        await trackEvent('checkout_click', {
+          surface: 'pro_primary',
+          provider: preferredLink.includes('stripe.com') ? 'stripe' : 'paypal',
+          url: preferredLink,
+        });
+        await trackEvent('pro_signup_success', { surface: 'pro_primary' });
         openPaymentLink(preferredLink);
         return;
       }
@@ -160,7 +174,7 @@ export default function Pro() {
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <button
                   type="button"
-                  onClick={() => openPaymentLink(stripeLink)}
+                  onClick={() => handleCheckoutClick("stripe", "monthly", stripeLink)}
                   disabled={!stripeLink}
                   className="button-secondary w-full"
                 >
@@ -169,7 +183,7 @@ export default function Pro() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => openPaymentLink(stripeSixMonthLink)}
+                  onClick={() => handleCheckoutClick("stripe", "6_month", stripeSixMonthLink)}
                   disabled={!stripeSixMonthLink}
                   className="button-secondary w-full"
                 >
@@ -178,7 +192,7 @@ export default function Pro() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => openPaymentLink(paypalLink)}
+                  onClick={() => handleCheckoutClick("paypal", "monthly", paypalLink)}
                   disabled={!paypalLink}
                   className="button-secondary w-full"
                 >
@@ -187,7 +201,7 @@ export default function Pro() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => openPaymentLink(paypalSixMonthLink)}
+                  onClick={() => handleCheckoutClick("paypal", "6_month", paypalSixMonthLink)}
                   disabled={!paypalSixMonthLink}
                   className="button-secondary w-full"
                 >

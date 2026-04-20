@@ -11,6 +11,11 @@ export default function PrivacyPolicy() {
           <p>FindMeRates.com respects your privacy and keeps data collection limited to what is needed to operate the site, improve content, and display advertising.</p>
           <p>We may collect information you submit through forms, such as your name, email address, subject, and message. We also collect basic technical data such as browser type, pages visited, device information, and approximate location derived from IP address.</p>
           <p>We use this information to respond to inquiries, maintain security, improve the site, measure traffic, and show relevant advertising. We do not sell your personal information.</p>
+          <h2>Lead requests & consent</h2>
+          <p>If you choose to submit a “Get matched” request, we collect the information you provide (such as ZIP code, loan amount, credit range, and optional email or phone). We use it to help you compare offers and to follow up about your request. You may opt out at any time.</p>
+          <p>If you provide a phone number, we may contact you at that number about your request. Where required, we present an additional consent checkbox. Consent is not required to browse the site.</p>
+          <h2>How we make money</h2>
+          <p>We may earn revenue through advertising, subscriptions, and partner relationships (including affiliate links or lead referrals). Compensation does not guarantee placement or ranking and does not change your eligibility.</p>
           <p>Advertising partners, including Google AdSense, may use cookies or similar technologies to serve and measure ads. You can control cookies through your browser settings and, where available, ad preference controls.</p>
           <p>If you submit a privacy request, contact us through the <Link to="/contact" className="text-brand-600 hover:underline">Contact page</Link>.</p>
         </div>

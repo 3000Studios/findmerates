@@ -86,7 +86,13 @@ export async function generateStoryFromNews(newsItem: any) {
     });
 
     const data = JSON.parse(response.text);
-    return data;
+    return {
+      ...data,
+      sourceUrl: newsItem.link,
+      attribution: newsItem.link ? `Source: ${newsItem.link}` : undefined,
+      rightsNote: "Adapted from publicly available news/RSS sources. Not affiliated with the original publisher.",
+      aiAdapted: true,
+    };
   } catch (error) {
     console.error('Error generating story with Gemini:', error);
     return null;
@@ -148,7 +154,13 @@ export async function rotateHeroStory() {
     isTopStory: true,
     author: 'FindMeRates AI Editorial',
     heroVideoUrl: videoUrl,
-    imageUrl: `https://picsum.photos/seed/${slug}/1200/600`
+    imageUrl: `https://source.unsplash.com/featured/1200x600/?${encodeURIComponent(
+      `${storyData.category} finance`,
+    )}`,
+    sourceUrl: storyData.sourceUrl,
+    attribution: storyData.attribution,
+    rightsNote: storyData.rightsNote,
+    aiAdapted: true,
   };
 
   await addDoc(collection(db, 'stories'), newStory);

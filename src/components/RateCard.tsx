@@ -2,6 +2,7 @@ import React from "react";
 import { ExternalLink, Info, ShieldCheck } from "lucide-react";
 import { RateResult } from "../types";
 import { formatPercent } from "../lib/utils";
+import { trackEvent } from "../lib/analytics";
 
 export default function RateCard({ result }: { result: RateResult }) {
   return (
@@ -38,6 +39,14 @@ export default function RateCard({ result }: { result: RateResult }) {
             target="_blank"
             rel="noopener noreferrer"
             className="button-primary w-full"
+            onClick={() =>
+              trackEvent("outbound_click", {
+                kind: "rate_card",
+                category: result.category,
+                provider: result.provider,
+                url: result.ctaUrl,
+              })
+            }
           >
             Check rate <ExternalLink className="h-4 w-4" />
           </a>
@@ -46,6 +55,14 @@ export default function RateCard({ result }: { result: RateResult }) {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-900"
+            onClick={() =>
+              trackEvent("outbound_click", {
+                kind: "rate_card_details",
+                category: result.category,
+                provider: result.provider,
+                url: result.ctaUrl,
+              })
+            }
           >
             <Info className="h-4 w-4" />
             View lender details

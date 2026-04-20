@@ -17,6 +17,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import Disclaimer from "./pages/Disclaimer";
+import OpsDashboard from "./pages/OpsDashboard";
 import GeminiChat from "./components/GeminiChat";
 import ErrorBoundary from "./components/ErrorBoundary";
 
@@ -43,6 +44,7 @@ return (
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/cookies" element={<CookiePolicy />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/ops" element={<OpsDashboard />} />
           <Route path="/:type" element={<Legal />} />
         </Routes>
         <GeminiChat />

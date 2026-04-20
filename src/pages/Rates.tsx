@@ -5,6 +5,8 @@ import RateCard from '../components/RateCard';
 import { Filter, ChevronDown, SlidersHorizontal, Info } from 'lucide-react';
 import AdSenseSlot from '../components/AdSenseSlot';
 import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
+import PartnerOffers from "../components/PartnerOffers";
+import LeadCaptureForm from "../components/LeadCaptureForm";
 
 export default function Rates() {
   const { category } = useParams<{ category: string }>();
@@ -12,6 +14,12 @@ export default function Rates() {
   const [rates, setRates] = useState<RateResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const resolvedCategory = (Object.values(RateCategory) as string[]).includes(
+    String(category || RateCategory.MORTGAGE),
+  )
+    ? (String(category || RateCategory.MORTGAGE) as RateCategory)
+    : RateCategory.MORTGAGE;
 
   const query = searchParams.get('q');
 
@@ -59,6 +67,11 @@ export default function Rates() {
         minHeight={AD_SLOTS.ratesAboveFold.minHeight}
         className="w-full mb-10"
       />
+
+      <div className="mb-10 space-y-6">
+        <PartnerOffers category={resolvedCategory} />
+        <LeadCaptureForm category={resolvedCategory} />
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Sidebar Filters - Desktop */}

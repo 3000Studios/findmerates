@@ -21,6 +21,10 @@ export interface Story {
   publishedAt: string;
   isTopStory: boolean;
   author: string;
+  sourceUrl?: string;
+  attribution?: string;
+  rightsNote?: string;
+  aiAdapted?: boolean;
 }
 
 export interface Comment {

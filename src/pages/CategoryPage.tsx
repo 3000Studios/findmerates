@@ -6,12 +6,21 @@ import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
 import { fetchLatestFinancialNews, generateMarketRates } from '../services/intelligenceService';
 import RateCard from '../components/RateCard';
+import PartnerOffers from "../components/PartnerOffers";
+import LeadCaptureForm from "../components/LeadCaptureForm";
+import AdSenseSlot from "../components/AdSenseSlot";
+import { AD_CLIENT, AD_SLOTS } from "../lib/ad-config";
 
 export default function CategoryPage() {
   const { categoryId } = useParams<{ categoryId: string }>();
   const [stories, setStories] = useState<Story[]>([]);
   const [rates, setRates] = useState<RateResult[]>([]);
   const [loading, setLoading] = useState(true);
+  const resolvedCategory = (Object.values(RateCategory) as string[]).includes(
+    String(categoryId || RateCategory.MORTGAGE),
+  )
+    ? (String(categoryId || RateCategory.MORTGAGE) as RateCategory)
+    : RateCategory.MORTGAGE;
 
   useEffect(() => {
     const loadData = async () => {
@@ -19,7 +28,7 @@ export default function CategoryPage() {
       if (categoryId) {
         const [newsData, rateData] = await Promise.all([
           fetchLatestFinancialNews(categoryId),
-          generateMarketRates(categoryId as RateCategory)
+          generateMarketRates(resolvedCategory)
         ]);
         setStories(newsData);
         setRates(rateData);
@@ -89,6 +98,12 @@ export default function CategoryPage() {
                 <ShieldCheck className="w-4 h-4" /> Verified Data
               </div>
             </div>
+
+            <div className="space-y-6 bg-white/0 py-4">
+              <PartnerOffers category={resolvedCategory} />
+              <LeadCaptureForm category={resolvedCategory} />
+            </div>
+
             {rates.map((rate) => (
               <RateCard key={rate.id} result={rate} />
             ))}
@@ -137,15 +152,14 @@ export default function CategoryPage() {
         </div>
       </div>
 
-      {/* AdSense Placeholder */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
-        <div className="ad-slot">
-          <div className="text-center">
-            <p className="text-slate-700 mb-2">ADVERTISEMENT</p>
-            <div className="w-full h-px bg-white/5 mb-2" />
-            <p className="text-slate-800">GOOGLE ADSENSE PLACEMENT</p>
-          </div>
-        </div>
+        <AdSenseSlot
+          adClient={AD_CLIENT}
+          adSlot={AD_SLOTS.footer.slotId}
+          format="horizontal"
+          minHeight={90}
+          className="w-full"
+        />
       </div>
     </div>
   );
