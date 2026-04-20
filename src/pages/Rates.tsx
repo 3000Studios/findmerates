@@ -7,6 +7,7 @@ import AdSenseSlot from '../components/AdSenseSlot';
 import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 import PartnerOffers from "../components/PartnerOffers";
 import LeadCaptureForm from "../components/LeadCaptureForm";
+import FinanceVideoStrip from "../components/FinanceVideoStrip";
 
 export default function Rates() {
   const { category } = useParams<{ category: string }>();
@@ -69,6 +70,7 @@ export default function Rates() {
       />
 
       <div className="mb-10 space-y-6">
+        <FinanceVideoStrip />
         <PartnerOffers category={resolvedCategory} />
         <LeadCaptureForm category={resolvedCategory} />
       </div>

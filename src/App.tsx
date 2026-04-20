@@ -18,6 +18,7 @@ import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import Disclaimer from "./pages/Disclaimer";
 import OpsDashboard from "./pages/OpsDashboard";
+import Signup from "./pages/Signup";
 import GeminiChat from "./components/GeminiChat";
 import ErrorBoundary from "./components/ErrorBoundary";
 
@@ -38,6 +39,7 @@ return (
           <Route path="/pro-guide" element={<ProGuide />} />
           <Route path="/guide" element={<Guide />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/stories/:slug" element={<StoryDetail />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />

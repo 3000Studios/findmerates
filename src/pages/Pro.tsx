@@ -172,42 +172,74 @@ export default function Pro() {
                 Sign in & checkout <ArrowRight className="w-6 h-6" />
               </button>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <button
-                  type="button"
-                  onClick={() => handleCheckoutClick("stripe", "monthly", stripeLink)}
-                  disabled={!stripeLink}
-                  className="button-secondary w-full"
+                <a
+                  href={stripeLink || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-disabled={!stripeLink}
+                  onClick={(e) => {
+                    if (!stripeLink) {
+                      e.preventDefault();
+                      return;
+                    }
+                    handleCheckoutClick("stripe", "monthly", stripeLink);
+                  }}
+                  className={`button-secondary w-full ${!stripeLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <CreditCard className="h-4 w-4" />
                   Stripe monthly
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleCheckoutClick("stripe", "6_month", stripeSixMonthLink)}
-                  disabled={!stripeSixMonthLink}
-                  className="button-secondary w-full"
+                </a>
+                <a
+                  href={stripeSixMonthLink || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-disabled={!stripeSixMonthLink}
+                  onClick={(e) => {
+                    if (!stripeSixMonthLink) {
+                      e.preventDefault();
+                      return;
+                    }
+                    handleCheckoutClick("stripe", "6_month", stripeSixMonthLink);
+                  }}
+                  className={`button-secondary w-full ${!stripeSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <CreditCard className="h-4 w-4" />
                   Stripe 6 months
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleCheckoutClick("paypal", "monthly", paypalLink)}
-                  disabled={!paypalLink}
-                  className="button-secondary w-full"
+                </a>
+                <a
+                  href={paypalLink || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-disabled={!paypalLink}
+                  onClick={(e) => {
+                    if (!paypalLink) {
+                      e.preventDefault();
+                      return;
+                    }
+                    handleCheckoutClick("paypal", "monthly", paypalLink);
+                  }}
+                  className={`button-secondary w-full ${!paypalLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <Coins className="h-4 w-4" />
                   PayPal monthly
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleCheckoutClick("paypal", "6_month", paypalSixMonthLink)}
-                  disabled={!paypalSixMonthLink}
-                  className="button-secondary w-full"
+                </a>
+                <a
+                  href={paypalSixMonthLink || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-disabled={!paypalSixMonthLink}
+                  onClick={(e) => {
+                    if (!paypalSixMonthLink) {
+                      e.preventDefault();
+                      return;
+                    }
+                    handleCheckoutClick("paypal", "6_month", paypalSixMonthLink);
+                  }}
+                  className={`button-secondary w-full ${!paypalSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <Coins className="h-4 w-4" />
                   PayPal 6 months
-                </button>
+                </a>
               </div>
               {(!stripeLink || !stripeSixMonthLink || !paypalLink || !paypalSixMonthLink) && (
                 <p className="mt-4 text-xs leading-6 text-brand-900/70">

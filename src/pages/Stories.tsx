@@ -5,6 +5,9 @@ import { Story } from '../types';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
 import { fetchLatestFinancialNews } from '../services/intelligenceService';
+import FinanceVideoStrip from '../components/FinanceVideoStrip';
+import AdSenseSlot from '../components/AdSenseSlot';
+import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 
 export default function Stories() {
   const [stories, setStories] = useState<Story[]>([]);
@@ -51,6 +54,9 @@ export default function Stories() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-1">
+          <div className="lg:col-span-12 mb-8">
+            <FinanceVideoStrip />
+          </div>
           <div className="lg:col-span-8 space-y-4">
             {isLoading ? (
               <div className="bg-brand-600 p-24 text-center border border-white/5">
@@ -101,24 +107,25 @@ export default function Stories() {
           </div>
 
           <div className="lg:col-span-4 space-y-1">
-            <div className="ad-slot h-[600px]">Vertical Ad Placement</div>
+            <div className="rounded-[28px] overflow-hidden border border-white/10 bg-white/5 p-4">
+              <AdSenseSlot
+                adClient={AD_CLIENT}
+                adSlot={AD_SLOTS.sidebar.slotId}
+                format={AD_SLOTS.sidebar.format}
+                minHeight={600}
+                className="w-full"
+              />
+            </div>
             
             <div className="bg-brand-900 border border-white/5 p-12 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-12 opacity-5">
                 <Sparkles className="w-32 h-32" />
               </div>
               <h3 className="text-2xl font-display font-bold text-white mb-8 uppercase tracking-tight leading-tight">Institutional<br />Updates.</h3>
-              <p className="text-slate-500 mb-12 font-medium leading-relaxed text-sm">Subscribe to our autonomous intelligence feed for hourly market shifts.</p>
-              <form className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="Institutional Email"
-                  className="w-full px-8 py-6 bg-brand-600 border border-white/10 text-white placeholder-slate-700 focus:outline-none focus:border-accent-gold/50 font-bold uppercase tracking-widest text-[10px]"
-                />
-                <button className="btn-corporate btn-corporate-gold w-full">
-                  Initialize Sync
-                </button>
-              </form>
+              <p className="text-slate-500 mb-12 font-medium leading-relaxed text-sm">Create an account to save searches, set alerts, and get Pro intelligence.</p>
+              <Link to="/signup" className="btn-corporate btn-corporate-gold w-full block text-center">
+                Create account
+              </Link>
             </div>
           </div>
         </div>

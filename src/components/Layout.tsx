@@ -185,6 +185,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Link to="/pro" className="button-primary" onMouseEnter={() => playUiSound("hover")}>
                 Go Pro
               </Link>
+              <Link to="/signup" className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10">
+                Create account
+              </Link>
               {user ? (
                 <button className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10" onClick={handleSignOut}>
                   <LogOut className="h-4 w-4" />
@@ -243,6 +246,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Sign in
                 </button>
               )}
+              <Link to="/signup" className="button-secondary w-full border-white/15 bg-white/5 text-white hover:bg-white/10">
+                Create account
+              </Link>
               <Link to="/pro" className="button-primary w-full" onMouseEnter={() => playUiSound("hover")}>
                 Go Pro
               </Link>
