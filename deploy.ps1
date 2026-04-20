@@ -21,7 +21,7 @@ function Import-GlobalEnv {
     $value = $parts[1].Trim()
     if (-not $key) { return }
 
-    $env:$key = $value
+    Set-Item -Path ("Env:" + $key) -Value $value
   }
 }
 
