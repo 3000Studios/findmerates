@@ -11,6 +11,7 @@ export default function Pro() {
   const stripeLink = import.meta.env.VITE_STRIPE_PAYMENT_LINK as string | undefined;
   const stripeSixMonthLink = import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined;
   const paypalLink = import.meta.env.VITE_PAYPAL_PAYMENT_LINK as string | undefined;
+  const paypalSixMonthLink = import.meta.env.VITE_PAYPAL_6MONTH_LINK as string | undefined;
 
   const createUserRecord = async () => {
     const user = auth.currentUser;
@@ -48,7 +49,7 @@ export default function Pro() {
         alert('Could not initialize your account. Please try again.');
         return;
       }
-      const preferredLink = stripeLink || stripeSixMonthLink || paypalLink;
+      const preferredLink = stripeLink || stripeSixMonthLink || paypalLink || paypalSixMonthLink;
       if (preferredLink) {
         openPaymentLink(preferredLink);
         return;
@@ -182,12 +183,21 @@ export default function Pro() {
                   className="button-secondary w-full"
                 >
                   <Coins className="h-4 w-4" />
-                  PayPal checkout
+                  PayPal monthly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openPaymentLink(paypalSixMonthLink)}
+                  disabled={!paypalSixMonthLink}
+                  className="button-secondary w-full"
+                >
+                  <Coins className="h-4 w-4" />
+                  PayPal 6 months
                 </button>
               </div>
-              {(!stripeLink || !stripeSixMonthLink || !paypalLink) && (
+              {(!stripeLink || !stripeSixMonthLink || !paypalLink || !paypalSixMonthLink) && (
                 <p className="mt-4 text-xs leading-6 text-brand-900/70">
-                  Add `VITE_STRIPE_PAYMENT_LINK`, `VITE_STRIPE_6MONTH_LINK`, and `VITE_PAYPAL_PAYMENT_LINK` to enable one-click checkout buttons.
+                  Add `VITE_STRIPE_PAYMENT_LINK`, `VITE_STRIPE_6MONTH_LINK`, `VITE_PAYPAL_PAYMENT_LINK`, and `VITE_PAYPAL_6MONTH_LINK` to enable one-click checkout buttons.
                 </p>
               )}
             </div>
