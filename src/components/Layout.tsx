@@ -7,6 +7,7 @@ import { playUiSound } from "../lib/sound";
 import { auth, googleProvider } from "../lib/firebase";
 import { onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth";
 import BrandLogo, { nextLogoVariant } from "./BrandLogo";
+import LiveWallpaper from "./LiveWallpaper";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -98,6 +99,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <LiveWallpaper />
       {!isLegalPage && (
         <div className="border-b border-white/60 bg-white/55">
           <div className="section-shell py-3">

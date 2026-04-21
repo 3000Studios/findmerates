@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, Zap, Star, ShieldCheck, ArrowRight, Download, Bell, Search, CreditCard, Sparkles, Globe, BarChart3, Lock, Loader2, Coins } from 'lucide-react';
 import { motion } from 'motion/react';
 import { auth, db, googleProvider } from '../lib/firebase';
@@ -9,10 +9,34 @@ import { trackEvent } from '../lib/analytics';
 
 export default function Pro() {
   const [loading, setLoading] = useState(false);
+  const [checkoutOk, setCheckoutOk] = useState<null | {
+    stripeMonthly: boolean;
+    stripeSix: boolean;
+    paypalMonthly: boolean;
+    paypalSix: boolean;
+  }>(null);
   const stripeLink = import.meta.env.VITE_STRIPE_PAYMENT_LINK as string | undefined;
   const stripeSixMonthLink = import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined;
   const paypalLink = import.meta.env.VITE_PAYPAL_PAYMENT_LINK as string | undefined;
   const paypalSixMonthLink = import.meta.env.VITE_PAYPAL_6MONTH_LINK as string | undefined;
+
+  useEffect(() => {
+    const run = async () => {
+      try {
+        const res = await fetch("/api/checkout-status", { cache: "no-store" });
+        const data = await res.json();
+        setCheckoutOk({
+          stripeMonthly: Boolean(data?.stripe?.monthly?.ok),
+          stripeSix: Boolean(data?.stripe?.six_month?.ok),
+          paypalMonthly: Boolean(data?.paypal?.monthly?.ok),
+          paypalSix: Boolean(data?.paypal?.six_month?.ok),
+        });
+      } catch {
+        setCheckoutOk(null);
+      }
+    };
+    run();
+  }, []);
 
   const createUserRecord = async () => {
     const user = auth.currentUser;
@@ -176,15 +200,15 @@ export default function Pro() {
                   href={stripeLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!stripeLink}
+                  aria-disabled={!stripeLink || (checkoutOk ? !checkoutOk.stripeMonthly : false)}
                   onClick={(e) => {
-                    if (!stripeLink) {
+                    if (!stripeLink || (checkoutOk ? !checkoutOk.stripeMonthly : false)) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("stripe", "monthly", stripeLink);
                   }}
-                  className={`button-secondary w-full ${!stripeLink ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!stripeLink || (checkoutOk ? !checkoutOk.stripeMonthly : false) ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <CreditCard className="h-4 w-4" />
                   Stripe monthly
@@ -193,15 +217,15 @@ export default function Pro() {
                   href={stripeSixMonthLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!stripeSixMonthLink}
+                  aria-disabled={!stripeSixMonthLink || (checkoutOk ? !checkoutOk.stripeSix : false)}
                   onClick={(e) => {
-                    if (!stripeSixMonthLink) {
+                    if (!stripeSixMonthLink || (checkoutOk ? !checkoutOk.stripeSix : false)) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("stripe", "6_month", stripeSixMonthLink);
                   }}
-                  className={`button-secondary w-full ${!stripeSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!stripeSixMonthLink || (checkoutOk ? !checkoutOk.stripeSix : false) ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <CreditCard className="h-4 w-4" />
                   Stripe 6 months
@@ -210,15 +234,15 @@ export default function Pro() {
                   href={paypalLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!paypalLink}
+                  aria-disabled={!paypalLink || (checkoutOk ? !checkoutOk.paypalMonthly : false)}
                   onClick={(e) => {
-                    if (!paypalLink) {
+                    if (!paypalLink || (checkoutOk ? !checkoutOk.paypalMonthly : false)) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("paypal", "monthly", paypalLink);
                   }}
-                  className={`button-secondary w-full ${!paypalLink ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!paypalLink || (checkoutOk ? !checkoutOk.paypalMonthly : false) ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <Coins className="h-4 w-4" />
                   PayPal monthly
@@ -227,20 +251,25 @@ export default function Pro() {
                   href={paypalSixMonthLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!paypalSixMonthLink}
+                  aria-disabled={!paypalSixMonthLink || (checkoutOk ? !checkoutOk.paypalSix : false)}
                   onClick={(e) => {
-                    if (!paypalSixMonthLink) {
+                    if (!paypalSixMonthLink || (checkoutOk ? !checkoutOk.paypalSix : false)) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("paypal", "6_month", paypalSixMonthLink);
                   }}
-                  className={`button-secondary w-full ${!paypalSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!paypalSixMonthLink || (checkoutOk ? !checkoutOk.paypalSix : false) ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <Coins className="h-4 w-4" />
                   PayPal 6 months
                 </a>
               </div>
+              {checkoutOk && (!checkoutOk.stripeMonthly || !checkoutOk.stripeSix || !checkoutOk.paypalMonthly || !checkoutOk.paypalSix) && (
+                <p className="mt-4 text-xs leading-6 text-brand-900/80">
+                  Checkout links are currently invalid on the payment provider side. Regenerate the Stripe/PayPal payment links and redeploy to restore checkout.
+                </p>
+              )}
               {(!stripeLink || !stripeSixMonthLink || !paypalLink || !paypalSixMonthLink) && (
                 <p className="mt-4 text-xs leading-6 text-brand-900/70">
                   Add `VITE_STRIPE_PAYMENT_LINK`, `VITE_STRIPE_6MONTH_LINK`, `VITE_PAYPAL_PAYMENT_LINK`, and `VITE_PAYPAL_6MONTH_LINK` to enable one-click checkout buttons.
