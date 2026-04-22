@@ -200,15 +200,15 @@ export default function Pro() {
                   href={stripeLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!stripeLink || (checkoutOk ? !checkoutOk.stripeMonthly : false)}
+                  aria-disabled={!stripeLink}
                   onClick={(e) => {
-                    if (!stripeLink || (checkoutOk ? !checkoutOk.stripeMonthly : false)) {
+                    if (!stripeLink) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("stripe", "monthly", stripeLink);
                   }}
-                  className={`button-secondary w-full ${!stripeLink || (checkoutOk ? !checkoutOk.stripeMonthly : false) ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!stripeLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <CreditCard className="h-4 w-4" />
                   Stripe monthly
@@ -217,15 +217,15 @@ export default function Pro() {
                   href={stripeSixMonthLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!stripeSixMonthLink || (checkoutOk ? !checkoutOk.stripeSix : false)}
+                  aria-disabled={!stripeSixMonthLink}
                   onClick={(e) => {
-                    if (!stripeSixMonthLink || (checkoutOk ? !checkoutOk.stripeSix : false)) {
+                    if (!stripeSixMonthLink) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("stripe", "6_month", stripeSixMonthLink);
                   }}
-                  className={`button-secondary w-full ${!stripeSixMonthLink || (checkoutOk ? !checkoutOk.stripeSix : false) ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!stripeSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <CreditCard className="h-4 w-4" />
                   Stripe 6 months
@@ -234,15 +234,15 @@ export default function Pro() {
                   href={paypalLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!paypalLink || (checkoutOk ? !checkoutOk.paypalMonthly : false)}
+                  aria-disabled={!paypalLink}
                   onClick={(e) => {
-                    if (!paypalLink || (checkoutOk ? !checkoutOk.paypalMonthly : false)) {
+                    if (!paypalLink) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("paypal", "monthly", paypalLink);
                   }}
-                  className={`button-secondary w-full ${!paypalLink || (checkoutOk ? !checkoutOk.paypalMonthly : false) ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!paypalLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <Coins className="h-4 w-4" />
                   PayPal monthly
@@ -251,15 +251,15 @@ export default function Pro() {
                   href={paypalSixMonthLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-disabled={!paypalSixMonthLink || (checkoutOk ? !checkoutOk.paypalSix : false)}
+                  aria-disabled={!paypalSixMonthLink}
                   onClick={(e) => {
-                    if (!paypalSixMonthLink || (checkoutOk ? !checkoutOk.paypalSix : false)) {
+                    if (!paypalSixMonthLink) {
                       e.preventDefault();
                       return;
                     }
                     handleCheckoutClick("paypal", "6_month", paypalSixMonthLink);
                   }}
-                  className={`button-secondary w-full ${!paypalSixMonthLink || (checkoutOk ? !checkoutOk.paypalSix : false) ? "pointer-events-none opacity-50" : ""}`}
+                  className={`button-secondary w-full ${!paypalSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
                 >
                   <Coins className="h-4 w-4" />
                   PayPal 6 months
