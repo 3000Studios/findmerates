@@ -15,6 +15,7 @@ import { motion } from "motion/react";
 import MortgageCalculator from "../components/MortgageCalculator";
 import BestOptionAnalyzer from "../components/BestOptionAnalyzer";
 import PredictiveBriefing from "../components/PredictiveBriefing";
+import SlideOver from "../components/SlideOver";
 import { Story } from "../types";
 import { fetchLatestFinancialNews } from "../services/intelligenceService";
 import { playUiSound } from "../lib/sound";
@@ -25,6 +26,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [topStories, setTopStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<null | { id: string; name: string }>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,21 +75,27 @@ export default function Home() {
             >
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-brand-800 shadow-sm backdrop-blur">
                 <Sparkles className="h-4 w-4" />
-                Award-inspired financial clarity, built original
+                Stop overpaying — AI finds the margin lenders hide.
               </div>
               <h1 className="max-w-4xl text-5xl leading-[0.95] tracking-tight text-slate-950 md:text-7xl lg:text-[5.5rem]">
-                Compare rates with a cleaner, calmer, more confident interface.
+                Run an AI rate analysis in 60 seconds. Then compare live benchmarks.
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                A premium rate experience for mortgages, CDs, auto loans, and personal loans. Fast search, clearer actions, less noise.
+                Start free. Get a personalized next-step recommendation. Upgrade only when you want pro alerts and deeper scenarios.
               </p>
 
-              <form onSubmit={handleSearch} className="mt-10 max-w-2xl">
+              <div className="mt-10 max-w-2xl">
+                <div className="card border-white/70 bg-white/80 p-5 shadow-[0_22px_70px_rgba(26,43,60,0.12)]">
+                  <BestOptionAnalyzer />
+                </div>
+              </div>
+
+              <form onSubmit={handleSearch} className="mt-6 max-w-2xl">
                 <div className="surface flex items-center gap-3 rounded-full px-4 py-3">
                   <Search className="ml-2 h-5 w-5 text-slate-400" />
                   <input
                     type="text"
-                    placeholder="Search a rate, term, or lender"
+                    placeholder="Search mortgage, CD, auto, personal (ex: “30-year fixed”, “12 month CD”)"
                     className="min-w-0 flex-1 bg-transparent py-2 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -110,7 +118,7 @@ export default function Home() {
                   onMouseEnter={() => playUiSound("hover")}
                   onClickCapture={() => playUiSound("click")}
                 >
-                  Start Pro for $9.99
+                  Start Pro ($9.99/mo)
                 </Link>
                 <Link to="/guide" className="button-secondary" onMouseEnter={() => playUiSound("hover")}>
                   Read guide
@@ -188,12 +196,14 @@ export default function Home() {
                   <cat.icon className="h-5 w-5 text-brand-700" />
                   <h3 className="mt-3 text-xl md:text-2xl text-slate-950">{cat.name}</h3>
                   <p className="mt-2 text-sm text-slate-700">Live lender benchmarks and clearer comparisons.</p>
-                  <Link
-                    to={`/rates/${cat.id}`}
-                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800"
+                  <button
+                    onClick={() => setSelectedCategory({ id: cat.id, name: cat.name })}
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-900"
+                    onMouseEnter={() => playUiSound("hover")}
+                    onClickCapture={() => playUiSound("click")}
                   >
-                    Explore <ArrowRight className="h-4 w-4" />
-                  </Link>
+                    Run AI analysis <ArrowRight className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -201,15 +211,53 @@ export default function Home() {
         </div>
       </section>
 
+      <SlideOver
+        open={Boolean(selectedCategory)}
+        title={selectedCategory ? `${selectedCategory.name} analysis` : "Analysis"}
+        subtitle="Use the free AI analyzer once, then jump into live rate comparisons with one click."
+        onClose={() => setSelectedCategory(null)}
+        footer={
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <Link
+              to="/pro"
+              className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10"
+              onClick={() => setSelectedCategory(null)}
+            >
+              Unlock Pro alerts
+            </Link>
+            <button
+              onClick={() => {
+                if (!selectedCategory) return;
+                const id = selectedCategory.id;
+                setSelectedCategory(null);
+                navigate(`/rates/${id}`);
+              }}
+              className="button-primary"
+            >
+              Compare live rates <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        }
+      >
+        <div className="card border-white/15 bg-white/5 p-5 text-white">
+          <p className="text-sm leading-7 text-brand-50">
+            Pick your goal. Get a plain-English recommendation. Then click “Compare live rates” to view benchmark cards and take the next step.
+          </p>
+        </div>
+        <div className="mt-5">
+          <BestOptionAnalyzer />
+        </div>
+      </SlideOver>
+
       <section className="section-shell py-8 lg:py-14">
         <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="card overflow-hidden bg-brand-900 text-white">
             <div className="grid gap-0 md:grid-cols-2">
               <div className="p-8 md:p-10">
                 <div className="section-kicker text-brand-100">Immersive rates</div>
-                <h2 className="mt-3 text-4xl text-white">Video-first rate insights.</h2>
+                <h2 className="mt-3 text-4xl text-white">Market motion, in seconds.</h2>
                 <p className="mt-4 text-brand-50">
-                  Watch the market, click to explore, and jump between tools without leaving the page.
+                  Quick visuals to keep attention — then a single click to compare rates or read the latest market recap.
                 </p>
                 <div className="mt-6 flex gap-3">
                   <Link to="/stories" className="button-secondary border-white/10 bg-white text-brand-900" onMouseEnter={() => playUiSound("hover")}>
@@ -258,7 +306,6 @@ export default function Home() {
             <MortgageCalculator />
           </div>
           <div className="grid gap-4 lg:col-span-4">
-            <BestOptionAnalyzer />
             <PredictiveBriefing />
           </div>
         </div>

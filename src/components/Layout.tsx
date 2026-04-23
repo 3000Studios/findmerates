@@ -184,6 +184,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </nav>
 
             <div className="hidden items-center gap-3 lg:flex">
+              <Link
+                to="/rates/search"
+                className="button-primary"
+                onMouseEnter={() => playUiSound("hover")}
+                onClickCapture={() => playUiSound("click")}
+              >
+                Compare now
+              </Link>
               <Link to="/pro" className="button-primary" onMouseEnter={() => playUiSound("hover")}>
                 Go Pro
               </Link>
