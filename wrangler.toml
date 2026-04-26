@@ -1,3 +1,8 @@
 name = "findmerates"
 compatibility_date = "2026-04-16"
 pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "findmerates"
+database_id = "f8a2a5a5-cdef-4abc-9999-1234567890ab" # Placeholder, user should update if needed

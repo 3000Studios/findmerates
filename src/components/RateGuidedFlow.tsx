@@ -6,7 +6,9 @@ export default function RateGuidedFlow() {
   const [answers, setAnswers] = useState({
     loanType: '',
     creditTier: '',
-    zip: ''
+    zip: '',
+    email: '',
+    phone: ''
   });
 
   const nextStep = (key: string, val: string) => {
@@ -16,11 +18,18 @@ export default function RateGuidedFlow() {
 
   const submitToD1 = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStep(4);
-    
-    // In a real implementation, this would hit a Cloudflare Worker connected to D1
-    // fetch('/api/leads', { method: 'POST', body: JSON.stringify(answers) })
-    console.log("Saving lead to D1:", answers);
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(answers)
+      });
+      if (response.ok) {
+        setStep(4);
+      }
+    } catch (err) {
+      console.error("Lead capture failed:", err);
+    }
   };
 
   return (
@@ -75,19 +84,37 @@ export default function RateGuidedFlow() {
 
       {step === 3 && (
         <div className="animate-in fade-in slide-in-from-right-8 duration-500">
-          <h3 className="text-lg font-medium text-white mb-4">Where are you located?</h3>
-          <form onSubmit={submitToD1} className="flex gap-4">
+          <h3 className="text-lg font-medium text-white mb-4">Unlock Your Verified Rates</h3>
+          <form onSubmit={submitToD1} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input 
+                type="text" 
+                maxLength={5}
+                placeholder="ZIP Code"
+                required
+                value={answers.zip}
+                onChange={(e) => setAnswers(prev => ({ ...prev, zip: e.target.value }))}
+                className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-emerald-500"
+              />
+              <input 
+                type="tel" 
+                placeholder="Phone Number"
+                required
+                value={answers.phone}
+                onChange={(e) => setAnswers(prev => ({ ...prev, phone: e.target.value }))}
+                className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-emerald-500"
+              />
+            </div>
             <input 
-              type="text" 
-              maxLength={5}
-              placeholder="Enter ZIP Code"
+              type="email" 
+              placeholder="Email Address"
               required
-              value={answers.zip}
-              onChange={(e) => setAnswers(prev => ({ ...prev, zip: e.target.value }))}
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-emerald-500"
+              value={answers.email}
+              onChange={(e) => setAnswers(prev => ({ ...prev, email: e.target.value }))}
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-emerald-500"
             />
-            <button type="submit" className="px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold rounded-xl transition-colors">
-              See Rates
+            <button type="submit" className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20">
+              Show My Rates
             </button>
           </form>
         </div>
@@ -98,26 +125,25 @@ export default function RateGuidedFlow() {
           <div className="filter blur-md opacity-50 select-none">
             <h3 className="text-xl font-bold text-white mb-4">Your Top Matches</h3>
             <div className="space-y-4">
-              <div className="h-16 bg-white/10 rounded-lg"></div>
-              <div className="h-16 bg-white/10 rounded-lg"></div>
-              <div className="h-16 bg-white/10 rounded-lg"></div>
+              <div className="h-16 bg-gradient-to-r from-emerald-500/20 to-transparent rounded-lg flex items-center px-4">
+                <div className="w-12 h-8 bg-white/10 rounded"></div>
+                <div className="ml-4 h-4 w-24 bg-white/10 rounded"></div>
+              </div>
+              <div className="h-16 bg-gradient-to-r from-teal-500/20 to-transparent rounded-lg flex items-center px-4">
+                <div className="w-12 h-8 bg-white/10 rounded"></div>
+                <div className="ml-4 h-4 w-24 bg-white/10 rounded"></div>
+              </div>
             </div>
           </div>
           
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-black/40 backdrop-blur-sm">
-            <div className="w-16 h-16 mb-4 rounded-full bg-emerald-500/20 border border-emerald-500/50 flex items-center justify-center">
-              <LogIn className="w-8 h-8 text-emerald-400" />
-            </div>
-            <h3 className="text-2xl font-bold text-white mb-2">Rates Unlocked</h3>
-            <p className="text-slate-300 mb-6 max-w-sm">
-              We've found 3 exact matches for your profile. Unlock your personalized rates with your 3000Studios ID.
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-black/60 backdrop-blur-md">
+            <h3 className="text-2xl font-bold text-white mb-2">Verification Sent</h3>
+            <p className="text-slate-300 mb-6 max-w-sm text-sm">
+              We have sent a verification code to <strong>{answers.email}</strong>. Please check your inbox to view your personalized rates.
             </p>
-            <a 
-              href="https://referrals.live/login" 
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-900 font-bold shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:scale-105 transition-transform"
-            >
-              Sign In with 3000Studios
-            </a>
+            <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono">
+              STATUS: AWAITING_VERIFICATION
+            </div>
           </div>
         </div>
       )}

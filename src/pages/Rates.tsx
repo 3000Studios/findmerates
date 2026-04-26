@@ -29,8 +29,8 @@ export default function Rates() {
       setLoading(true);
       try {
         const response = await fetch(`/api/rates?category=${category || 'mortgage'}&q=${query || ''}`);
-        const data = await response.json();
-        setRates(data.results);
+        const data = await response.json() as any;
+        setRates(data.results || []);
       } catch (err) {
         setError('Failed to load rates. Please try again later.');
       } finally {

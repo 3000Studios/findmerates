@@ -112,7 +112,7 @@ export async function getPexelsVideo(query: string) {
         Authorization: apiKey
       }
     });
-    const data = await response.json();
+    const data = await response.json() as any;
     if (data.videos && data.videos.length > 0) {
       const videoFiles = data.videos[0].video_files;
       const bestFile = videoFiles.find((f: any) => f.quality === 'hd') || videoFiles[0];

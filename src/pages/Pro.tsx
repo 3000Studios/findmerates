@@ -24,7 +24,7 @@ export default function Pro() {
     const run = async () => {
       try {
         const res = await fetch("/api/checkout-status", { cache: "no-store" });
-        const data = await res.json();
+        const data = await res.json() as any;
         setCheckoutOk({
           stripeMonthly: Boolean(data?.stripe?.monthly?.ok),
           stripeSix: Boolean(data?.stripe?.six_month?.ok),
