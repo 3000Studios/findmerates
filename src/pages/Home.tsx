@@ -15,6 +15,7 @@ import { motion } from "motion/react";
 import MortgageCalculator from "../components/MortgageCalculator";
 import BestOptionAnalyzer from "../components/BestOptionAnalyzer";
 import PredictiveBriefing from "../components/PredictiveBriefing";
+import RateGuidedFlow from "../components/RateGuidedFlow";
 import SlideOver from "../components/SlideOver";
 import { Story } from "../types";
 import { fetchLatestFinancialNews } from "../services/intelligenceService";
@@ -90,21 +91,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <form onSubmit={handleSearch} className="mt-6 max-w-2xl">
-                <div className="surface flex items-center gap-3 rounded-full px-4 py-3">
-                  <Search className="ml-2 h-5 w-5 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Search mortgage, CD, auto, personal (ex: “30-year fixed”, “12 month CD”)"
-                    className="min-w-0 flex-1 bg-transparent py-2 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                  <button type="submit" className="button-primary">
-                    Search
-                  </button>
-                </div>
-              </form>
+              <div className="mt-6 max-w-2xl">
+                <RateGuidedFlow />
+              </div>
 
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-600">
                 <span className="rounded-full border border-slate-200 bg-white/75 px-4 py-2">Daily rate updates</span>
