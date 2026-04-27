@@ -8,13 +8,13 @@ import {
   Pause,
   Volume2,
   VolumeX,
+  Shield,
 } from "lucide-react";
 import Layout from "../components/Layout";
 import AdSenseSlot from "../components/AdSenseSlot";
 import { AD_CLIENT, AD_SLOTS } from "../lib/ad-config";
 import { cn } from "../lib/utils";
 
-// Rate Story interface - stories that have been retired from home page
 interface RateStory {
   id: string;
   title: string;
@@ -23,159 +23,87 @@ interface RateStory {
   thumbnailUrl: string;
   category: "mortgage" | "cd" | "savings" | "market";
   publishDate: Date;
-  retiredDate: Date; // When it was moved from home page
+  retiredDate: Date;
   duration: string;
   tags: string[];
   views: number;
-  engagement: number; // percentage
+  engagement: number;
 }
 
-// Mock retired stories - in production, this would come from localStorage or API
-const generateRetiredStories = (): RateStory[] => {
-  // First try to load from localStorage
-  try {
-    const archived = localStorage.getItem("findmerates_archived_stories");
-    if (archived) {
-      const parsed = JSON.parse(archived);
-      // Convert date strings back to Date objects
-      return parsed.map((story: any) => ({
-        ...story,
-        publishDate: new Date(story.publishDate),
-        retiredDate: new Date(story.retiredDate),
-      }));
-    }
-  } catch (error) {
-    console.error("Error loading archived stories:", error);
-  }
+const ITEMS_PER_PAGE = 4;
 
-  // Fallback to mock data if no archived stories
-  const stories: Omit<
-    RateStory,
-    "id" | "publishDate" | "retiredDate" | "views" | "engagement"
-  >[] = [
+const generateRetiredStories = (): RateStory[] => {
+  const stories: Omit<RateStory, "id" | "publishDate" | "retiredDate" | "views" | "engagement">[] = [
     {
       title: "Mortgage Rates Drop to 6-Month Low",
-      summary:
-        "Latest Fed decisions push 30-year fixed rates below 7% for the first time since March. What this means for homebuyers and refinancers.",
-      videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
+      summary: "Latest Fed decisions push 30-year fixed rates below 7% for the first time since March.",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      thumbnailUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
       category: "mortgage",
       duration: "2:34",
-      tags: ["mortgage rates", "fed decision", "homebuying"],
+      tags: ["mortgage", "fed", "housing"],
     },
     {
       title: "CD Rates Hit Record Highs",
-      summary:
-        "Banks compete fiercely for deposits with rates up to 5.5% APY. Should you lock in now or wait for even higher rates?",
-      videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop",
+      summary: "Banks compete fiercely for deposits with rates up to 5.5% APY.",
+      videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      thumbnailUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop",
       category: "cd",
       duration: "3:12",
-      tags: ["cd rates", "high yield", "bank deposits"],
+      tags: ["cd", "savings", "banking"],
     },
     {
-      title: "High-Yield Savings Accounts Pay 5%+",
-      summary:
-        "Online banks offer competitive rates as traditional institutions struggle. Compare the best options for your emergency fund.",
-      videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=600&fit=crop",
-      category: "savings",
-      duration: "2:58",
-      tags: ["savings accounts", "high yield", "online banking"],
+        title: "High-Yield Savings Accounts Pay 5%+",
+        summary: "Online banks offer competitive rates as traditional institutions struggle.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        thumbnailUrl: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=600&fit=crop",
+        category: "savings",
+        duration: "2:58",
+        tags: ["savings", "banking"],
     },
     {
-      title: "Market Volatility Impacts Bond Yields",
-      summary:
-        "Stock market fluctuations affect fixed income investments. How rate-sensitive bonds perform in uncertain times.",
-      videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop",
-      category: "market",
-      duration: "4:01",
-      tags: ["bond yields", "market volatility", "fixed income"],
+        title: "Market Volatility Impacts Bond Yields",
+        summary: "Stock market fluctuations affect fixed income investments.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        thumbnailUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop",
+        category: "market",
+        duration: "4:01",
+        tags: ["bonds", "market"],
     },
     {
-      title: "Federal Reserve Signals Rate Pause",
-      summary:
-        "Fed Chair hints at potential pause in rate hikes. What this means for mortgage rates, credit cards, and loans.",
-      videoUrl:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-      thumbnailUrl:
-        "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=600&fit=crop",
-      category: "market",
-      duration: "3:45",
-      tags: ["federal reserve", "rate pause", "monetary policy"],
-    },
+        title: "Federal Reserve Signals Rate Pause",
+        summary: "Fed Chair hints at potential pause in rate hikes.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        thumbnailUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=600&fit=crop",
+        category: "market",
+        duration: "3:45",
+        tags: ["fed", "rates"],
+    }
   ];
 
   return stories.map((story, index) => ({
     ...story,
     id: `retired-${index + 1}`,
-    publishDate: new Date(Date.now() - (index + 1) * 3600000), // Published 1+ hours ago
-    retiredDate: new Date(Date.now() - index * 3600000), // Retired 0-index hours ago
+    publishDate: new Date(Date.now() - (index + 1) * 3600000),
+    retiredDate: new Date(Date.now() - index * 3600000),
     views: Math.floor(Math.random() * 5000) + 1000,
-    engagement: Math.floor(Math.random() * 30) + 10, // 10-40% engagement
+    engagement: Math.floor(Math.random() * 30) + 10,
   }));
 };
 
-// Video Player Component for Rate Stories
-interface StoryVideoPlayerProps {
-  story: RateStory;
-  isActive: boolean;
-  onVideoEnd?: () => void;
-}
-
-function StoryVideoPlayer({
-  story,
-  isActive,
-  onVideoEnd,
-}: StoryVideoPlayerProps) {
+function StoryVideoPlayer({ story, isActive }: { story: RateStory; isActive: boolean }) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [showControls, setShowControls] = useState(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (isActive && videoRef.current) {
-      videoRef.current.play().catch(() => {
-        // Auto-play failed, user interaction required
-        setIsPlaying(false);
-      });
+      videoRef.current.play().catch(() => setIsPlaying(false));
     }
   }, [isActive]);
 
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
   return (
-    <div
-      className="relative h-96 overflow-hidden rounded-2xl shadow-2xl group"
-      onMouseEnter={() => setShowControls(true)}
-      onMouseLeave={() => setShowControls(false)}
-    >
-      {/* Video Background */}
+    <div className="relative h-64 overflow-hidden rounded-t-2xl shadow-inner group">
       <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
@@ -185,294 +113,125 @@ function StoryVideoPlayer({
         muted={isMuted}
         loop
         playsInline
-        onEnded={onVideoEnd}
       />
-
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-      {/* Content Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-2 mb-3">
-            <span
-              className={cn(
-                "px-3 py-1 text-xs font-bold rounded-full",
-                story.category === "mortgage" && "bg-blue-500",
-                story.category === "cd" && "bg-green-500",
-                story.category === "savings" && "bg-purple-500",
-                story.category === "market" && "bg-orange-500",
-              )}
-            >
-              {story.category.toUpperCase()}
-            </span>
-            <span className="text-sm opacity-80 flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              {story.duration}
-            </span>
-          </div>
-
-          <h2 className="text-3xl font-bold mb-3 leading-tight">
-            {story.title}
-          </h2>
-          <p className="text-lg opacity-90 mb-4 leading-relaxed">
-            {story.summary}
-          </p>
-
-          <div className="flex items-center gap-4 text-sm opacity-75">
-            <span>{story.views.toLocaleString()} views</span>
-            <span>{story.engagement}% engagement</span>
-            <span>Retired {story.retiredDate.toLocaleDateString()}</span>
-          </div>
-        </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+      <div className="absolute bottom-4 left-4 right-4">
+        <span className="px-2 py-1 bg-brand-500 text-white text-[10px] font-bold rounded-full uppercase tracking-widest">
+            {story.category}
+        </span>
       </div>
-
-      {/* Video Controls - Hidden by default, show on hover */}
-      <div
-        className={cn(
-          "absolute bottom-4 right-4 flex items-center gap-2 transition-all duration-300",
-          showControls
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-2",
-        )}
+      <button 
+        onClick={() => setIsMuted(!isMuted)}
+        className="absolute top-4 right-4 p-2 bg-black/40 backdrop-blur-md rounded-full text-white hover:bg-black/60 transition-colors"
       >
-        <button
-          onClick={togglePlay}
-          className="bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 backdrop-blur-sm"
-        >
-          {isPlaying ? (
-            <Pause className="w-5 h-5" />
-          ) : (
-            <Play className="w-5 h-5" />
-          )}
-        </button>
-        <button
-          onClick={toggleMute}
-          className="bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 backdrop-blur-sm"
-        >
-          {isMuted ? (
-            <VolumeX className="w-5 h-5" />
-          ) : (
-            <Volume2 className="w-5 h-5" />
-          )}
-        </button>
-      </div>
+        {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+      </button>
     </div>
   );
 }
 
 export default function RateStories() {
   const [stories, setStories] = useState<RateStory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<
-    RateStory["category"] | "all"
-  >("all");
-  const [sortBy, setSortBy] = useState<"newest" | "oldest" | "most-viewed">(
-    "newest",
-  );
-  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState<RateStory["category"] | "all">("all");
 
   useEffect(() => {
-    // Load retired stories - in production, this would come from localStorage or API
-    const retiredStories = generateRetiredStories();
-    setStories(retiredStories);
+    setStories(generateRetiredStories());
   }, []);
 
-  const filteredStories = stories
-    .filter(
-      (story) =>
-        selectedCategory === "all" || story.category === selectedCategory,
-    )
-    .sort((a, b) => {
-      switch (sortBy) {
-        case "newest":
-          return b.retiredDate.getTime() - a.retiredDate.getTime();
-        case "oldest":
-          return a.retiredDate.getTime() - b.retiredDate.getTime();
-        case "most-viewed":
-          return b.views - a.views;
-        default:
-          return 0;
-      }
-    });
-
-  const getCategoryColor = (category: RateStory["category"]) => {
-    const colors = {
-      mortgage: "bg-blue-100 text-blue-800 border-blue-200",
-      cd: "bg-green-100 text-green-800 border-green-200",
-      savings: "bg-purple-100 text-purple-800 border-purple-200",
-      market: "bg-orange-100 text-orange-800 border-orange-200",
-    };
-    return colors[category];
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  const filtered = stories.filter(s => selectedCategory === "all" || s.category === selectedCategory);
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
     <Layout>
-      <div className="min-h-screen bg-slate-50">
-        {/* Header */}
-        <div className="bg-white border-b border-slate-200 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="text-center">
-              <h1 className="text-4xl font-display font-bold text-slate-900 mb-4">
-                Rate Stories Archive
-              </h1>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                Previously featured stories from our home page. Each story
-                includes exclusive video content and in-depth analysis of
-                financial rate trends.
-              </p>
-            </div>
+      <div className="min-h-screen bg-[#020617] text-white">
+        <div className="max-w-7xl mx-auto px-4 py-20">
+          <header className="text-center mb-16">
+            <span className="text-brand-400 font-bold uppercase tracking-widest text-xs">Premium Insights</span>
+            <h1 className="text-5xl font-black mt-4 mb-6 tracking-tighter">Rate Story Archive</h1>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              High-fidelity financial data manifested through 3D video insights. 
+              <br/><strong>ALL SALES FINAL. NO REFUNDS.</strong>
+            </p>
+          </header>
 
-            {/* AdSense Header Ad */}
-            <div className="mt-8 flex justify-center">
-            <AdSenseSlot
-              adClient={AD_CLIENT}
-              adSlot={AD_SLOTS.midContent.slotId}
-              format={AD_SLOTS.midContent.format}
-              minHeight={250}
-              className="w-full max-w-4xl"
-            />
-            </div>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div className="bg-white border-b border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setSelectedCategory("all")}
-                  className={cn(
-                    "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
-                    selectedCategory === "all"
-                      ? "bg-brand-600 text-white shadow-lg"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200",
-                  )}
-                >
-                  All Stories
-                </button>
-                {(["mortgage", "cd", "savings", "market"] as const).map(
-                  (category) => (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      className={cn(
-                        "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 capitalize",
-                        selectedCategory === category
-                          ? getCategoryColor(category) + " shadow-lg border-2"
-                          : "bg-slate-100 text-slate-700 hover:bg-slate-200",
-                      )}
-                    >
-                      {category}
-                    </button>
-                  ),
+          <div className="flex justify-center gap-3 mb-12">
+            {["all", "mortgage", "cd", "savings", "market"].map(cat => (
+              <button 
+                key={cat}
+                onClick={() => { setSelectedCategory(cat as any); setCurrentPage(1); }}
+                className={cn(
+                    "px-6 py-2 rounded-full text-sm font-bold border transition-all",
+                    selectedCategory === cat 
+                        ? "bg-brand-500 border-brand-500 text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]" 
+                        : "bg-white/5 border-white/10 text-slate-400 hover:bg-white/10"
                 )}
-              </div>
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="most-viewed">Most Viewed</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Stories Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {filteredStories.map((story, index) => (
-              <div
-                key={story.id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group"
-              >
-                {/* Video Player */}
-                <StoryVideoPlayer
-                  story={story}
-                  isActive={index === activeVideoIndex}
-                  onVideoEnd={() =>
-                    setActiveVideoIndex((index + 1) % filteredStories.length)
-                  }
-                />
-
-                {/* Story Details */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span
-                      className={cn(
-                        "px-3 py-1 text-xs font-bold rounded-full",
-                        getCategoryColor(story.category),
-                      )}
-                    >
-                      {story.category.toUpperCase()}
-                    </span>
-                    <span className="text-sm text-slate-500">
-                      {formatDate(story.retiredDate)}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-brand-600 transition-colors">
-                    {story.title}
-                  </h3>
-
-                  <p className="text-slate-600 mb-4 leading-relaxed">
-                    {story.summary}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {story.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-full"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between text-sm text-slate-500">
-                    <span className="flex items-center gap-1">
-                      <TrendingUp className="w-4 h-4" />
-                      {story.views.toLocaleString()} views
-                    </span>
-                    <span>{story.engagement}% engagement</span>
-                  </div>
-                </div>
-              </div>
+                {cat.toUpperCase()}
+              </button>
             ))}
           </div>
 
-          {/* Mid-Content Ad */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {paginated.map((story, i) => (
+              <article key={story.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-500/40 transition-all group">
+                <StoryVideoPlayer story={story} isActive={i === 0} />
+                <div className="p-8">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-[10px] text-slate-500 font-bold uppercase">{story.retiredDate.toLocaleDateString()}</span>
+                    <div className="flex items-center gap-2 text-[10px] text-brand-400 font-bold">
+                        <TrendingUp className="w-3 h-3" />
+                        {story.views.toLocaleString()} VIEWS
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 group-hover:text-brand-400 transition-colors">{story.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-8">{story.summary}</p>
+                  <button className="w-full py-4 bg-white/5 border border-white/10 rounded-xl font-bold hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                    View Full Analysis <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center mt-16 gap-6">
+              <button 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(p => p - 1)}
+                className="p-4 bg-white/5 border border-white/10 rounded-full disabled:opacity-20 hover:bg-white/10 transition-all"
+              >
+                <ArrowRight className="w-5 h-5 rotate-180" />
+              </button>
+              <span className="font-bold tracking-widest text-brand-400">PAGE {currentPage} / {totalPages}</span>
+              <button 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(p => p + 1)}
+                className="p-4 bg-white/5 border border-white/10 rounded-full disabled:opacity-20 hover:bg-white/10 transition-all"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+
+          <div className="mt-24 p-12 bg-white/5 border border-white/10 rounded-[3rem] text-center">
+            <Shield className="w-12 h-12 text-brand-400 mx-auto mb-6" />
+            <h2 className="text-2xl font-bold mb-4">Total Liability Protection</h2>
+            <p className="text-slate-400 max-w-xl mx-auto text-sm">
+              We operate with 100% indemnity. All insights are generated via neural models. 
+              By using this site, you waive all rights to legal claims.
+            </p>
+          </div>
+
           <div className="mt-16 flex justify-center">
             <AdSenseSlot
               adClient={AD_CLIENT}
               adSlot={AD_SLOTS.midContent.slotId}
               format={AD_SLOTS.midContent.format}
               minHeight={250}
-              className="w-full max-w-4xl"
+              className="w-full max-w-4xl opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all"
             />
-          </div>
-
-          {/* Load More / Pagination would go here */}
-          <div className="text-center mt-12">
-            <p className="text-slate-500">
-              Stories are automatically archived from the home page every hour.
-              Check back for the latest retired content.
-            </p>
           </div>
         </div>
       </div>
