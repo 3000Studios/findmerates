@@ -5,4 +5,4 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "findmerates"
-database_id = "f8a2a5a5-cdef-4abc-9999-1234567890ab" # Placeholder, user should update if needed
+database_id = "d33cd776-7d95-484e-968e-20f4b1442cc0"
