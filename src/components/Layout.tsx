@@ -165,9 +165,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <nav className="hidden items-center gap-1 lg:flex">
-              {navLinks.map(({ to, label }) => {
-                const active = location.pathname.startsWith(to);
-                return (
+              {navLinks.map(({ to, label, href }) => {
+                const active = to ? location.pathname.startsWith(to) : false;
+                return to ? (
                   <Link
                     key={to}
                     to={to}
@@ -179,6 +179,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   >
                     {label}
                   </Link>
+                ) : (
+                  <a
+                    key={href}
+                    href={href}
+                    className="rounded-full px-4 py-2 text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                  >
+                    {label}
+                  </a>
                 );
               })}
             </nav>
@@ -204,7 +212,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Sign out
                 </button>
               ) : (
-                <a href="https://referrals.live/login" className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10">
+                <a href="https://3000studios.vip/dashboard" className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10">
                   <LogIn className="h-4 w-4" />
                   Sign in
                 </a>
