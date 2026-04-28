@@ -165,7 +165,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <nav className="hidden items-center gap-1 lg:flex">
-              {navLinks.map(({ to, label, href }) => {
+              {navLinks.map(({ to, label }) => {
                 const active = to ? location.pathname.startsWith(to) : false;
                 return to ? (
                   <Link
@@ -179,15 +179,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   >
                     {label}
                   </Link>
-                ) : (
-                  <a
-                    key={href}
-                    href={href}
-                    className="rounded-full px-4 py-2 text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors"
-                  >
-                    {label}
-                  </a>
-                );
+                ) : null;
               })}
             </nav>
 
