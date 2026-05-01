@@ -115,7 +115,36 @@ export default function BestOptionAnalyzer() {
           </motion.div>
         )}
 
-        {step === 2 && (
+        {loading ? (
+          <div className="space-y-6 py-4">
+            <div className="space-y-3">
+              <div className="h-10 w-3/4 animate-pulse rounded-2xl bg-slate-100" />
+              <div className="h-4 w-full animate-pulse rounded-full bg-slate-50" />
+              <div className="h-4 w-5/6 animate-pulse rounded-full bg-slate-50" />
+            </div>
+            <div className="grid gap-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center gap-3 rounded-3xl border border-slate-100 p-4">
+                  <div className="h-5 w-5 animate-pulse rounded-full bg-slate-100" />
+                  <div className="h-3 flex-1 animate-pulse rounded-full bg-slate-50" />
+                </div>
+              ))}
+            </div>
+            <div className="rounded-[24px] border border-slate-100 p-5">
+              <div className="flex gap-3">
+                <div className="h-5 w-5 animate-pulse rounded-full bg-slate-100" />
+                <div className="space-y-2 flex-1">
+                  <div className="h-3 w-20 animate-pulse rounded-full bg-slate-100" />
+                  <div className="h-3 w-full animate-pulse rounded-full bg-slate-50" />
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-slate-400">
+              <Loader2 className="h-3 w-3 animate-spin" />
+              AI is crunching lender benchmarks...
+            </div>
+          </div>
+        ) : step === 2 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
             <h3 className="text-lg text-slate-950">Primary objective</h3>
             <div className="space-y-3">

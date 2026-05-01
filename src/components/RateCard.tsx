@@ -6,7 +6,7 @@ import { trackEvent } from "../lib/analytics";
 
 export default function RateCard({ result }: { result: RateResult }) {
   return (
-    <div className="card p-6 transition-transform hover:-translate-y-1">
+    <div className="card p-6 transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(16,34,68,0.12)] hover:border-brand-200">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
         <div className="lg:w-52">
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-center">

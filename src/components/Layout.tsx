@@ -115,7 +115,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       )}
 
       <header
-        className={`sticky top-0 z-40 border-b transition-all duration-300 ${
+        className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-300 ${
           scrolled ? "border-white/10 brand-glass shadow-2xl backdrop-blur-xl" : "border-transparent brand-glass backdrop-blur-xl"
         }`}
       >
@@ -336,14 +336,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <div>
-              <h4 className="mb-4 text-sm font-semibold text-white">Company</h4>
+              <h4 className="mb-4 text-sm font-semibold text-white">Popular Markets</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/about" className="hover:text-white">About Us</Link></li>
-                <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
-                <li><Link to="/privacy" className="hover:text-white">Privacy Policy</Link></li>
-                <li><Link to="/terms" className="hover:text-white">Terms of Service</Link></li>
-                <li><Link to="/cookies" className="hover:text-white">Cookie Policy</Link></li>
-                <li><Link to="/disclaimer" className="hover:text-white">Disclaimer</Link></li>
+                <li><Link to="/rates/mortgage/in/austin-tx" className="hover:text-white">Austin Mortgages</Link></li>
+                <li><Link to="/rates/cd/in/miami-fl" className="hover:text-white">Miami CD Rates</Link></li>
+                <li><Link to="/rates/mortgage/in/nashville-tn" className="hover:text-white">Nashville Rates</Link></li>
+                <li><Link to="/rates/cd/in/denver-co" className="hover:text-white">Denver Savings</Link></li>
               </ul>
             </div>
           </div>

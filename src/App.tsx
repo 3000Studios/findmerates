@@ -24,6 +24,7 @@ const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const OpsDashboard = lazy(() => import("./pages/OpsDashboard"));
 const Signup = lazy(() => import("./pages/Signup"));
+const CategoryCityPage = lazy(() => import("./pages/CategoryCityPage"));
 
 const LoadingSpinner = () => (
   <div className="flex min-h-[60vh] items-center justify-center">
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/rates/:categoryId" element={<CategoryPage />} />
+              <Route path="/rates/:category/in/:city" element={<CategoryCityPage />} />
               <Route path="/rates/search" element={<Rates />} />
               <Route path="/calculators" element={<Calculators />} />
               <Route path="/calculators/:type" element={<Calculators />} />

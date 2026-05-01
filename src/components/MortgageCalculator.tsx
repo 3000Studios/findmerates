@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, Calendar, DollarSign, Percent } from "lucide-react";
 import { formatCurrency } from "../lib/utils";
+import { playUiSound } from "../lib/sound";
 
 export default function MortgageCalculator() {
   const [loanAmount, setLoanAmount] = useState(300000);
@@ -110,9 +112,13 @@ export default function MortgageCalculator() {
             </div>
           </div>
 
-          <button className="button-primary mt-8 w-full">
-            Get Pre-Approved <ArrowRight className="h-4 w-4" />
-          </button>
+          <Link 
+            to="/rates/mortgage" 
+            className="button-primary mt-8 w-full justify-center"
+            onMouseEnter={() => playUiSound("hover")}
+          >
+            See how this compares to today&apos;s best rates <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </div>

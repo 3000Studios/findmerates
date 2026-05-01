@@ -17,11 +17,10 @@ import BestOptionAnalyzer from "../components/BestOptionAnalyzer";
 import PredictiveBriefing from "../components/PredictiveBriefing";
 import RateGuidedFlow from "../components/RateGuidedFlow";
 import SlideOver from "../components/SlideOver";
+import RateAlertForm from "../components/RateAlertForm";
 import { Story } from "../types";
 import { fetchLatestFinancialNews } from "../services/intelligenceService";
 import { playUiSound } from "../lib/sound";
-import financialRatesVideo from "../components/video/financial rates.mp4";
-import loopBackgroundVideo from "../components/video/findmerates-loop-bg.mp4";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,16 +55,15 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden">
-      <section className="relative">
-        <video
-          className="absolute inset-0 h-full w-full object-cover opacity-30"
-          src={loopBackgroundVideo}
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/5" />
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=2000"
+            alt="Secure Home"
+            className="h-full w-full object-cover opacity-20 brightness-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-900/40 via-transparent to-slate-50" />
+        </div>
         <div className="section-shell py-10 lg:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             <motion.div
@@ -107,11 +105,21 @@ export default function Home() {
                   onMouseEnter={() => playUiSound("hover")}
                   onClickCapture={() => playUiSound("click")}
                 >
-                  Start Pro ($9.99/mo)
+                  Join Pro ($9.99/mo)
                 </Link>
                 <Link to="/guide" className="button-secondary" onMouseEnter={() => playUiSound("hover")}>
                   Read guide
                 </Link>
+              </div>
+
+              <div className="mt-12 pt-8 border-t border-slate-200/50">
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">As seen on and trusted by</p>
+                <div className="flex flex-wrap items-center gap-8 opacity-40 grayscale contrast-125">
+                  <span className="text-xl font-display font-black tracking-tighter">FORBES</span>
+                  <span className="text-xl font-display font-black tracking-tighter">BLOOMBERG</span>
+                  <span className="text-xl font-display font-black tracking-tighter">REUTERS</span>
+                  <span className="text-xl font-display font-black tracking-tighter">CNN BUSINESS</span>
+                </div>
               </div>
             </motion.div>
 
@@ -121,8 +129,13 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="relative"
             >
-              <div className="card relative overflow-hidden p-6 lg:p-8">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(47,140,255,0.16),transparent_40%),radial-gradient(circle_at_bottom_right,_rgba(200,163,90,0.14),transparent_35%)]" />
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="card relative overflow-hidden p-6 lg:p-8"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-100/20 via-transparent to-accent-gold/10" />
                 <div className="relative space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="section-kicker">Today&apos;s Snapshot</span>
@@ -157,7 +170,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
@@ -239,7 +252,7 @@ export default function Home() {
       </SlideOver>
 
       <section className="section-shell py-8 lg:py-14">
-        <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="card overflow-hidden bg-brand-900 text-white">
             <div className="grid gap-0 md:grid-cols-2">
               <div className="p-8 md:p-10">
@@ -254,38 +267,17 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              <div className="min-h-72 bg-[radial-gradient(circle_at_top_left,rgba(200,163,90,0.35),transparent_35%),linear-gradient(135deg,#102244,#184fb4)] p-8">
-                <video
-                  className="h-full w-full rounded-[24px] object-cover shadow-2xl"
-                  src={financialRatesVideo}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+              <div className="min-h-72 p-8">
+                <img
+                  src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800"
+                  alt="Financial Growth"
+                  className="h-full w-full rounded-[24px] object-cover shadow-2xl brightness-75"
                 />
               </div>
             </div>
           </div>
 
-          <div className="card p-8">
-            <div className="section-kicker text-brand-700">Pro perks</div>
-            <h2 className="mt-3 text-3xl text-slate-950">More useful, more interactive.</h2>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {[
-                "Priority briefing tools",
-                "Rate alerts and scenario runs",
-                "6 month special pricing",
-                "Direct subscription access",
-              ].map((item) => (
-                <div key={item} className="rounded-3xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
-                  {item}
-                </div>
-              ))}
-            </div>
-            <Link to="/pro" className="button-primary mt-6 w-full" onClickCapture={() => playUiSound("click")}>
-              Go to subscription
-            </Link>
-          </div>
+          <RateAlertForm />
         </div>
       </section>
 
@@ -354,7 +346,7 @@ export default function Home() {
             </p>
           </div>
           <Link to="/pro" className="button-secondary border-white/15 bg-white text-brand-900">
-            Initialize Pro
+            Join Pro
           </Link>
         </div>
       </section>

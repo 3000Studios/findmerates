@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Zap, Star, ShieldCheck, ArrowRight, Download, Bell, Search, CreditCard, Sparkles, Globe, BarChart3, Lock, Loader2, Coins } from 'lucide-react';
 import { motion } from 'motion/react';
-import { auth, db, googleProvider } from '../lib/firebase';
+import { auth, db } from '../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { playUiSound } from '../lib/sound';
-import { signInWithPopup } from 'firebase/auth';
 import { trackEvent } from '../lib/analytics';
 
 export default function Pro() {
   const [loading, setLoading] = useState(false);
   const [checkoutOk, setCheckoutOk] = useState<null | {
+    stripeBasic: boolean;
     stripeMonthly: boolean;
     stripeSix: boolean;
     paypalMonthly: boolean;
     paypalSix: boolean;
   }>(null);
-  const stripeLink = import.meta.env.VITE_STRIPE_PAYMENT_LINK as string | undefined;
-  const stripeSixMonthLink = import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined;
+  const stripeBasicLink =
+    (import.meta.env.VITE_STRIPE_BASIC_LINK as string | undefined) ||
+    "https://buy.stripe.com/fZu7sL2KxdTgbJCeMibAs0B";
+  const stripeLink =
+    (import.meta.env.VITE_STRIPE_PAYMENT_LINK as string | undefined) ||
+    (import.meta.env.VITE_STRIPE_PRO_LINK as string | undefined) ||
+    "https://buy.stripe.com/00w3cvetfg1o00U9rYbAs0C";
+  const stripeSixMonthLink =
+    (import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined) ||
+    "https://buy.stripe.com/14AeVdacZ16u3d60VsbAs0D";
   const paypalLink = import.meta.env.VITE_PAYPAL_PAYMENT_LINK as string | undefined;
   const paypalSixMonthLink = import.meta.env.VITE_PAYPAL_6MONTH_LINK as string | undefined;
 
@@ -26,6 +34,7 @@ export default function Pro() {
         const res = await fetch("/api/checkout-status", { cache: "no-store" });
         const data = await res.json() as any;
         setCheckoutOk({
+          stripeBasic: Boolean(data?.stripe?.basic?.ok),
           stripeMonthly: Boolean(data?.stripe?.monthly?.ok),
           stripeSix: Boolean(data?.stripe?.six_month?.ok),
           paypalMonthly: Boolean(data?.paypal?.monthly?.ok),
@@ -60,35 +69,35 @@ export default function Pro() {
 
   const openPaymentLink = (url?: string) => {
     if (!url) return;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.location.assign(url);
   };
 
   const handleCheckoutClick = async (provider: "stripe" | "paypal", plan: string, url?: string) => {
     if (!url) return;
-    await trackEvent("checkout_click", { provider, plan, url, surface: "pro_buttons" });
+    void trackEvent("checkout_click", { provider, plan, url, surface: "pro_buttons" });
     openPaymentLink(url);
   };
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = async (plan: "basic" | "pro_monthly" | "pro_six_month" = "pro_monthly") => {
     setLoading(true);
     try {
-      await trackEvent('pro_signup_start', { surface: 'pro_primary' });
-      if (!auth.currentUser) {
-        await signInWithPopup(auth, googleProvider);
+      if (auth.currentUser) {
+        void createUserRecord();
       }
-      const recordReady = await createUserRecord();
-      if (!recordReady) {
-        alert('Could not initialize your account. Please try again.');
-        return;
-      }
-      const preferredLink = stripeLink || stripeSixMonthLink || paypalLink || paypalSixMonthLink;
+      const preferredLink =
+        plan === "basic"
+          ? stripeBasicLink
+          : plan === "pro_six_month"
+            ? stripeSixMonthLink
+            : stripeLink;
       if (preferredLink) {
-        await trackEvent('checkout_click', {
+        void trackEvent('pro_signup_start', { surface: 'pro_primary', plan });
+        void trackEvent('checkout_click', {
           surface: 'pro_primary',
           provider: preferredLink.includes('stripe.com') ? 'stripe' : 'paypal',
+          plan,
           url: preferredLink,
         });
-        await trackEvent('pro_signup_success', { surface: 'pro_primary' });
         openPaymentLink(preferredLink);
         return;
       }
@@ -136,145 +145,79 @@ export default function Pro() {
               FindMeRates <span className="text-accent-gold">PRO.</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-500 max-w-3xl mx-auto mb-24 font-medium leading-relaxed">
-              Pro now starts at $9.99/month or $39.99 when paid in full for 6 months.
+              Tiered intelligence to match your market pace.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 items-stretch">
-            <div className="lg:col-span-7 bg-brand-600 border border-white/5 p-12 md:p-24 text-left">
-              <h2 className="text-3xl font-display font-bold text-white mb-12 uppercase tracking-tight">Institutional Features</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                {[
-                  { icon: BarChart3, title: 'Predictive Modeling', desc: 'AI-driven rate forecasts' },
-                  { icon: Globe, title: 'Global Coverage', desc: 'International market data' },
-                  { icon: Lock, title: 'Priority Access', desc: 'Early rate shift alerts' },
-                  { icon: ShieldCheck, title: 'Verified Data', desc: 'Institutional source audit' },
-                  { icon: Bell, title: 'Custom Alerts', desc: 'Real-time push notifications' },
-                  { icon: Search, title: 'Deep Search', desc: 'Hyper-local data filtering' },
-                ].map((feature) => (
-                  <div key={feature.title} className="flex gap-6">
-                    <feature.icon className="w-6 h-6 text-accent-gold shrink-0" />
-                    <div>
-                      <h4 className="text-white text-sm font-bold uppercase tracking-widest mb-2">{feature.title}</h4>
-                      <p className="text-slate-500 text-xs font-medium leading-relaxed">{feature.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="lg:col-span-5 bg-accent-gold p-12 md:p-24 flex flex-col justify-between text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-5xl mx-auto">
+            {/* Basic Tier */}
+            <div className="bg-brand-800 border border-white/10 p-12 flex flex-col justify-between text-left rounded-[32px]">
               <div>
-                <div className="flex justify-between items-center mb-12">
-                  <h3 className="text-brand-900 text-2xl font-display font-bold uppercase tracking-tight">Pro Access</h3>
-                  <span className="px-4 py-1 bg-brand-900 text-white text-[9px] font-bold uppercase tracking-widest">Monthly or 6-month</span>
+                <div className="flex justify-between items-center mb-8">
+                  <h3 className="text-white text-2xl font-display font-bold uppercase tracking-tight">Basic</h3>
+                  <span className="px-4 py-1 bg-white/10 text-white text-[9px] font-bold uppercase tracking-widest rounded-full">Lead Alerts</span>
                 </div>
                 <div className="flex items-baseline gap-2 mb-12">
-                  <span className="text-8xl font-display font-bold text-brand-900">$9.99</span>
-                  <span className="text-brand-900/60 text-xl font-bold uppercase tracking-widest">/mo</span>
+                  <span className="text-6xl font-display font-bold text-white">$2.99</span>
+                  <span className="text-white/60 text-xl font-bold uppercase tracking-widest">/mo</span>
                 </div>
-                <div className="mb-8 rounded-3xl bg-brand-900/10 p-4 text-brand-900">
-                  <p className="text-sm font-bold uppercase tracking-widest">6 month special</p>
-                  <p className="mt-1 text-lg font-semibold">$39.99 paid in full</p>
-                </div>
-                <ul className="space-y-6 mb-16">
-                  {['Unlimited Rate Comparisons', 'Real-time AI Briefings', 'Custom Rate Alerts', 'Premium guide library', 'Priority Support'].map((item) => (
-                    <li key={item} className="flex items-center gap-4 text-brand-900 text-sm font-bold uppercase tracking-widest">
-                      <div className="w-2 h-2 bg-brand-900" /> {item}
+                <ul className="space-y-4 mb-16">
+                  {['Rate Drop Email Alerts', 'Weekly Market Recap', 'Standard Calculator Access', 'Basic Rate Comparison'].map((item) => (
+                    <li key={item} className="flex items-center gap-4 text-white/80 text-sm font-bold uppercase tracking-widest">
+                      <div className="w-1.5 h-1.5 bg-accent-gold rounded-full" /> {item}
                     </li>
                   ))}
                 </ul>
               </div>
               <button 
-                onClick={handleSubscribe}
+                onClick={() => handleSubscribe("basic")}
+                className="w-full button-secondary border-white/20 bg-white/5 text-white hover:bg-white/10 py-6 text-lg rounded-2xl"
+              >
+                Choose Basic
+              </button>
+            </div>
+
+            {/* Pro Tier */}
+            <div className="bg-accent-gold p-12 flex flex-col justify-between text-left rounded-[32px] shadow-[0_30px_100px_rgba(200,163,90,0.15)] relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-900 text-white text-[10px] font-bold uppercase tracking-[0.3em] px-6 py-2 rounded-full">
+                Most Popular
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-8">
+                  <h3 className="text-brand-900 text-2xl font-display font-bold uppercase tracking-tight">Pro</h3>
+                  <span className="px-4 py-1 bg-brand-900 text-white text-[9px] font-bold uppercase tracking-widest rounded-full">Full Intelligence</span>
+                </div>
+                <div className="flex items-baseline gap-2 mb-12">
+                  <span className="text-7xl font-display font-bold text-brand-900">$9.99</span>
+                  <span className="text-brand-900/60 text-xl font-bold uppercase tracking-widest">/mo</span>
+                </div>
+                <div className="mb-8 rounded-2xl bg-brand-900/10 p-4 text-brand-900">
+                  <p className="text-[10px] font-bold uppercase tracking-widest">Savings Pack</p>
+                  <p className="mt-1 text-lg font-semibold">$39.99 for 6 months</p>
+                </div>
+                <ul className="space-y-4 mb-16">
+                  {['Everything in Basic', 'AI Scenario Analysis', 'Priority Briefing Flows', 'Deep Decision Layer', 'Exclusive Pro Guide'].map((item) => (
+                    <li key={item} className="flex items-center gap-4 text-brand-900 text-sm font-bold uppercase tracking-widest">
+                      <div className="w-1.5 h-1.5 bg-brand-900 rounded-full" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button 
+                onClick={() => handleSubscribe("pro_monthly")}
                 disabled={loading}
-                onMouseEnter={() => playUiSound("hover")}
-                onClickCapture={() => playUiSound("click")}
-                className="w-full btn-corporate bg-brand-900 text-white border-none flex items-center justify-center gap-4 text-lg disabled:opacity-50"
+                className="w-full bg-brand-900 text-white py-6 text-lg rounded-2xl flex items-center justify-center gap-3 font-bold"
               >
                 {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Zap className="w-6 h-6" />}
-                Sign in & checkout <ArrowRight className="w-6 h-6" />
+                Join Pro Access
               </button>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <a
-                  href={stripeLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-disabled={!stripeLink}
-                  onClick={(e) => {
-                    if (!stripeLink) {
-                      e.preventDefault();
-                      return;
-                    }
-                    handleCheckoutClick("stripe", "monthly", stripeLink);
-                  }}
-                  className={`button-secondary w-full ${!stripeLink ? "pointer-events-none opacity-50" : ""}`}
-                >
-                  <CreditCard className="h-4 w-4" />
-                  Stripe monthly
-                </a>
-                <a
-                  href={stripeSixMonthLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-disabled={!stripeSixMonthLink}
-                  onClick={(e) => {
-                    if (!stripeSixMonthLink) {
-                      e.preventDefault();
-                      return;
-                    }
-                    handleCheckoutClick("stripe", "6_month", stripeSixMonthLink);
-                  }}
-                  className={`button-secondary w-full ${!stripeSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
-                >
-                  <CreditCard className="h-4 w-4" />
-                  Stripe 6 months
-                </a>
-                <a
-                  href={paypalLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-disabled={!paypalLink}
-                  onClick={(e) => {
-                    if (!paypalLink) {
-                      e.preventDefault();
-                      return;
-                    }
-                    handleCheckoutClick("paypal", "monthly", paypalLink);
-                  }}
-                  className={`button-secondary w-full ${!paypalLink ? "pointer-events-none opacity-50" : ""}`}
-                >
-                  <Coins className="h-4 w-4" />
-                  PayPal monthly
-                </a>
-                <a
-                  href={paypalSixMonthLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-disabled={!paypalSixMonthLink}
-                  onClick={(e) => {
-                    if (!paypalSixMonthLink) {
-                      e.preventDefault();
-                      return;
-                    }
-                    handleCheckoutClick("paypal", "6_month", paypalSixMonthLink);
-                  }}
-                  className={`button-secondary w-full ${!paypalSixMonthLink ? "pointer-events-none opacity-50" : ""}`}
-                >
-                  <Coins className="h-4 w-4" />
-                  PayPal 6 months
-                </a>
-              </div>
-              {checkoutOk && (!checkoutOk.stripeMonthly || !checkoutOk.stripeSix || !checkoutOk.paypalMonthly || !checkoutOk.paypalSix) && (
-                <p className="mt-4 text-xs leading-6 text-brand-900/80">
-                  Checkout links are currently invalid on the payment provider side. Regenerate the Stripe/PayPal payment links and redeploy to restore checkout.
-                </p>
-              )}
-              {(!stripeLink || !stripeSixMonthLink || !paypalLink || !paypalSixMonthLink) && (
-                <p className="mt-4 text-xs leading-6 text-brand-900/70">
-                  Add `VITE_STRIPE_PAYMENT_LINK`, `VITE_STRIPE_6MONTH_LINK`, `VITE_PAYPAL_PAYMENT_LINK`, and `VITE_PAYPAL_6MONTH_LINK` to enable one-click checkout buttons.
-                </p>
-              )}
+              <button
+                onClick={() => handleSubscribe("pro_six_month")}
+                disabled={loading}
+                className="mt-3 w-full border border-brand-900/20 bg-brand-900/10 text-brand-900 py-4 text-sm rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest hover:bg-brand-900/15 transition-colors"
+              >
+                Choose 6-Month Savings Pack
+              </button>
             </div>
           </div>
         </div>

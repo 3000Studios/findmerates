@@ -23,5 +23,5 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "exclude": ["Updates"]
+  "exclude": ["Updates", "dist", "node_modules", "test-results"]
 }

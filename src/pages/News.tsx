@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, TrendingUp, Clock, ArrowRight } from 'lucide-react';
+import { Calendar, TrendingUp, Clock, ArrowRight, Sparkles } from 'lucide-react';
 import Layout from '../components/Layout';
 import AdSenseSlot from '../components/AdSenseSlot';
 import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
@@ -165,9 +165,13 @@ export default function News() {
                       <article key={item.id} className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
+                            <div className="flex flex-wrap items-center gap-3 mb-3">
                               <span className={cn('px-2 py-1 rounded-full text-xs font-medium', getCategoryColor(item.category))}>
                                 {item.category.toUpperCase()}
+                              </span>
+                              <span className="flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold bg-brand-900 text-accent-gold uppercase tracking-widest animate-pulse">
+                                <Sparkles className="w-3 h-3" />
+                                AI Recap
                               </span>
                               <span className="text-slate-500 text-sm flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
