@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp, Users, Shield, Award, BarChart2, Globe } from 'lucide-react';
+import MediaGallery from '../components/MediaGallery';
 
 export default function About() {
 return (
@@ -10,8 +11,20 @@ return (
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">About FindMeRates.com</h1>
         <p className="text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto">
-          We help everyday Americans compare financial rates from hundreds of lenders — so you can make smarter money decisions without the guesswork.
+          We help everyday Americans compare financial rates from leading U.S. lenders and banks — so you can make smarter money decisions without the guesswork.
         </p>
+      </div>
+    </section>
+
+    <section className="py-12 px-4">
+      <div className="max-w-5xl mx-auto">
+        <MediaGallery
+          query="team office collaboration"
+          perPage={9}
+          kicker="The room behind the rates"
+          heading="A small team, focused on one job: getting you a better number."
+          description="We work the data, the calculators, and the comparison tables every day so you can decide in minutes, not weekends."
+        />
       </div>
     </section>
 
@@ -101,6 +114,14 @@ return (
 
     {/* Team */}
     <section className="py-16 px-4">
+      <div className="max-w-5xl mx-auto mb-12">
+        <MediaGallery
+          query="modern workspace desk laptop"
+          perPage={8}
+          kicker="How we work"
+          heading="Quiet desks. Loud spreadsheets."
+        />
+      </div>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-slate-900 mb-6">Who We Are</h2>
         <p className="text-lg text-slate-600 leading-relaxed mb-6">

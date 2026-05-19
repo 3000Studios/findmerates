@@ -62,9 +62,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { to: "/guide", label: "Guides" },
   ];
 
-  const isLegalPage = ["/privacy", "/terms", "/cookies", "/disclaimer"].includes(
-    location.pathname,
-  );
+  const isLegalPage = [
+    "/privacy",
+    "/terms",
+    "/cookies",
+    "/disclaimer",
+    "/how-we-make-money",
+    "/affiliate-disclosure",
+    "/editorial-policy",
+    "/methodology",
+  ].includes(location.pathname);
+
+  const showsAdvertiserBanner =
+    location.pathname.startsWith("/rates") || location.pathname === "/" || location.pathname.startsWith("/calculators");
 
   const submitSearch = (value: string) => {
     const trimmed = value.trim();
@@ -267,6 +277,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         )}
       </header>
 
+      {showsAdvertiserBanner && (
+        <div className="border-b border-amber-200/70 bg-amber-50/95 text-amber-900">
+          <div className="section-shell py-2 text-xs leading-5">
+            <strong>Advertiser Disclosure:</strong> FindMeRates.com may be compensated by lenders when you click partner offers.
+            This affects which offers appear, but does not influence the rate you are offered or our editorial assessment.{" "}
+            <Link to="/how-we-make-money" className="underline">How we make money</Link>.
+          </div>
+        </div>
+      )}
+
       <main className="flex-grow">{children}</main>
 
       {!isLegalPage && (
@@ -332,16 +352,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <li><Link to="/stories" className="hover:text-white">Financial News</Link></li>
                 <li><Link to="/guide" className="hover:text-white">Rate Guides</Link></li>
                 <li><Link to="/pro" className="hover:text-white">Pro Access</Link></li>
+                <li><Link to="/about" className="hover:text-white">About</Link></li>
+                <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="mb-4 text-sm font-semibold text-white">Popular Markets</h4>
+              <h4 className="mb-4 text-sm font-semibold text-white">Trust &amp; Disclosures</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/rates/mortgage/in/austin-tx" className="hover:text-white">Austin Mortgages</Link></li>
-                <li><Link to="/rates/cd/in/miami-fl" className="hover:text-white">Miami CD Rates</Link></li>
-                <li><Link to="/rates/mortgage/in/nashville-tn" className="hover:text-white">Nashville Rates</Link></li>
-                <li><Link to="/rates/cd/in/denver-co" className="hover:text-white">Denver Savings</Link></li>
+                <li><Link to="/how-we-make-money" className="hover:text-white">How We Make Money</Link></li>
+                <li><Link to="/affiliate-disclosure" className="hover:text-white">Affiliate Disclosure</Link></li>
+                <li><Link to="/editorial-policy" className="hover:text-white">Editorial Policy</Link></li>
+                <li><Link to="/methodology" className="hover:text-white">Rate Methodology</Link></li>
               </ul>
             </div>
           </div>
@@ -350,14 +372,35 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4" />
-                <span>© {new Date().getFullYear()} FindMeRates.com. All rights reserved.</span>
+                <span>© {new Date().getFullYear()} FindMeRates.com. All rights reserved. FindMeRates.com is not a bank, lender, or financial advisor.</span>
               </div>
               <div className="flex flex-wrap gap-4">
                 <Link to="/privacy" className="hover:text-white">Privacy</Link>
                 <Link to="/terms" className="hover:text-white">Terms</Link>
+                <Link to="/cookies" className="hover:text-white">Cookies</Link>
                 <Link to="/disclaimer" className="hover:text-white">Disclaimer</Link>
-                <Link to="/contact" className="hover:text-white">Contact</Link>
               </div>
+            </div>
+            <div className="mt-4 text-[11px] text-slate-500">
+              Imagery courtesy of{" "}
+              <a
+                href="https://www.pexels.com"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="underline-offset-2 hover:text-white hover:underline"
+              >
+                Pexels
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://unsplash.com?utm_source=findmerates&utm_medium=referral"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="underline-offset-2 hover:text-white hover:underline"
+              >
+                Unsplash
+              </a>
+              . Individual photographers and videographers are credited on each asset.
             </div>
           </div>
         </div>

@@ -102,7 +102,8 @@ export default function LeadCaptureForm({
               value={zip}
               onChange={(e) => setZip(e.target.value)}
               inputMode="numeric"
-              pattern="\\d{5}"
+              pattern="\d{5}"
+              maxLength={5}
               placeholder="10001"
               className="mt-2 w-full rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm text-slate-900 outline-none focus:border-brand-200"
               required

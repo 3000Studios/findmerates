@@ -3,12 +3,44 @@ import { Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
 const [submitted, setSubmitted] = useState(false);
+const [submitting, setSubmitting] = useState(false);
+const [errorMsg, setErrorMsg] = useState<string | null>(null);
 const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
 
-const handleSubmit = (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-  // In production this would POST to a backend or Formspree endpoint
-  setSubmitted(true);
+  setErrorMsg(null);
+  setSubmitting(true);
+
+  const endpoint = (import.meta.env.VITE_FORMSPREE_ENDPOINT ||
+    import.meta.env.VITE_CONTACT_ENDPOINT) as string | undefined;
+
+  try {
+    if (endpoint) {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error(`Submit failed (${res.status})`);
+      setSubmitted(true);
+      return;
+    }
+
+    // Fallback: open user's mail client so the message is never lost
+    const subj = encodeURIComponent(`[FindMeRates] ${form.subject || 'Contact'}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nSubject: ${form.subject}\n\n${form.message}`,
+    );
+    window.location.href = `mailto:hello@findmerates.com?subject=${subj}&body=${body}`;
+    setSubmitted(true);
+  } catch (err) {
+    setErrorMsg(
+      err instanceof Error ? err.message : 'Something went wrong. Please email hello@findmerates.com directly.',
+    );
+  } finally {
+    setSubmitting(false);
+  }
 };
 
 return (
@@ -134,11 +166,15 @@ return (
               </div>
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors"
+                disabled={submitting}
+                className="inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors disabled:opacity-60"
               >
                 <Send className="w-4 h-4" />
-                Send Message
+                {submitting ? 'Sending...' : 'Send Message'}
               </button>
+              {errorMsg && (
+                <p className="text-sm text-red-600">{errorMsg}</p>
+              )}
               <p className="text-xs text-slate-400">
                 By submitting this form you agree to our <a href="/privacy" className="underline">Privacy Policy</a>. We never share your information with third parties.
               </p>

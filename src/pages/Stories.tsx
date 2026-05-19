@@ -6,6 +6,7 @@ import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
 import { fetchLatestFinancialNews } from '../services/intelligenceService';
 import FinanceVideoStrip from '../components/FinanceVideoStrip';
+import MediaGallery from '../components/MediaGallery';
 import AdSenseSlot from '../components/AdSenseSlot';
 import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 
@@ -54,7 +55,14 @@ export default function Stories() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-1">
-          <div className="lg:col-span-12 mb-8">
+          <div className="lg:col-span-12 mb-8 space-y-8">
+            <MediaGallery
+              query="happy family home"
+              perPage={9}
+              kicker="The people behind the numbers"
+              heading="Stories from the households watching every basis point."
+              description="Real American homes, real budgets — the audience our rate intelligence is built for."
+            />
             <FinanceVideoStrip variant="college" />
           </div>
           <div className="lg:col-span-8 space-y-4">

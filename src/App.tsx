@@ -25,6 +25,10 @@ const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const OpsDashboard = lazy(() => import("./pages/OpsDashboard"));
 const Signup = lazy(() => import("./pages/Signup"));
 const CategoryCityPage = lazy(() => import("./pages/CategoryCityPage"));
+const HowWeMakeMoney = lazy(() => import("./pages/HowWeMakeMoney"));
+const AffiliateDisclosure = lazy(() => import("./pages/AffiliateDisclosure"));
+const EditorialPolicy = lazy(() => import("./pages/EditorialPolicy"));
+const Methodology = lazy(() => import("./pages/Methodology"));
 
 const LoadingSpinner = () => (
   <div className="flex min-h-[60vh] items-center justify-center">
@@ -58,6 +62,10 @@ export default function App() {
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/cookies" element={<CookiePolicy />} />
               <Route path="/disclaimer" element={<Disclaimer />} />
+              <Route path="/how-we-make-money" element={<HowWeMakeMoney />} />
+              <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
+              <Route path="/editorial-policy" element={<EditorialPolicy />} />
+              <Route path="/methodology" element={<Methodology />} />
               <Route path="/ops" element={<OpsDashboard />} />
               <Route path="/:type" element={<Legal />} />
             </Routes>

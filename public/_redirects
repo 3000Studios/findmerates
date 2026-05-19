@@ -1,2 +1,11 @@
+# Legacy SEO slugs → canonical category URLs (301)
+/rates/auto             /rates/auto_loan       301
+/rates/personal         /rates/personal_loan   301
+/rates/home             /rates/mortgage        301
+/rates/savings-account  /rates/savings         301
+
+# Static asset passthrough
 /assets/* /assets/:splat 200
+
+# SPA fallback
 /* /index.html 200

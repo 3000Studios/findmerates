@@ -8,7 +8,8 @@ export type AnalyticsEventName =
   | "lead_error"
   | "checkout_click"
   | "pro_signup_start"
-  | "pro_signup_success";
+  | "pro_signup_success"
+  | "rate_alert_signup";
 
 export type AnalyticsEventPayload = Record<string, unknown>;
 

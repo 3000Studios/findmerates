@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Zap, Star, ShieldCheck, ArrowRight, Download, Bell, Search, CreditCard, Sparkles, Globe, BarChart3, Lock, Loader2, Coins } from 'lucide-react';
 import { motion } from 'motion/react';
+import HeroVideo from '../components/HeroVideo';
 import { auth, db } from '../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { playUiSound } from '../lib/sound';
@@ -120,14 +121,12 @@ export default function Pro() {
   return (
     <div className="pb-32">
       <section className="relative pt-48 pb-64 text-white overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 bg-brand-900/80 z-0" />
-        <div className="absolute inset-0 -z-10">
-          <img 
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
-            alt="Corporate" 
-            className="w-full h-full object-cover grayscale brightness-[0.1]" 
-          />
-        </div>
+        <HeroVideo
+          query="luxury skyscraper night"
+          fallbackQuery="modern financial skyscraper night"
+          className="-z-10"
+          overlayClassName="bg-gradient-to-b from-brand-900/85 via-brand-900/80 to-brand-900/95"
+        />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div

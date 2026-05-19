@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { RateResult, RateCategory } from '../types';
 import RateCard from '../components/RateCard';
-import { Filter, ChevronDown, SlidersHorizontal, Info } from 'lucide-react';
+import { SlidersHorizontal, Info } from 'lucide-react';
 import AdSenseSlot from '../components/AdSenseSlot';
 import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 import PartnerOffers from "../components/PartnerOffers";
 import LeadCaptureForm from "../components/LeadCaptureForm";
 import FinanceVideoStrip from "../components/FinanceVideoStrip";
+import MediaGallery from "../components/MediaGallery";
 
 export default function Rates() {
   const { category } = useParams<{ category: string }>();
@@ -15,6 +16,7 @@ export default function Rates() {
   const [rates, setRates] = useState<RateResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
   const resolvedCategory = (Object.values(RateCategory) as string[]).includes(
     String(category || RateCategory.MORTGAGE),
@@ -52,11 +54,12 @@ export default function Rates() {
         </div>
         
         <div className="flex items-center gap-3 w-full md:w-auto">
-          <button className="flex-grow md:flex-grow-0 inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">
-            <Filter className="w-4 h-4 mr-2" /> Filter
-          </button>
-          <button className="flex-grow md:flex-grow-0 inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">
-            <SlidersHorizontal className="w-4 h-4 mr-2" /> Sort: Best Rate
+          <button
+            onClick={() => setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))}
+            className="flex-grow md:flex-grow-0 inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50"
+          >
+            <SlidersHorizontal className="w-4 h-4 mr-2" />
+            Sort: {sortDir === 'asc' ? 'Best Rate' : 'Highest Rate'}
           </button>
         </div>
       </div>
@@ -70,6 +73,13 @@ export default function Rates() {
       />
 
       <div className="mb-10 space-y-6">
+        <MediaGallery
+          query={resolvedCategory === 'mortgage' ? 'house keys mortgage' : resolvedCategory === 'cd' ? 'bank vault deposit' : resolvedCategory === 'auto_loan' ? 'car dealership keys' : 'personal finance signing loan'}
+          perPage={6}
+          aspect="wide"
+          kicker="Today's market"
+          heading="See what today's borrowers see."
+        />
         <FinanceVideoStrip variant="phone" />
         <PartnerOffers category={resolvedCategory} />
         <LeadCaptureForm category={resolvedCategory} />
@@ -111,7 +121,12 @@ export default function Rates() {
           <div className="bg-brand-900 rounded-xl p-6 text-white">
             <h3 className="font-display font-bold mb-2">Get Rate Alerts</h3>
             <p className="text-brand-200 text-sm mb-4">Be the first to know when rates drop below your target.</p>
-            <button className="w-full py-2 bg-brand-500 hover:bg-brand-400 rounded-lg font-semibold transition-colors">Set Alert</button>
+            <a
+              href="/pro"
+              className="block text-center w-full py-2 bg-brand-500 hover:bg-brand-400 rounded-lg font-semibold transition-colors"
+            >
+              Set Alert
+            </a>
           </div>
         </div>
 
@@ -129,7 +144,7 @@ export default function Rates() {
             </div>
           ) : rates.length > 0 ? (
             <>
-              {rates.map(rate => (
+              {[...rates].sort((a, b) => sortDir === 'asc' ? a.rate - b.rate : b.rate - a.rate).map(rate => (
                 <RateCard key={rate.id} result={rate} />
               ))}
               

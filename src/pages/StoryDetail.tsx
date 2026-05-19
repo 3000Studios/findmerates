@@ -191,10 +191,46 @@ export default function StoryDetail() {
 
               <div className="mt-32 pt-12 border-t border-white/5 flex flex-wrap items-center justify-between gap-12">
                 <div className="flex items-center gap-12">
-                  <button className="flex items-center gap-3 text-[10px] font-bold text-slate-600 hover:text-white transition-colors uppercase tracking-[0.3em]">
+                  <button
+                    onClick={async () => {
+                      const shareData = {
+                        title: story?.title || 'FindMeRates',
+                        text: story?.excerpt || '',
+                        url: typeof window !== 'undefined' ? window.location.href : '',
+                      };
+                      try {
+                        if (navigator.share) {
+                          await navigator.share(shareData);
+                        } else if (navigator.clipboard) {
+                          await navigator.clipboard.writeText(shareData.url);
+                          alert('Link copied to clipboard');
+                        }
+                      } catch {
+                        /* user cancelled */
+                      }
+                    }}
+                    className="flex items-center gap-3 text-[10px] font-bold text-slate-600 hover:text-white transition-colors uppercase tracking-[0.3em]"
+                  >
                     <Share2 className="w-4 h-4" /> Share Intelligence
                   </button>
-                  <button className="flex items-center gap-3 text-[10px] font-bold text-slate-600 hover:text-white transition-colors uppercase tracking-[0.3em]">
+                  <button
+                    onClick={() => {
+                      try {
+                        const key = 'fmr-bookmarks';
+                        const raw = localStorage.getItem(key);
+                        const list: string[] = raw ? JSON.parse(raw) : [];
+                        const url = window.location.pathname;
+                        if (!list.includes(url)) {
+                          list.push(url);
+                          localStorage.setItem(key, JSON.stringify(list));
+                        }
+                        alert('Saved to your bookmarks.');
+                      } catch {
+                        /* ignore */
+                      }
+                    }}
+                    className="flex items-center gap-3 text-[10px] font-bold text-slate-600 hover:text-white transition-colors uppercase tracking-[0.3em]"
+                  >
                     <Bookmark className="w-4 h-4" /> Archive Report
                   </button>
                 </div>

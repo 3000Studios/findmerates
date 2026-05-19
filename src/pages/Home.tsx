@@ -12,6 +12,8 @@ import {
   Wallet,
 } from "lucide-react";
 import { motion } from "motion/react";
+import HeroVideo from "../components/HeroVideo";
+import MediaGallery from "../components/MediaGallery";
 import MortgageCalculator from "../components/MortgageCalculator";
 import BestOptionAnalyzer from "../components/BestOptionAnalyzer";
 import PredictiveBriefing from "../components/PredictiveBriefing";
@@ -57,12 +59,11 @@ export default function Home() {
     <div className="overflow-hidden">
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=2000"
-            alt="Secure Home"
-            className="h-full w-full object-cover opacity-20 brightness-50"
+          <HeroVideo
+            query="modern city skyline finance"
+            fallbackQuery="american financial district skyline"
+            overlayClassName="bg-gradient-to-b from-brand-900/55 via-brand-900/25 to-slate-50"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-900/40 via-transparent to-slate-50" />
         </div>
         <div className="section-shell py-10 lg:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
@@ -250,6 +251,16 @@ export default function Home() {
           <BestOptionAnalyzer />
         </div>
       </SlideOver>
+
+      <section className="section-shell py-8 lg:py-14">
+        <MediaGallery
+          query="american home neighborhood"
+          perPage={9}
+          kicker="Lived-in markets"
+          heading="Real homes. Real neighborhoods. Real rates."
+          description="We compare what lenders publish so the next move on your block doesn't price you out. Imagery from working U.S. neighborhoods, refreshed often."
+        />
+      </section>
 
       <section className="section-shell py-8 lg:py-14">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">

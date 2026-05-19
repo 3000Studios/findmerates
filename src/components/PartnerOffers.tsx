@@ -9,6 +9,8 @@ const CATEGORY_LABEL: Record<string, string> = {
   [RateCategory.CD]: "CD",
   [RateCategory.AUTO_LOAN]: "Auto Loan",
   [RateCategory.PERSONAL_LOAN]: "Personal Loan",
+  [RateCategory.REFINANCE]: "Refinance",
+  [RateCategory.SAVINGS]: "Savings",
 };
 
 export default function PartnerOffers({ category }: { category: RateCategory }) {
@@ -16,17 +18,20 @@ export default function PartnerOffers({ category }: { category: RateCategory }) 
   if (!offers.length) return null;
 
   const label = CATEGORY_LABEL[category] || "Rate";
+  const anySponsored = offers.some((o) => o.sponsored !== false);
 
   return (
     <div className="card p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="section-kicker">Partner offers</p>
+          <p className="section-kicker">{anySponsored ? "Partner offers" : "Top picks"}</p>
           <h2 className="mt-2 text-xl font-display font-bold text-slate-950">
             Top {label} picks
           </h2>
           <p className="mt-2 text-sm text-slate-600">
-            Sponsored offers from partners. Offer availability varies by profile.
+            {anySponsored
+              ? "Featured lenders. Offer availability and APR vary by credit profile."
+              : "Direct links to well-reviewed national lenders. Compare and apply on the lender's site."}
           </p>
         </div>
         <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-800">
@@ -40,7 +45,7 @@ export default function PartnerOffers({ category }: { category: RateCategory }) 
             key={offer.id}
             href={offer.url}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer sponsored"
             onClick={() =>
               trackEvent("outbound_click", {
                 kind: "partner_offer",
@@ -48,9 +53,10 @@ export default function PartnerOffers({ category }: { category: RateCategory }) 
                 offerId: offer.id,
                 partner: offer.name,
                 url: offer.url,
+                sponsored: offer.sponsored !== false,
               })
             }
-            className="group rounded-3xl border border-slate-200 bg-white/80 p-5 transition-all hover:-translate-y-0.5 hover:border-brand-200"
+            className="group rounded-3xl border border-slate-200 bg-white/80 p-5 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -59,20 +65,31 @@ export default function PartnerOffers({ category }: { category: RateCategory }) 
               </div>
               <ExternalLink className="h-4 w-4 text-slate-400 transition-colors group-hover:text-brand-700" />
             </div>
-            {offer.badge && (
-              <div className="mt-4 inline-flex rounded-full bg-brand-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-700">
-                {offer.badge}
-              </div>
-            )}
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              {offer.badge && (
+                <span className="inline-flex rounded-full bg-brand-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-700">
+                  {offer.badge}
+                </span>
+              )}
+              <span
+                className={
+                  offer.sponsored !== false
+                    ? "inline-flex rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700"
+                    : "inline-flex rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-600"
+                }
+              >
+                {offer.sponsored !== false ? "Sponsored" : "Direct link"}
+              </span>
+            </div>
           </a>
         ))}
       </div>
 
       <p className="mt-6 text-xs text-slate-500">
-        We may earn compensation when you click partner links. This does not affect
-        your rate or eligibility.
+        {anySponsored
+          ? "Advertiser disclosure: We may earn compensation when you click sponsored partner links. This does not affect your rate, eligibility, or the order in which offers are shown."
+          : "These are direct lender links shown to help you compare. We are not currently compensated for these clicks."}
       </p>
     </div>
   );
 }
-

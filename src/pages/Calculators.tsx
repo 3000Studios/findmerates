@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import AdSenseSlot from '../components/AdSenseSlot';
 import { AD_CLIENT, AD_SLOTS } from '../lib/ad-config';
 import FinanceVideoStrip from "../components/FinanceVideoStrip";
+import HeroVideo from "../components/HeroVideo";
 
 export default function Calculators() {
   const calcs = [
@@ -17,11 +18,19 @@ export default function Calculators() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-display font-bold text-slate-900 mb-4">Financial Calculators</h1>
-        <p className="text-slate-500 max-w-2xl mx-auto">
-          Free tools to help you make informed financial decisions. All our calculators are updated with the latest market data.
-        </p>
+      <div className="relative mb-16 overflow-hidden rounded-[32px] border border-white/10 bg-brand-900 px-6 py-16 text-center">
+        <HeroVideo
+          query="calculator finance desk"
+          fallbackQuery="financial planning calculator desk"
+          posterOnly
+          overlayClassName="bg-gradient-to-b from-brand-900/85 via-brand-900/75 to-brand-900/95"
+        />
+        <div className="relative z-10">
+          <h1 className="text-4xl font-display font-bold text-white mb-4 md:text-5xl">Financial Calculators</h1>
+          <p className="text-white/75 max-w-2xl mx-auto">
+            Free tools to help you make informed financial decisions. All our calculators are updated with the latest market data.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">

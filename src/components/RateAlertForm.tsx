@@ -2,22 +2,38 @@ import React, { useState } from "react";
 import { Bell, Loader2, Mail, ShieldCheck } from "lucide-react";
 import { motion } from "motion/react";
 import { playUiSound } from "../lib/sound";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../lib/firebase";
+import { trackEvent } from "../lib/analytics";
 
 export default function RateAlertForm() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    
+    setError(null);
     setLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setLoading(false);
-    setSubmitted(true);
-    playUiSound("click");
+    try {
+      await addDoc(collection(db, "rateAlertSignups"), {
+        email: email.trim(),
+        source: "home_rate_alert",
+        path: typeof window !== "undefined" ? window.location.pathname : null,
+        createdAt: serverTimestamp(),
+        uid: auth.currentUser?.uid || null,
+      });
+      void trackEvent("rate_alert_signup", { email: email.trim() });
+      setSubmitted(true);
+      playUiSound("click");
+    } catch (err) {
+      console.error("Rate alert signup failed", err);
+      setError("Could not save your alert. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -60,14 +76,15 @@ export default function RateAlertForm() {
               className="w-full rounded-2xl bg-white/10 border border-white/20 px-11 py-4 text-white placeholder:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-400 transition-all"
             />
           </div>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             className="button-primary bg-white text-brand-900 hover:bg-brand-50 w-full justify-center py-4 text-base"
             onMouseEnter={() => playUiSound("hover")}
           >
             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Set Free Alert"}
           </button>
+          {error && <p className="text-xs text-red-300">{error}</p>}
         </form>
         
         <p className="mt-4 text-[10px] text-center text-brand-300 flex items-center justify-center gap-2">
