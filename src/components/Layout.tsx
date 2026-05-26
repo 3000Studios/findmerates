@@ -205,22 +205,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Link to="/pro" className="button-primary" onMouseEnter={() => playUiSound("hover")}>
                 Go Pro
               </Link>
-              <a href="https://referrals.live/register" className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10">
+              <Link to="/signup" className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10">
                 Create account
-              </a>
+              </Link>
               {user ? (
                 <button className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10" onClick={handleSignOut}>
                   <LogOut className="h-4 w-4" />
                   Sign out
                 </button>
               ) : (
-                <a href="https://3000studios.vip/dashboard" className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10">
+                <Link to="/signup" className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10">
                   <LogIn className="h-4 w-4" />
                   Sign in
-                </a>
+                </Link>
               )}
-            </div>
-
               <button
                 className="rounded-full border border-white/15 bg-white/5 p-2 text-white md:hidden"
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -261,14 +259,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Sign out
                 </button>
               ) : (
-                <a href="https://referrals.live/login" className="button-secondary w-full border-white/15 bg-white/5 text-white hover:bg-white/10">
+                <Link to="/signup" className="button-secondary w-full border-white/15 bg-white/5 text-white hover:bg-white/10">
                   <LogIn className="h-4 w-4" />
                   Sign in
-                </a>
+                </Link>
               )}
-              <a href="https://referrals.live/register" className="button-secondary w-full border-white/15 bg-white/5 text-white hover:bg-white/10">
+              <Link to="/signup" className="button-secondary w-full border-white/15 bg-white/5 text-white hover:bg-white/10">
                 Create account
-              </a>
+              </Link>
               <Link to="/pro" className="button-primary w-full" onMouseEnter={() => playUiSound("hover")}>
                 Go Pro
               </Link>
