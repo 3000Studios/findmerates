@@ -219,8 +219,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Sign in
                 </Link>
               )}
-              <button
-                className="rounded-full border border-white/15 bg-white/5 p-2 text-white md:hidden"
+            </div>
+
+            <button
+              className="rounded-full border border-white/15 bg-white/5 p-2 text-white md:hidden"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
                 onMouseEnter={() => playUiSound("hover")}
