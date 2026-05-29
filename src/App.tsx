@@ -29,6 +29,7 @@ const HowWeMakeMoney = lazy(() => import("./pages/HowWeMakeMoney"));
 const AffiliateDisclosure = lazy(() => import("./pages/AffiliateDisclosure"));
 const EditorialPolicy = lazy(() => import("./pages/EditorialPolicy"));
 const Methodology = lazy(() => import("./pages/Methodology"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const LoadingSpinner = () => (
   <div className="flex min-h-[60vh] items-center justify-center">
@@ -68,6 +69,7 @@ export default function App() {
               <Route path="/methodology" element={<Methodology />} />
               <Route path="/ops" element={<OpsDashboard />} />
               <Route path="/:type" element={<Legal />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
           <GeminiChat />

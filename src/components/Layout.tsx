@@ -222,7 +222,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <button
-              className="rounded-full border border-white/15 bg-white/5 p-2 text-white md:hidden"
+              className="rounded-full border border-white/15 bg-white/5 p-2 text-white lg:hidden"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
                 onMouseEnter={() => playUiSound("hover")}
@@ -234,7 +234,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         {mobileOpen && (
-          <div className="border-t border-white/10 brand-glass md:hidden">
+          <div className="border-t border-white/10 brand-glass lg:hidden">
             <div className="section-shell space-y-3 py-4">
               <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
                 <Search className="h-4 w-4 text-white/60" />

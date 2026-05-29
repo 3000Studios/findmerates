@@ -1,8 +1,9 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfService from './TermsOfService';
 import CookiePolicy from './CookiePolicy';
 import Disclaimer from './Disclaimer';
+import NotFound from './NotFound';
 
 export default function Legal() {
   const { type } = useParams<{ type: string }>();
@@ -12,5 +13,5 @@ export default function Legal() {
   if (type === 'cookies') return <CookiePolicy />;
   if (type === 'disclaimer') return <Disclaimer />;
 
-  return <Navigate to="/privacy" replace />;
+  return <NotFound />;
 }
