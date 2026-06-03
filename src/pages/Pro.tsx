@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Check, Zap, Star, ShieldCheck, ArrowRight, Download, Bell, Search, CreditCard, Sparkles, Globe, BarChart3, Lock, Loader2, Coins } from 'lucide-react';
+import { Zap, Download, Bell, Search, Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import HeroVideo from '../components/HeroVideo';
 import { auth, db } from '../lib/firebase';
@@ -10,13 +10,7 @@ import { trackEvent } from '../lib/analytics';
 export default function Pro() {
   useEffect(() => { document.title = 'FindMeRates Pro — Premium Rate Intelligence & Alerts'; }, []);
   const [loading, setLoading] = useState(false);
-  const [checkoutOk, setCheckoutOk] = useState<null | {
-    stripeBasic: boolean;
-    stripeMonthly: boolean;
-    stripeSix: boolean;
-    paypalMonthly: boolean;
-    paypalSix: boolean;
-  }>(null);
+
   const stripeBasicLink =
     (import.meta.env.VITE_STRIPE_BASIC_LINK as string | undefined) ||
     "https://buy.stripe.com/fZu7sL2KxdTgbJCeMibAs0B";
@@ -27,31 +21,10 @@ export default function Pro() {
   const stripeSixMonthLink =
     (import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined) ||
     "https://buy.stripe.com/14AeVdacZ16u3d60VsbAs0D";
-  const paypalLink = import.meta.env.VITE_PAYPAL_PAYMENT_LINK as string | undefined;
-  const paypalSixMonthLink = import.meta.env.VITE_PAYPAL_6MONTH_LINK as string | undefined;
-
-  useEffect(() => {
-    const run = async () => {
-      try {
-        const res = await fetch("/api/checkout-status", { cache: "no-store" });
-        const data = await res.json() as any;
-        setCheckoutOk({
-          stripeBasic: Boolean(data?.stripe?.basic?.ok),
-          stripeMonthly: Boolean(data?.stripe?.monthly?.ok),
-          stripeSix: Boolean(data?.stripe?.six_month?.ok),
-          paypalMonthly: Boolean(data?.paypal?.monthly?.ok),
-          paypalSix: Boolean(data?.paypal?.six_month?.ok),
-        });
-      } catch {
-        setCheckoutOk(null);
-      }
-    };
-    run();
-  }, []);
 
   const createUserRecord = async () => {
     const user = auth.currentUser;
-    if (!user) return false;
+    if (!user) return;
     await setDoc(
       doc(db, 'users', user.uid),
       {
@@ -66,47 +39,22 @@ export default function Pro() {
       },
       { merge: true },
     );
-    return true;
-  };
-
-  const openPaymentLink = (url?: string) => {
-    if (!url) return;
-    window.location.assign(url);
-  };
-
-  const handleCheckoutClick = async (provider: "stripe" | "paypal", plan: string, url?: string) => {
-    if (!url) return;
-    void trackEvent("checkout_click", { provider, plan, url, surface: "pro_buttons" });
-    openPaymentLink(url);
   };
 
   const handleSubscribe = async (plan: "basic" | "pro_monthly" | "pro_six_month" = "pro_monthly") => {
     setLoading(true);
     try {
-      if (auth.currentUser) {
-        void createUserRecord();
-      }
-      const preferredLink =
-        plan === "basic"
-          ? stripeBasicLink
-          : plan === "pro_six_month"
-            ? stripeSixMonthLink
-            : stripeLink;
-      if (preferredLink) {
-        void trackEvent('pro_signup_start', { surface: 'pro_primary', plan });
-        void trackEvent('checkout_click', {
-          surface: 'pro_primary',
-          provider: preferredLink.includes('stripe.com') ? 'stripe' : 'paypal',
-          plan,
-          url: preferredLink,
-        });
-        openPaymentLink(preferredLink);
-        return;
-      }
-      alert('Payment checkout is currently unavailable. Please try again shortly.');
+      if (auth.currentUser) void createUserRecord();
+      const url =
+        plan === "basic" ? stripeBasicLink :
+        plan === "pro_six_month" ? stripeSixMonthLink :
+        stripeLink;
+      void trackEvent('pro_signup_start', { surface: 'pro_primary', plan });
+      void trackEvent('checkout_click', { surface: 'pro_primary', provider: 'stripe', plan, url });
+      window.location.assign(url);
     } catch (error) {
       console.error('Subscription error:', error);
-      alert('Sign-in or checkout failed. Please try again.');
+      alert('Checkout failed. Please try again or email hello@findmerates.com.');
     } finally {
       setLoading(false);
     }
