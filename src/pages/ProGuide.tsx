@@ -85,7 +85,7 @@ export default function ProGuide() {
             
             <button 
               onClick={handleDownload}
-              className="btn-corporate btn-corporate-gold flex items-center gap-4"
+              className="inline-flex items-center gap-4 bg-accent-gold text-brand-900 font-bold uppercase tracking-widest text-sm px-8 py-4 hover:bg-accent-gold/90 transition-colors rounded-xl"
             >
               Download PDF <Download className="w-6 h-6" />
             </button>

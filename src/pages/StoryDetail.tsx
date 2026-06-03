@@ -29,6 +29,8 @@ import ReactMarkdown from "react-markdown";
 import { motion } from "motion/react";
 import { fetchLatestFinancialNews } from "../services/intelligenceService";
 import { trackEvent } from "../lib/analytics";
+import AdSenseSlot from "../components/AdSenseSlot";
+import { AD_CLIENT, AD_SLOTS } from "../lib/ad-config";
 
 export default function StoryDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -280,7 +282,7 @@ export default function StoryDetail() {
                         <button
                           type="submit"
                           disabled={isSubmitting || !newComment.trim()}
-                          className="btn-corporate btn-corporate-gold disabled:opacity-50"
+                          className="inline-flex items-center gap-3 bg-accent-gold text-brand-900 font-bold uppercase tracking-widest text-sm px-8 py-4 hover:bg-accent-gold/90 transition-colors rounded-xl disabled:opacity-50"
                         >
                           {isSubmitting ? "Syncing..." : "Submit Intelligence"}
                         </button>
@@ -295,7 +297,7 @@ export default function StoryDetail() {
                   </p>
                   <button
                     onClick={() => navigate("/pro")}
-                    className="btn-corporate btn-corporate-gold"
+                    className="inline-flex items-center gap-3 bg-accent-gold text-brand-900 font-bold uppercase tracking-widest text-sm px-8 py-4 hover:bg-accent-gold/90 transition-colors rounded-xl"
                   >
                     Initialize Authorization
                   </button>
@@ -349,7 +351,15 @@ export default function StoryDetail() {
 
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-1">
-            <div className="ad-slot h-[600px]">Vertical Ad Placement</div>
+            <div className="rounded-[28px] overflow-hidden border border-white/10 bg-white/5 p-4">
+              <AdSenseSlot
+                adClient={AD_CLIENT}
+                adSlot={AD_SLOTS.sidebar.slotId}
+                format={AD_SLOTS.sidebar.format}
+                minHeight={600}
+                className="w-full"
+              />
+            </div>
 
             <div className="bg-brand-600 border border-white/5 p-12">
               <h3 className="text-xl font-display font-bold text-white mb-12 uppercase tracking-tight">
@@ -360,10 +370,9 @@ export default function StoryDetail() {
                   <div key={i} className="group flex gap-8 cursor-pointer">
                     <div className="w-24 h-24 bg-brand-900 border border-white/5 overflow-hidden shrink-0">
                       <img
-                        src={`https://picsum.photos/seed/rel${i}/300/300`}
-                        alt="Related"
+                        src={`https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=70&w=300&sig=${i}`}
+                        alt="Related financial story"
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                        referrerPolicy="no-referrer"
                       />
                     </div>
                     <div className="flex flex-col justify-center">
@@ -388,7 +397,7 @@ export default function StoryDetail() {
               </p>
               <Link
                 to="/pro"
-                className="w-full btn-corporate bg-brand-900 text-white border-none flex items-center justify-center gap-4"
+                className="w-full inline-flex items-center justify-center gap-4 bg-brand-900 text-white font-bold uppercase tracking-widest text-sm px-8 py-4 hover:bg-brand-800 transition-colors rounded-xl"
               >
                 Upgrade Access <ArrowRight className="w-5 h-5" />
               </Link>

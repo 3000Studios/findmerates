@@ -131,7 +131,7 @@ export default function Stories() {
               </div>
               <h3 className="text-2xl font-display font-bold text-white mb-8 uppercase tracking-tight leading-tight">Institutional<br />Updates.</h3>
               <p className="text-slate-500 mb-12 font-medium leading-relaxed text-sm">Create an account to save searches, set alerts, and get Pro intelligence.</p>
-              <Link to="/signup" className="btn-corporate btn-corporate-gold w-full block text-center">
+              <Link to="/signup" className="button-primary w-full block text-center">
                 Create account
               </Link>
             </div>

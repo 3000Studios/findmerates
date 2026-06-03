@@ -41,7 +41,7 @@ export default function AdSenseSlot({
   onAdLoad,
   onAdError,
 }: AdSenseSlotProps) {
-  const adsEnabled = import.meta.env.VITE_ENABLE_ADS !== 'FALSE';
+  const adsEnabled = String(import.meta.env.VITE_ENABLE_ADS ?? 'true').toLowerCase() !== 'false';
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isInView, setIsInView] = useState(!lazy); // If not lazy, always in view

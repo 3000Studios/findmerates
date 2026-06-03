@@ -4,10 +4,10 @@ export function generateOrganizationSchema() {
     "@type": "Organization",
     "name": "FindMeRates.com",
     "url": "https://findmerates.com",
-    "logo": "https://findmerates.com/logo.png",
+    "logo": "https://findmerates.com/logo.jpg",
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+1-800-555-0199",
+      "email": "hello@findmerates.com",
       "contactType": "customer service"
     }
   };

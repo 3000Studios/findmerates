@@ -2,7 +2,8 @@ import { GoogleGenAI, Type } from '@google/genai';
 import { Story, RateResult, RateCategory } from '../types';
 import { getLiveRates } from './liveRates';
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : undefined);
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : undefined);
+const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.0-flash-exp';
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 function fallbackStories(category: string): Story[] {
@@ -41,7 +42,7 @@ export async function fetchLatestFinancialNews(category: string): Promise<Story[
   try {
     if (!ai) return fallbackStories(category);
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: `Generate 6 unique, professional financial news stories for the category: ${category}. 
       Each story should have a title, slug, excerpt, content (markdown), and a professional image description for Pexels.
       Return the result in JSON format.`,
@@ -93,7 +94,7 @@ export async function generateMarketRates(category: RateCategory): Promise<RateR
     if (liveRates.length > 0) return liveRates;
     if (!ai) return [];
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: `Generate 5 realistic, current market rate results for ${category}. 
       Include provider name, rate (percentage), apr, term, and 3 key details.
       Return the result in JSON format.`,
@@ -143,7 +144,7 @@ export async function generateProGuide(): Promise<string> {
       return `# Rate Finder Pro Guide\n\n## 1. Compare the full cost\nLook at rate, fees, term, and lock rules together.\n\n## 2. Match the product\nChoose the product that fits the use case, not just the headline rate.\n\n## 3. Verify the details\nConfirm assumptions in writing before you commit.`;
     }
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: `Write a comprehensive, 50-page (equivalent) financial intelligence guide titled "Rate Finder Pro Guide: Mastering Institutional Financial Optimization". 
       Include chapters on:
       1. The Mechanics of Interest Rates
