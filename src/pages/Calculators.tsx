@@ -8,6 +8,7 @@ import FinanceVideoStrip from "../components/FinanceVideoStrip";
 import HeroVideo from "../components/HeroVideo";
 
 export default function Calculators() {
+  React.useEffect(() => { document.title = 'Free Financial Calculators — Mortgage, CD, Auto & More | FindMeRates.com'; }, []);
   const calcs = [
     { icon: Home, title: 'Mortgage Calculator', desc: 'Estimate your monthly principal and interest payments.', href: '/calculators/mortgage' },
     { icon: RefreshCw, title: 'Refinance Calculator', desc: 'See how much you could save by refinancing your current loan.', href: '/calculators/refinance' },

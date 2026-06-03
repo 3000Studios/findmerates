@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp, Users, Shield, Award, BarChart2, Globe } from 'lucide-react';
 import MediaGallery from '../components/MediaGallery';
 
 export default function About() {
+useEffect(() => { document.title = 'About FindMeRates.com — Who We Are & What We Cover'; }, []);
 return (
   <div className="min-h-screen bg-white">
     {/* Hero */}

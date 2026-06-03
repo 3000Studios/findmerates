@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
+React.useEffect(() => { document.title = 'Contact FindMeRates.com — Get in Touch'; }, []);
 const [submitted, setSubmitted] = useState(false);
 const [submitting, setSubmitting] = useState(false);
 const [errorMsg, setErrorMsg] = useState<string | null>(null);

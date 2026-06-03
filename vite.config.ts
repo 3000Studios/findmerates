@@ -10,13 +10,17 @@ export default defineConfig(({ mode }) => {
     VITE_ADSENSE_CLIENT_ID: env.VITE_ADSENSE_CLIENT_ID || '',
     VITE_API_BASE_URL: env.VITE_API_BASE_URL || '',
     VITE_ENABLE_ADS: env.VITE_ENABLE_ADS || 'true',
+    VITE_STRIPE_BASIC_LINK: env.VITE_STRIPE_BASIC_LINK || '',
     VITE_STRIPE_PAYMENT_LINK: env.VITE_STRIPE_PAYMENT_LINK || '',
     VITE_STRIPE_6MONTH_LINK: env.VITE_STRIPE_6MONTH_LINK || '',
     VITE_PAYPAL_PAYMENT_LINK: env.VITE_PAYPAL_PAYMENT_LINK || '',
     VITE_PAYPAL_6MONTH_LINK: env.VITE_PAYPAL_6MONTH_LINK || '',
     GEMINI_API_KEY: env.GEMINI_API_KEY || '',
     VITE_GEMINI_API_KEY: env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY || '',
-    VITE_GEMINI_MODEL: env.VITE_GEMINI_MODEL || 'gemini-2.0-flash-exp',
+    VITE_GEMINI_MODEL: env.VITE_GEMINI_MODEL || 'gemini-2.0-flash',
+    PEXELS_API_KEY: env.PEXELS_API_KEY || '',
+    VITE_PEXELS_API_KEY: env.VITE_PEXELS_API_KEY || env.PEXELS_API_KEY || '',
+    VITE_UNSPLASH_ACCESS_KEY: env.VITE_UNSPLASH_ACCESS_KEY || env.UNSPLASH_ACCESS_KEY || '',
   };
 
   const defineEnv = Object.entries(allowedEnv).reduce<Record<string, string>>((acc, [key, value]) => {

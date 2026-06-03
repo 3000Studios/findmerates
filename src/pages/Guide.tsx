@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Markdown from "react-markdown";
 import { BookOpen, Download, ShieldCheck, Sparkles, PlayCircle, Radar } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -29,6 +29,7 @@ If the market moved, refresh your search and compare the newest result set befor
 `;
 
 export default function Guide() {
+  useEffect(() => { document.title = 'Rate Finder Guide — How to Compare Financial Rates | FindMeRates.com'; }, []);
   return (
     <div className="section-shell py-12">
       <div className="card overflow-hidden">

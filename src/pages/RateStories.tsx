@@ -151,8 +151,7 @@ export default function RateStories() {
             <span className="text-brand-400 font-bold uppercase tracking-widest text-xs">Premium Insights</span>
             <h1 className="text-5xl font-black mt-4 mb-6 tracking-tighter">Rate Story Archive</h1>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              High-fidelity financial data manifested through 3D video insights. 
-              <br/><strong>ALL SALES FINAL. NO REFUNDS.</strong>
+              Video rate stories synthesized from financial market data. For informational purposes only.
             </p>
           </header>
 
@@ -217,10 +216,10 @@ export default function RateStories() {
 
           <div className="mt-24 p-12 bg-white/5 border border-white/10 rounded-[3rem] text-center">
             <Shield className="w-12 h-12 text-brand-400 mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-4">Total Liability Protection</h2>
+            <h2 className="text-2xl font-bold mb-4">About Our Rate Analysis</h2>
             <p className="text-slate-400 max-w-xl mx-auto text-sm">
-              We operate with 100% indemnity. All insights are generated via neural models. 
-              By using this site, you waive all rights to legal claims.
+              Rate analysis is provided for informational purposes only and does not constitute financial advice.
+              Always verify rates directly with lenders before making any financial decision. See our <a href="/disclaimer" className="text-brand-400 hover:underline">Disclaimer</a> and <a href="/privacy" className="text-brand-400 hover:underline">Privacy Policy</a>.
             </p>
           </div>
 

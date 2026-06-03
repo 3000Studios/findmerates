@@ -55,9 +55,9 @@ export default function GeminiChat() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-24 right-6 z-50 flex flex-col items-end gap-3 md:bottom-6">
       {isOpen && (
-        <div className="flex h-[480px] w-80 flex-col overflow-hidden rounded-[28px] border border-white/70 bg-white/92 shadow-[0_20px_70px_rgba(16,34,68,0.18)] backdrop-blur-xl md:w-96">
+        <div className="flex h-[480px] w-80 flex-col overflow-hidden rounded-[28px] border border-white/70 bg-white/95 shadow-[0_20px_70px_rgba(16,34,68,0.18)] backdrop-blur-xl md:w-96">
           <div className="flex items-center justify-between bg-brand-900 px-4 py-4 text-white">
             <div className="flex items-center gap-2">
               <Bot className="h-5 w-5" />

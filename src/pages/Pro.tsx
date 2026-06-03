@@ -8,6 +8,7 @@ import { playUiSound } from '../lib/sound';
 import { trackEvent } from '../lib/analytics';
 
 export default function Pro() {
+  useEffect(() => { document.title = 'FindMeRates Pro — Premium Rate Intelligence & Alerts'; }, []);
   const [loading, setLoading] = useState(false);
   const [checkoutOk, setCheckoutOk] = useState<null | {
     stripeBasic: boolean;
@@ -143,7 +144,7 @@ export default function Pro() {
             <h1 className="text-6xl md:text-[120px] font-display font-bold mb-12 uppercase tracking-tighter leading-[0.9]">
               FindMeRates <span className="text-accent-gold">PRO.</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-500 max-w-3xl mx-auto mb-24 font-medium leading-relaxed">
+            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-24 font-medium leading-relaxed">
               Tiered intelligence to match your market pace.
             </p>
           </motion.div>

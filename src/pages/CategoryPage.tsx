@@ -23,6 +23,12 @@ export default function CategoryPage() {
     : RateCategory.MORTGAGE;
 
   useEffect(() => {
+    if (categoryId) {
+      document.title = `${categoryTitles[categoryId] || 'Financial Rates'} — Live Rates & Analysis | FindMeRates.com`;
+    }
+  }, [categoryId]);
+
+  useEffect(() => {
     const loadData = async () => {
       setLoading(true);
       if (categoryId) {

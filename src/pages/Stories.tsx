@@ -14,6 +14,8 @@ export default function Stories() {
   const [stories, setStories] = useState<Story[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => { document.title = 'Market Intelligence — Financial Rate News | FindMeRates.com'; }, []);
+
   useEffect(() => {
     const loadStories = async () => {
       setIsLoading(true);

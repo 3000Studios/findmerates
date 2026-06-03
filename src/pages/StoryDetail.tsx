@@ -42,6 +42,12 @@ export default function StoryDetail() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    if (story) {
+      document.title = `${story.title} | FindMeRates.com`;
+    }
+  }, [story]);
+
+  useEffect(() => {
     const fetchStory = async () => {
       setIsLoading(true);
       try {

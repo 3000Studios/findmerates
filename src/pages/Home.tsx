@@ -32,6 +32,10 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "FindMeRates.com — Compare Today's Best Mortgage, CD & Loan Rates";
+  }, []);
+
+  useEffect(() => {
     const loadNews = async () => {
       setLoading(true);
       const news = await fetchLatestFinancialNews("general");

@@ -3,7 +3,7 @@ import { Story, RateResult, RateCategory } from '../types';
 import { getLiveRates } from './liveRates';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : undefined);
-const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.0-flash-exp';
+const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.0-flash';
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 function fallbackStories(category: string): Story[] {
