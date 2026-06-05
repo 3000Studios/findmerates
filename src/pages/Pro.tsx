@@ -22,6 +22,11 @@ export default function Pro() {
     (import.meta.env.VITE_STRIPE_6MONTH_LINK as string | undefined) ||
     "https://buy.stripe.com/14AeVdacZ16u3d60VsbAs0D";
 
+  // PayPal payment links — set VITE_PAYPAL_LINK_BASIC / VITE_PAYPAL_LINK_PRO in
+  // Cloudflare Pages env vars (and .env.local for dev) to enable PayPal buttons.
+  const paypalBasicLink = (import.meta.env.VITE_PAYPAL_LINK_BASIC as string | undefined) || null;
+  const paypalProLink = (import.meta.env.VITE_PAYPAL_LINK_PRO as string | undefined) || null;
+
   const createUserRecord = async () => {
     const user = auth.currentUser;
     if (!user) return;
@@ -99,7 +104,7 @@ export default function Pro() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-5xl mx-auto">
             {/* Basic Tier */}
-            <div className="bg-brand-800 border border-white/10 p-12 flex flex-col justify-between text-left rounded-[32px]">
+            <div className="bg-brand-800 border border-white/10 p-12 flex flex-col justify-between text-left rounded-4xl">
               <div>
                 <div className="flex justify-between items-center mb-8">
                   <h3 className="text-white text-2xl font-display font-bold uppercase tracking-tight">Basic</h3>
@@ -117,16 +122,28 @@ export default function Pro() {
                   ))}
                 </ul>
               </div>
-              <button 
+              <button
+                type="button"
                 onClick={() => handleSubscribe("basic")}
                 className="w-full button-secondary border-white/20 bg-white/5 text-white hover:bg-white/10 py-6 text-lg rounded-2xl"
               >
                 Choose Basic
               </button>
+              {paypalBasicLink && (
+                <a
+                  href={paypalBasicLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 w-full border border-white/10 bg-white/5 text-white/80 py-4 text-sm rounded-2xl flex items-center justify-center gap-2 font-bold uppercase tracking-widest hover:bg-white/10 transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082H9.833l-1.67 10.52h3.13c.46 0 .85-.334.92-.789l.038-.196.733-4.64.047-.255a.932.932 0 0 1 .92-.789h.58c3.755 0 6.693-1.525 7.552-5.934.357-1.836.172-3.369-.861-4.712z"/></svg>
+                  Pay with PayPal
+                </a>
+              )}
             </div>
 
             {/* Pro Tier */}
-            <div className="bg-accent-gold p-12 flex flex-col justify-between text-left rounded-[32px] shadow-[0_30px_100px_rgba(200,163,90,0.15)] relative">
+            <div className="bg-accent-gold p-12 flex flex-col justify-between text-left rounded-4xl shadow-[0_30px_100px_rgba(200,163,90,0.15)] relative">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-900 text-white text-[10px] font-bold uppercase tracking-[0.3em] px-6 py-2 rounded-full">
                 Most Popular
               </div>
@@ -151,7 +168,8 @@ export default function Pro() {
                   ))}
                 </ul>
               </div>
-              <button 
+              <button
+                type="button"
                 onClick={() => handleSubscribe("pro_monthly")}
                 disabled={loading}
                 className="w-full bg-brand-900 text-white py-6 text-lg rounded-2xl flex items-center justify-center gap-3 font-bold"
@@ -160,12 +178,24 @@ export default function Pro() {
                 Join Pro Access
               </button>
               <button
+                type="button"
                 onClick={() => handleSubscribe("pro_six_month")}
                 disabled={loading}
                 className="mt-3 w-full border border-brand-900/20 bg-brand-900/10 text-brand-900 py-4 text-sm rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest hover:bg-brand-900/15 transition-colors"
               >
                 Choose 6-Month Savings Pack
               </button>
+              {paypalProLink && (
+                <a
+                  href={paypalProLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 w-full border border-brand-900/15 bg-white/60 text-brand-900 py-4 text-sm rounded-2xl flex items-center justify-center gap-2 font-bold uppercase tracking-widest hover:bg-white/80 transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor" aria-hidden="true"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082H9.833l-1.67 10.52h3.13c.46 0 .85-.334.92-.789l.038-.196.733-4.64.047-.255a.932.932 0 0 1 .92-.789h.58c3.755 0 6.693-1.525 7.552-5.934.357-1.836.172-3.369-.861-4.712z"/></svg>
+                  Pay with PayPal
+                </a>
+              )}
             </div>
           </div>
         </div>
