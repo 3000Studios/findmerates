@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { auth, googleProvider, db } from "../lib/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { trackEvent } from "../lib/analytics";
@@ -12,17 +12,16 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const redirectChecked = useRef(false);
 
-  const upsertUser = async () => {
-    const user = auth.currentUser;
-    if (!user) return;
+  const upsertUser = async (uid: string, email: string | null, displayName: string | null, photoURL: string | null) => {
     await setDoc(
-      doc(db, "users", user.uid),
+      doc(db, "users", uid),
       {
-        uid: user.uid,
-        email: user.email || "",
-        displayName: user.displayName || "Member",
-        photoURL: user.photoURL || null,
+        uid,
+        email: email || "",
+        displayName: displayName || "Member",
+        photoURL: photoURL || null,
         isPro: false,
         role: "member",
         updatedAt: serverTimestamp(),
@@ -31,6 +30,25 @@ export default function Signup() {
       { merge: true },
     );
   };
+
+  useEffect(() => {
+    if (redirectChecked.current) return;
+    redirectChecked.current = true;
+    setBusy(true);
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result?.user) {
+          const { uid, email, displayName, photoURL } = result.user;
+          await upsertUser(uid, email, displayName, photoURL);
+          await trackEvent("pro_signup_success", { surface: "auth_google" });
+          navigate("/dashboard");
+        }
+      })
+      .catch(() => {
+        setError("Google sign-in failed. Please try again.");
+      })
+      .finally(() => setBusy(false));
+  }, [navigate]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,10 +60,11 @@ export default function Signup() {
       } else {
         await signInWithEmailAndPassword(auth, email.trim(), password);
       }
-      await upsertUser();
+      const user = auth.currentUser!;
+      await upsertUser(user.uid, user.email, user.displayName, user.photoURL);
       await trackEvent("pro_signup_success", { surface: "auth_email", mode });
       navigate("/dashboard");
-    } catch (err) {
+    } catch {
       setError("Sign-in failed. Please verify your email/password.");
     } finally {
       setBusy(false);
@@ -56,13 +75,9 @@ export default function Signup() {
     setBusy(true);
     setError(null);
     try {
-      await signInWithPopup(auth, googleProvider);
-      await upsertUser();
-      await trackEvent("pro_signup_success", { surface: "auth_google" });
-      navigate("/dashboard");
+      await signInWithRedirect(auth, googleProvider);
     } catch {
       setError("Google sign-in failed. Please try again.");
-    } finally {
       setBusy(false);
     }
   };

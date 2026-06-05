@@ -4,8 +4,8 @@ import { ChevronUp, DollarSign, LogIn, LogOut, Menu, Search, ShieldCheck, X } fr
 import AdSenseSlot from "./AdSenseSlot";
 import { AD_CLIENT, AD_SLOTS } from "../lib/ad-config";
 import { playUiSound } from "../lib/sound";
-import { auth, googleProvider } from "../lib/firebase";
-import { onAuthStateChanged, signInWithPopup, signOut, User } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import BrandLogo, { nextLogoVariant } from "./BrandLogo";
 import LiveWallpaper from "./LiveWallpaper";
 
@@ -80,15 +80,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const trimmed = value.trim();
     if (!trimmed) return;
     window.location.href = `/rates/search?q=${encodeURIComponent(trimmed)}`;
-  };
-
-  const handleSignIn = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Sign-in failed:", error);
-      alert("Sign-in failed. Please try again.");
-    }
   };
 
   const handleSignOut = async () => {
