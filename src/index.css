@@ -1,26 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  /* High-trust finance palette */
-  --color-brand-50: #eef6ff;
-  --color-brand-100: #d7eaff;
-  --color-brand-200: #a8d1ff;
-  --color-brand-300: #6fb3ff;
-  --color-brand-400: #3b91ff;
-  --color-brand-500: #1f6fff;
-  --color-brand-600: #195ad1;
-  --color-brand-700: #1446a5;
-  --color-brand-800: #0f3277;
-  --color-brand-900: #1a2b3c;
+  --color-brand-50: #eefbf6;
+  --color-brand-100: #d7f4e7;
+  --color-brand-200: #a8e6c8;
+  --color-brand-300: #6adca8;
+  --color-brand-400: #33c98a;
+  --color-brand-500: #0fa86a;
+  --color-brand-600: #0b8758;
+  --color-brand-700: #096b48;
+  --color-brand-800: #074d35;
+  --color-brand-900: #08261f;
 
-  --color-accent-gold: #f5b02a;
-  --color-accent-emerald: #27ae60;
-  --color-accent-purple: #7c3aed;
+  --color-accent-gold: #e6b24d;
+  --color-accent-emerald: #0fa86a;
+  --color-accent-purple: #6b5cff;
 }
 
 @layer base {
@@ -31,10 +30,10 @@
   body {
     @apply font-sans text-slate-900 antialiased;
     background:
-      radial-gradient(circle at 12% 14%, rgba(31, 111, 255, 0.12), transparent 42%),
-      radial-gradient(circle at 82% 18%, rgba(39, 174, 96, 0.10), transparent 40%),
-      radial-gradient(circle at 68% 92%, rgba(245, 176, 42, 0.10), transparent 44%),
-      linear-gradient(180deg, #f8fbff 0%, #f4f7fb 55%, #eef3f9 100%);
+      radial-gradient(circle at 12% 14%, rgba(15, 168, 106, 0.12), transparent 42%),
+      radial-gradient(circle at 82% 18%, rgba(230, 178, 77, 0.10), transparent 40%),
+      radial-gradient(circle at 68% 92%, rgba(107, 92, 255, 0.08), transparent 44%),
+      linear-gradient(180deg, #f8fbf9 0%, #f2f8f5 55%, #ecf3ef 100%);
   }
 
   h1,
@@ -73,7 +72,7 @@
 
   .button-primary {
     @apply relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 overflow-hidden;
-    background: #27ae60;
+    background: linear-gradient(135deg, #0fa86a, #0b8758);
     box-shadow:
       0 18px 50px rgba(6, 22, 46, 0.45),
       0 0 0 1px rgba(255, 255, 255, 0.08) inset;
@@ -124,7 +123,7 @@
   }
 
   .brand-wordmark {
-    background: linear-gradient(90deg, #f5b02a 0%, #1f6fff 48%, #27ae60 100%);
+    background: linear-gradient(90deg, #e6b24d 0%, #0fa86a 45%, #6b5cff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -132,10 +131,10 @@
 
   .brand-glass {
     background:
-      radial-gradient(circle at 10% 0%, rgba(31, 111, 255, 0.22), transparent 46%),
-      radial-gradient(circle at 100% 30%, rgba(124, 58, 237, 0.18), transparent 48%),
-      radial-gradient(circle at 80% 100%, rgba(39, 174, 96, 0.16), transparent 50%),
-      linear-gradient(180deg, rgba(26, 43, 60, 0.92), rgba(26, 43, 60, 0.78));
+      radial-gradient(circle at 10% 0%, rgba(15, 168, 106, 0.18), transparent 46%),
+      radial-gradient(circle at 100% 30%, rgba(107, 92, 255, 0.14), transparent 48%),
+      radial-gradient(circle at 80% 100%, rgba(230, 178, 77, 0.14), transparent 50%),
+      linear-gradient(180deg, rgba(8, 38, 31, 0.92), rgba(8, 38, 31, 0.78));
   }
 }
 

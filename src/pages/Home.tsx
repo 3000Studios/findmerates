@@ -1,368 +1,273 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  ArrowRight,
-  BarChart3,
-  BriefcaseBusiness,
-  Home as HomeIcon,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  TrendingUp,
-  Wallet,
-} from "lucide-react";
+import { ArrowRight, BadgeDollarSign, BellRing, CheckCircle2, CircleGauge, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { motion } from "motion/react";
-import HeroVideo from "../components/HeroVideo";
-import MediaGallery from "../components/MediaGallery";
-import MortgageCalculator from "../components/MortgageCalculator";
-import BestOptionAnalyzer from "../components/BestOptionAnalyzer";
-import PredictiveBriefing from "../components/PredictiveBriefing";
-import RateGuidedFlow from "../components/RateGuidedFlow";
-import SlideOver from "../components/SlideOver";
+import LeadCaptureForm from "../components/LeadCaptureForm";
+import PartnerOffers from "../components/PartnerOffers";
 import RateAlertForm from "../components/RateAlertForm";
-import { Story } from "../types";
-import { fetchLatestFinancialNews } from "../services/intelligenceService";
+import BestOptionAnalyzer from "../components/BestOptionAnalyzer";
+import { RateCategory } from "../types";
 import { playUiSound } from "../lib/sound";
 
+const categoryCards = [
+  {
+    id: "mortgage",
+    title: "Mortgage",
+    body: "Surface better purchase and refinance paths before borrowers lock the wrong rate.",
+  },
+  {
+    id: "cd",
+    title: "CD Rates",
+    body: "Push savings shoppers toward stronger yield offers with less noise.",
+  },
+  {
+    id: "auto_loan",
+    title: "Auto Loan",
+    body: "Route buyers to lower payment options and cleaner monthly math.",
+  },
+  {
+    id: "personal_loan",
+    title: "Personal Loan",
+    body: "Capture urgent demand with fast, high-intent comparison traffic.",
+  },
+] as const;
+
+const revenueMoves = [
+  {
+    icon: Target,
+    title: "High-intent comparison traffic",
+    body: "Send users from the homepage into category pages with a clear task and one click.",
+  },
+  {
+    icon: BellRing,
+    title: "Email and alert capture",
+    body: "Collect leads for rate drops, new matches, and follow-up conversion.",
+  },
+  {
+    icon: BadgeDollarSign,
+    title: "Sponsored partner offers",
+    body: "Show direct lender links where users are already ready to act.",
+  },
+  {
+    icon: CircleGauge,
+    title: "Pro subscription upsell",
+    body: "Use premium alerts and analysis to monetize repeat shoppers.",
+  },
+];
+
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [topStories, setTopStories] = useState<Story[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<null | { id: string; name: string }>(null);
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<(typeof categoryCards)[number]["id"]>("mortgage");
 
   useEffect(() => {
-    document.title = "FindMeRates.com — Compare Today's Best Mortgage, CD & Loan Rates";
+    document.title = "FindMeRates.com | Compare rates, capture leads, convert traffic";
   }, []);
 
-  useEffect(() => {
-    const loadNews = async () => {
-      setLoading(true);
-      const news = await fetchLatestFinancialNews("general");
-      setTopStories(news);
-      setLoading(false);
-    };
-    loadNews();
-  }, []);
-
-  const handleSearch = (e: React.FormEvent) => {
+  const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/rates/mortgage?q=${encodeURIComponent(searchQuery)}`);
-    }
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    navigate(`/rates/search?q=${encodeURIComponent(trimmed)}`);
   };
-
-  const categories = [
-    { id: "mortgage", name: "Mortgages", icon: HomeIcon, image: "photo-1560518883-ce09059eeffa" },
-    { id: "cd", name: "CD Rates", icon: Wallet, image: "photo-1579621970563-ebec7560ff3e" },
-    { id: "auto_loan", name: "Auto Loans", icon: BarChart3, image: "photo-1533473359331-0135ef1b58bf" },
-    { id: "personal_loan", name: "Personal Loans", icon: BriefcaseBusiness, image: "photo-1554224155-6726b3ff858f" },
-  ];
 
   return (
     <div className="overflow-hidden">
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <HeroVideo
-            query="modern city skyline finance"
-            fallbackQuery="american financial district skyline"
-            overlayClassName="bg-gradient-to-b from-brand-900/55 via-brand-900/25 to-slate-50"
-          />
-        </div>
-        <div className="section-shell py-10 lg:py-16">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="relative z-10"
-            >
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-xs font-semibold text-brand-800 shadow-sm backdrop-blur">
-                <Sparkles className="h-4 w-4" />
-                Stop overpaying — AI finds the margin lenders hide.
-              </div>
-              <h1 className="max-w-4xl text-5xl leading-[0.95] tracking-tight text-slate-950 md:text-7xl lg:text-[5.5rem]">
-                Run an AI rate analysis in 60 seconds. Then compare live benchmarks.
+      <section className="section-shell py-10 lg:py-16">
+        <div className="grid items-start gap-8 lg:grid-cols-[1.08fr_0.92fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+            className="space-y-8"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-800">
+              <Sparkles className="h-4 w-4" />
+              Built to convert search traffic into leads, offers, and subscriptions.
+            </div>
+
+            <div className="space-y-5">
+              <p className="section-kicker">Revenue-first rate hub</p>
+              <h1 className="max-w-3xl text-5xl leading-[0.94] tracking-tight text-slate-950 md:text-7xl lg:text-[5.2rem]">
+                Turn rate shoppers into clicks, leads, and paid members.
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Start free. Get a personalized next-step recommendation. Upgrade only when you want pro alerts and deeper scenarios.
+              <p className="max-w-2xl text-lg leading-8 text-slate-600">
+                FindMeRates is now focused on one job: route each visitor to the highest-value next step, whether that is a partner offer, a lead form, or Pro access.
               </p>
+            </div>
 
-              <div className="mt-10 max-w-2xl">
-                <div className="card border-white/70 bg-white/80 p-5 shadow-[0_22px_70px_rgba(26,43,60,0.12)]">
-                  <BestOptionAnalyzer />
-                </div>
+            <form onSubmit={submitSearch} className="card p-4 sm:p-5">
+              <label className="block text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
+                Search intent
+              </label>
+              <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+                <input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="mortgage, refinance, CD, auto loan, personal loan"
+                  className="min-h-12 flex-1 rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-900 outline-none transition-colors focus:border-brand-300"
+                />
+                <button type="submit" className="button-primary">
+                  Compare now <ArrowRight className="h-4 w-4" />
+                </button>
               </div>
+              <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Fast lead routing</span>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Affiliate ready</span>
+                <span className="rounded-full border border-slate-200 bg-white px-3 py-1">Email capture</span>
+              </div>
+            </form>
 
-              <div className="mt-6 max-w-2xl">
-                <RateGuidedFlow />
-              </div>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {revenueMoves.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.06 }}
+                  className="card p-5"
+                >
+                  <item.icon className="h-5 w-5 text-brand-700" />
+                  <h2 className="mt-4 text-lg text-slate-950">{item.title}</h2>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.body}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
 
-              <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-600">
-                <span className="rounded-full border border-slate-200 bg-white/75 px-4 py-2">Daily rate updates</span>
-                <span className="rounded-full border border-slate-200 bg-white/75 px-4 py-2">AI briefing tools</span>
-                <span className="rounded-full border border-slate-200 bg-white/75 px-4 py-2">Clear comparison cards</span>
+          <motion.aside
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="space-y-4"
+          >
+            <div className="card overflow-hidden bg-brand-900 text-white">
+              <div className="border-b border-white/10 p-6">
+                <p className="section-kicker text-brand-100">Primary conversion path</p>
+                <h2 className="mt-3 text-3xl text-white">Start with one goal. Route to the best monetized action.</h2>
+                <p className="mt-3 text-sm leading-7 text-brand-100/80">
+                  No clutter. Just the shortest path from intent to click, lead, or subscription.
+                </p>
               </div>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="grid gap-3 p-6 sm:grid-cols-2">
+                {categoryCards.map((card) => (
+                  <button
+                    key={card.id}
+                    type="button"
+                    onClick={() => setSelectedCategory(card.id)}
+                    className={`rounded-3xl border p-4 text-left transition-colors ${
+                      selectedCategory === card.id
+                        ? "border-white bg-white text-brand-900"
+                        : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <div className="text-sm font-semibold">{card.title}</div>
+                    <p className="mt-2 text-sm leading-6 opacity-85">{card.body}</p>
+                  </button>
+                ))}
+              </div>
+              <div className="border-t border-white/10 p-6">
                 <Link
-                  to="/pro"
-                  className="button-primary"
+                  to={`/rates/${selectedCategory}`}
+                  className="button-primary w-full justify-center bg-white text-brand-900 hover:bg-brand-50"
                   onMouseEnter={() => playUiSound("hover")}
                   onClickCapture={() => playUiSound("click")}
                 >
-                  Join Pro ($9.99/mo)
+                  Open {categoryCards.find((card) => card.id === selectedCategory)?.title} funnel
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link to="/guide" className="button-secondary" onMouseEnter={() => playUiSound("hover")}>
-                  Read guide
-                </Link>
-              </div>
-
-              <div className="mt-12 pt-8 border-t border-slate-200/50">
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">As seen on and trusted by</p>
-                <div className="flex flex-wrap items-center gap-8 opacity-40 grayscale contrast-125">
-                  <span className="text-xl font-display font-black tracking-tighter">FORBES</span>
-                  <span className="text-xl font-display font-black tracking-tighter">BLOOMBERG</span>
-                  <span className="text-xl font-display font-black tracking-tighter">REUTERS</span>
-                  <span className="text-xl font-display font-black tracking-tighter">CNN BUSINESS</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="relative"
-            >
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="card relative overflow-hidden p-6 lg:p-8"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-100/20 via-transparent to-accent-gold/10" />
-                <div className="relative space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="section-kicker">Today&apos;s Snapshot</span>
-                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                      +0.12% Avg improvement
-                    </span>
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-3xl bg-brand-900 p-5 text-white">
-                      <p className="text-sm text-brand-100">Best Mortgage</p>
-                      <p className="mt-2 text-4xl font-semibold">6.24%</p>
-                      <p className="mt-2 text-sm text-brand-100">30-year fixed, top-tier borrowers</p>
-                    </div>
-                    <div className="rounded-3xl border border-slate-200 bg-white p-5">
-                      <p className="text-sm text-slate-500">Best CD</p>
-                      <p className="mt-2 text-4xl font-semibold text-slate-950">4.75%</p>
-                      <p className="mt-2 text-sm text-slate-600">12-month term</p>
-                    </div>
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-3xl border border-slate-200 bg-white p-5">
-                      <p className="text-sm text-slate-500">Fastest Approval</p>
-                      <p className="mt-2 text-xl font-semibold text-slate-950">Personal loan offers</p>
-                      <p className="mt-2 text-sm text-slate-600">Pre-screened results in minutes</p>
-                    </div>
-                    <div className="rounded-3xl bg-brand-50 p-5 text-brand-900">
-                      <p className="text-sm font-semibold">Pro intelligence</p>
-                      <p className="mt-2 text-xl font-semibold">Actionable briefs and scenario tools</p>
-                      <Link to="/pro" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold">
-                        Explore Pro <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell py-8 lg:py-14">
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {categories.map((cat, i) => (
-            <motion.div
-              key={cat.id}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="group overflow-hidden rounded-[28px] border border-white/70 bg-white/80 shadow-[0_18px_50px_rgba(16,34,68,0.08)]"
-            >
-              <div className="grid grid-cols-[42%_58%] md:block">
-                <div
-                  className="h-36 md:h-60 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
-                  style={{
-                    backgroundImage: `linear-gradient(180deg, rgba(16,34,68,0.10), rgba(16,34,68,0.42)), url(https://images.unsplash.com/${cat.image}?auto=format&fit=crop&q=80&w=900)`,
-                  }}
-                />
-                <div className="p-5 md:p-6">
-                  <cat.icon className="h-5 w-5 text-brand-700" />
-                  <h3 className="mt-3 text-xl md:text-2xl text-slate-950">{cat.name}</h3>
-                  <p className="mt-2 text-sm text-slate-700">Live lender benchmarks and clearer comparisons.</p>
-                  <button
-                    onClick={() => setSelectedCategory({ id: cat.id, name: cat.name })}
-                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-900"
-                    onMouseEnter={() => playUiSound("hover")}
-                    onClickCapture={() => playUiSound("click")}
-                  >
-                    Run AI analysis <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      <SlideOver
-        open={Boolean(selectedCategory)}
-        title={selectedCategory ? `${selectedCategory.name} analysis` : "Analysis"}
-        subtitle="Use the free AI analyzer once, then jump into live rate comparisons with one click."
-        onClose={() => setSelectedCategory(null)}
-        footer={
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <Link
-              to="/pro"
-              className="button-secondary border-white/15 bg-white/5 text-white hover:bg-white/10"
-              onClick={() => setSelectedCategory(null)}
-            >
-              Unlock Pro alerts
-            </Link>
-            <button
-              onClick={() => {
-                if (!selectedCategory) return;
-                const id = selectedCategory.id;
-                setSelectedCategory(null);
-                navigate(`/rates/${id}`);
-              }}
-              className="button-primary"
-            >
-              Compare live rates <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        }
-      >
-        <div className="card border-white/15 bg-white/5 p-5 text-white">
-          <p className="text-sm leading-7 text-brand-50">
-            Pick your goal. Get a plain-English recommendation. Then click “Compare live rates” to view benchmark cards and take the next step.
-          </p>
-        </div>
-        <div className="mt-5">
-          <BestOptionAnalyzer />
-        </div>
-      </SlideOver>
-
-      <section className="section-shell py-8 lg:py-14">
-        <MediaGallery
-          query="american home neighborhood"
-          perPage={9}
-          kicker="Lived-in markets"
-          heading="Real homes. Real neighborhoods. Real rates."
-          description="We compare what lenders publish so the next move on your block doesn't price you out. Imagery from working U.S. neighborhoods, refreshed often."
-        />
-      </section>
-
-      <section className="section-shell py-8 lg:py-14">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="card overflow-hidden bg-brand-900 text-white">
-            <div className="grid gap-0 md:grid-cols-2">
-              <div className="p-8 md:p-10">
-                <div className="section-kicker text-brand-100">Immersive rates</div>
-                <h2 className="mt-3 text-4xl text-white">Market motion, in seconds.</h2>
-                <p className="mt-4 text-brand-50">
-                  Quick visuals to keep attention — then a single click to compare rates or read the latest market recap.
-                </p>
-                <div className="mt-6 flex gap-3">
-                  <Link to="/stories" className="button-secondary border-white/10 bg-white text-brand-900" onMouseEnter={() => playUiSound("hover")}>
-                    View stories
-                  </Link>
-                </div>
-              </div>
-              <div className="min-h-72 p-8">
-                <img
-                  src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800"
-                  alt="Financial Growth"
-                  className="h-full w-full rounded-[24px] object-cover shadow-2xl brightness-75"
-                />
               </div>
             </div>
-          </div>
 
-          <RateAlertForm />
-        </div>
-      </section>
-
-      <section className="section-shell py-8 lg:py-14">
-        <div className="grid gap-4 lg:grid-cols-12">
-          <div className="lg:col-span-8">
-            <MortgageCalculator />
-          </div>
-          <div className="grid gap-4 lg:col-span-4">
-            <PredictiveBriefing />
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell py-8 lg:py-14">
-        <div className="mb-8 flex items-end justify-between gap-4">
-          <div>
-            <div className="section-kicker">Market briefing</div>
-            <h2 className="mt-3 text-4xl text-slate-950 md:text-6xl">Recent stories, without the clutter.</h2>
-          </div>
-          <Link to="/stories" className="hidden items-center gap-2 text-sm font-semibold text-brand-800 md:inline-flex">
-            View all <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        {loading ? (
-          <div className="card p-10 text-center text-slate-500">Loading stories...</div>
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {topStories.map((story, i) => (
-              <motion.div
-                key={story.id}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-              >
-                <Link to={`/stories/${story.slug}`} className="card group block p-6 transition-transform hover:-translate-y-1">
-                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-brand-700">
-                    <ShieldCheck className="h-4 w-4" />
-                    {new Date(story.publishedAt).toLocaleDateString()}
-                  </div>
-                  <h3 className="mt-5 text-2xl leading-tight text-slate-950 group-hover:text-brand-800">
-                    {story.title}
-                  </h3>
-                  <p className="mt-4 line-clamp-3 text-sm leading-7 text-slate-600">
-                    {story.excerpt}
+            <div className="card p-6">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-1 h-5 w-5 text-emerald-600" />
+                <div>
+                  <h2 className="text-xl text-slate-950">Trust layer</h2>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                    Every monetization path still needs disclosures, consent, and clear routing. This redesign keeps those controls visible instead of burying them.
                   </p>
-                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand-800">
-                    Read story <ArrowRight className="h-4 w-4" />
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        )}
+                </div>
+              </div>
+            </div>
+          </motion.aside>
+        </div>
       </section>
 
       <section className="section-shell py-8 lg:py-14">
-        <div className="card flex flex-col gap-8 bg-brand-900 px-6 py-10 text-white md:flex-row md:items-center md:justify-between md:px-10">
-          <div>
-            <div className="section-kicker text-brand-100">Premium access</div>
-            <h2 className="mt-3 text-3xl md:text-5xl">Unlock the sharper tools.</h2>
-            <p className="mt-4 max-w-2xl text-brand-50">
-              Pro brings deeper analysis, clearer briefing flows, and a stronger decision layer for active rate shoppers.
-            </p>
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.05fr]">
+          <div className="space-y-6">
+            <div className="card p-6">
+              <p className="section-kicker">Monetization stack</p>
+              <h2 className="mt-3 text-3xl text-slate-950">Use multiple revenue paths without looking desperate.</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                The site now pushes users into three clean outcomes: compare rates, request follow-up, or upgrade to Pro.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link to="/pro" className="button-primary" onMouseEnter={() => playUiSound("hover")}>
+                  View Pro pricing <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link to="/calculators" className="button-secondary" onMouseEnter={() => playUiSound("hover")}>
+                  Open calculators
+                </Link>
+              </div>
+            </div>
+            <RateAlertForm />
           </div>
-          <Link to="/pro" className="button-secondary border-white/15 bg-white text-brand-900">
-            Join Pro
-          </Link>
+
+          <LeadCaptureForm category={selectedCategory as RateCategory} />
+        </div>
+      </section>
+
+      <section className="section-shell py-8 lg:py-14">
+        <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+          <PartnerOffers category={selectedCategory as RateCategory} />
+          <div className="card p-6">
+            <p className="section-kicker">Decision engine</p>
+            <h2 className="mt-3 text-3xl text-slate-950">Use the analyzer to direct higher-intent users faster.</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-600">
+              This remains the site&apos;s guided upsell: it helps users pick a path, then moves them into the right conversion surface.
+            </p>
+            <div className="mt-6">
+              <BestOptionAnalyzer />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell py-8 lg:py-14">
+        <div className="card overflow-hidden bg-slate-950 px-6 py-10 text-white md:px-10">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div>
+              <p className="section-kicker text-brand-100">Pro</p>
+              <h2 className="mt-3 text-3xl text-white md:text-5xl">Premium alerts, sharper analysis, better conversion value.</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-300">
+                Pro is where repeat visitors convert. Keep the freemium layer thin, then offer alerts and analysis to users who keep shopping.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link to="/pro" className="button-primary bg-white text-brand-900 hover:bg-brand-50">
+                  Explore Pro <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link to="/how-we-make-money" className="button-secondary border-white/10 bg-white/5 text-white hover:bg-white/10">
+                  Read disclosures
+                </Link>
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                "Rate alerts when benchmarks move",
+                "Cleaner decision flow for shoppers",
+                "Sponsored partner routing",
+                "Lead capture for high intent traffic",
+              ].map((item) => (
+                <div key={item} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                  <p className="mt-4 text-sm leading-7 text-slate-200">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </div>
