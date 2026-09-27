@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://findmerates.com/sitemap.xml

@@ -1,0 +1,373 @@
+{
+  "disclosure": "FindMeRates may earn compensation when you click partner offers or complete an application. Compensation may affect ranking and placement of offers. Educational content is not influenced by compensation. This is not a lender, bank, or credit decision tool.",
+  "categories": [
+    {
+      "id": "mortgage",
+      "label": "Mortgages",
+      "intent": "high",
+      "offers": [
+        {
+          "id": "mortgage-compare-a",
+          "title": "Compare mortgage rates in minutes",
+          "blurb": "See estimated rates from multiple lenders with one soft-pull path when available. Not a commitment.",
+          "cta": "Check mortgage options",
+          "href": "https://www.bankrate.com/mortgages/",
+          "badge": "Popular",
+          "payoutHint": "affiliate",
+          "priority": 100
+        },
+        {
+          "id": "mortgage-refi",
+          "title": "See if refinancing could lower payments",
+          "blurb": "Run a refi check against today's market—useful when rates move or your credit improved.",
+          "cta": "Explore refinance",
+          "href": "https://www.bankrate.com/mortgages/refinance-rates/",
+          "badge": "Refi",
+          "payoutHint": "affiliate",
+          "priority": 90
+        },
+        {
+          "id": "mortgage-prequal",
+          "title": "Get pre-qualified before house hunting",
+          "blurb": "Understand ballpark budgets and rate ranges before you tour homes.",
+          "cta": "Start pre-qual path",
+          "href": "https://www.nerdwallet.com/mortgages",
+          "badge": "Buyers",
+          "payoutHint": "affiliate",
+          "priority": 85
+        },
+        {
+          "id": "mortgage-va",
+          "title": "VA & specialty mortgage paths",
+          "blurb": "Explore loan programs and rate shopping strategies for different borrower profiles.",
+          "cta": "Explore mortgage programs",
+          "href": "https://www.bankrate.com/mortgages/va-loan-rates/",
+          "badge": "Programs",
+          "payoutHint": "affiliate",
+          "priority": 76
+        }
+      ]
+    },
+    {
+      "id": "savings",
+      "label": "High-yield savings",
+      "intent": "high",
+      "offers": [
+        {
+          "id": "hysa-top",
+          "title": "High-yield savings accounts",
+          "blurb": "Compare APYs, minimums, and fee structures for online savings accounts.",
+          "cta": "Compare savings APYs",
+          "href": "https://www.bankrate.com/banking/savings/best-high-yield-interests-savings-accounts/",
+          "badge": "Top APY",
+          "payoutHint": "affiliate",
+          "priority": 95
+        },
+        {
+          "id": "money-market",
+          "title": "Money market accounts",
+          "blurb": "Higher yields with check-writing or debit access depending on the bank.",
+          "cta": "View money markets",
+          "href": "https://www.bankrate.com/banking/money-market/best-money-market-accounts/",
+          "badge": "Flexible",
+          "payoutHint": "affiliate",
+          "priority": 70
+        },
+        {
+          "id": "hysa-compare-2",
+          "title": "Best online savings right now",
+          "blurb": "Side-by-side APY shopping for competitive online banks.",
+          "cta": "Shop HYSA rates",
+          "href": "https://www.nerdwallet.com/best/banking/high-yield-online-savings-accounts",
+          "badge": "APY hunt",
+          "payoutHint": "affiliate",
+          "priority": 88
+        }
+      ]
+    },
+    {
+      "id": "cd",
+      "label": "CDs",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "cd-ladder",
+          "title": "Best CD rates by term",
+          "blurb": "Lock a rate for 3 months to 5 years. Compare early-withdrawal rules carefully.",
+          "cta": "Compare CD rates",
+          "href": "https://www.bankrate.com/banking/cds/cd-rates/",
+          "badge": "Lock rate",
+          "payoutHint": "affiliate",
+          "priority": 80
+        }
+      ]
+    },
+    {
+      "id": "auto",
+      "label": "Auto loans",
+      "intent": "high",
+      "offers": [
+        {
+          "id": "auto-refinance",
+          "title": "Auto refinance check",
+          "blurb": "See if a lower APR could cut your car payment without changing cars.",
+          "cta": "Check auto refi",
+          "href": "https://www.bankrate.com/loans/auto-loans/refinance-rates/",
+          "badge": "Save monthly",
+          "payoutHint": "affiliate",
+          "priority": 88
+        },
+        {
+          "id": "auto-new",
+          "title": "New & used auto loan options",
+          "blurb": "Compare dealer vs bank vs online lenders before you sign at the lot.",
+          "cta": "Compare auto loans",
+          "href": "https://www.bankrate.com/loans/auto-loans/rates/",
+          "badge": "Shop smart",
+          "payoutHint": "affiliate",
+          "priority": 82
+        }
+      ]
+    },
+    {
+      "id": "personal",
+      "label": "Personal loans",
+      "intent": "high",
+      "offers": [
+        {
+          "id": "personal-debt",
+          "title": "Personal loans for debt consolidation",
+          "blurb": "Compare fixed-rate personal loans for consolidating high-interest balances.",
+          "cta": "See personal loan options",
+          "href": "https://www.bankrate.com/loans/personal-loans/rates/",
+          "badge": "Debt reset",
+          "payoutHint": "affiliate",
+          "priority": 92
+        },
+        {
+          "id": "personal-fast",
+          "title": "Compare fixed personal loans",
+          "blurb": "Check APR ranges, origination fees, and repayment terms side by side.",
+          "cta": "Compare personal loans",
+          "href": "https://www.nerdwallet.com/personal-loans",
+          "badge": "Flexible use",
+          "payoutHint": "affiliate",
+          "priority": 84
+        },
+        {
+          "id": "personal-bad-credit",
+          "title": "Personal loans for fair credit",
+          "blurb": "See ranges and fees if your score is still building.",
+          "cta": "Check fair-credit options",
+          "href": "https://www.bankrate.com/loans/personal-loans/bad-credit-loans/",
+          "badge": "Fair credit",
+          "payoutHint": "affiliate",
+          "priority": 77
+        }
+      ]
+    },
+    {
+      "id": "credit-cards",
+      "label": "Credit cards",
+      "intent": "high",
+      "offers": [
+        {
+          "id": "cc-cashback",
+          "title": "Best cash-back credit cards",
+          "blurb": "Earn rewards on everyday spending. Compare APR, annual fees, and bonuses.",
+          "cta": "Browse cash-back cards",
+          "href": "https://www.bankrate.com/credit-cards/cash-back/",
+          "badge": "Rewards",
+          "payoutHint": "affiliate",
+          "priority": 93
+        },
+        {
+          "id": "cc-travel",
+          "title": "Travel rewards cards",
+          "blurb": "Miles and points for trips—compare transfer partners and intro offers.",
+          "cta": "Explore travel cards",
+          "href": "https://www.bankrate.com/credit-cards/travel/",
+          "badge": "Travel",
+          "payoutHint": "affiliate",
+          "priority": 78
+        },
+        {
+          "id": "cc-balance",
+          "title": "0% intro balance transfer cards",
+          "blurb": "Move high-interest debt to a promotional APR window—read fees carefully.",
+          "cta": "See balance transfer cards",
+          "href": "https://www.bankrate.com/credit-cards/balance-transfer/",
+          "badge": "0% intro",
+          "payoutHint": "affiliate",
+          "priority": 86
+        },
+        {
+          "id": "cc-secured",
+          "title": "Secured & builder cards",
+          "blurb": "Rebuild credit carefully—compare fees before you apply.",
+          "cta": "See builder cards",
+          "href": "https://www.bankrate.com/credit-cards/secured/",
+          "badge": "Rebuild",
+          "payoutHint": "affiliate",
+          "priority": 70
+        }
+      ]
+    },
+    {
+      "id": "insurance",
+      "label": "Insurance",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "ins-auto",
+          "title": "Compare car insurance quotes",
+          "blurb": "Shop rates from multiple carriers—bundling home + auto can cut costs.",
+          "cta": "Get insurance quotes",
+          "href": "https://www.nerdwallet.com/insurance/car",
+          "badge": "Save yearly",
+          "payoutHint": "affiliate",
+          "priority": 75
+        },
+        {
+          "id": "ins-home",
+          "title": "Homeowners insurance comparison",
+          "blurb": "Protect your property. Compare deductibles, coverage limits, and discounts.",
+          "cta": "Compare home insurance",
+          "href": "https://www.nerdwallet.com/insurance/homeowners",
+          "badge": "Home",
+          "payoutHint": "affiliate",
+          "priority": 68
+        },
+        {
+          "id": "ins-life",
+          "title": "Term life insurance quotes",
+          "blurb": "Protect dependents with term coverage—compare length and amount.",
+          "cta": "Compare life insurance",
+          "href": "https://www.nerdwallet.com/life-insurance",
+          "badge": "Protect",
+          "payoutHint": "affiliate",
+          "priority": 62
+        }
+      ]
+    },
+    {
+      "id": "student",
+      "label": "Student loans",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "student-refi",
+          "title": "Student loan refinance options",
+          "blurb": "If you have stable income and strong credit, refi may lower total interest.",
+          "cta": "Explore student refi",
+          "href": "https://www.bankrate.com/loans/student-loans/refinance-rates/",
+          "badge": "Graduate",
+          "payoutHint": "affiliate",
+          "priority": 72
+        }
+      ]
+    },
+    {
+      "id": "heloc",
+      "label": "HELOC & home equity",
+      "intent": "high",
+      "offers": [
+        {
+          "id": "heloc-compare",
+          "title": "Home equity line of credit (HELOC)",
+          "blurb": "Tap home equity for renovations or debt consolidation—compare rates and draw periods.",
+          "cta": "Compare HELOC options",
+          "href": "https://www.bankrate.com/home-equity/heloc-rates/",
+          "badge": "Equity",
+          "payoutHint": "affiliate",
+          "priority": 81
+        }
+      ]
+    },
+    {
+      "id": "business",
+      "label": "Business financing",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "biz-loan",
+          "title": "Small business loan options",
+          "blurb": "Working capital, equipment, and term loans for growing businesses.",
+          "cta": "Explore business loans",
+          "href": "https://www.nerdwallet.com/business/loans",
+          "badge": "SMB",
+          "payoutHint": "affiliate",
+          "priority": 65
+        }
+      ]
+    },
+    {
+      "id": "investing",
+      "label": "Investing & brokerage",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "broker-compare",
+          "title": "Compare online brokerages",
+          "blurb": "Fees, tools, and account types for long-term investing.",
+          "cta": "Compare brokers",
+          "href": "https://www.bankrate.com/investing/best-online-brokers/",
+          "badge": "Invest",
+          "payoutHint": "affiliate",
+          "priority": 60
+        }
+      ]
+    },
+    {
+      "id": "checking",
+      "label": "Checking & banking",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "checking-bonus",
+          "title": "Checking accounts with bonuses",
+          "blurb": "Bank bonuses can pay you to switch—watch direct-deposit and fee requirements.",
+          "cta": "Find checking bonuses",
+          "href": "https://www.bankrate.com/banking/checking/best-checking-account-bonuses/",
+          "badge": "Bonus",
+          "payoutHint": "affiliate",
+          "priority": 74
+        }
+      ]
+    },
+    {
+      "id": "tax",
+      "label": "Tax software",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "tax-software",
+          "title": "Compare tax filing software",
+          "blurb": "DIY filing tools can save on prep fees—compare free vs paid tiers.",
+          "cta": "Compare tax software",
+          "href": "https://www.nerdwallet.com/best/taxes/tax-software",
+          "badge": "Tax season",
+          "payoutHint": "affiliate",
+          "priority": 71
+        }
+      ]
+    },
+    {
+      "id": "travel",
+      "label": "Travel & rewards",
+      "intent": "medium",
+      "offers": [
+        {
+          "id": "travel-portal",
+          "title": "Travel booking with rewards cards",
+          "blurb": "Stack points and portal bonuses when you travel—pair with card offers.",
+          "cta": "Explore travel rewards",
+          "href": "https://www.bankrate.com/credit-cards/travel/",
+          "badge": "Travel",
+          "payoutHint": "affiliate",
+          "priority": 66
+        }
+      ]
+    }
+  ]
+}

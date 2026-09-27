@@ -1,0 +1,15 @@
+{
+  "name": "FindMeRates",
+  "domain": "https://findmerates.com",
+  "tagline": "Compare rates. Map your next money move. Earn while you decide.",
+  "description": "FindMeRates helps U.S. consumers compare mortgages, savings, CDs, auto loans, personal loans, credit cards, and more—with free calculators, plain-language guides, and transparent partner offers.",
+  "adsenseClient": "ca-pub-5800977493749262",
+  "themeColor": "#0a2a66",
+  "locale": "en-US",
+  "email": "hello@findmerates.com",
+  "newsletter": {
+    "endpoint": "",
+    "emailField": "email",
+    "note": "Paste a free ESP form endpoint here (see docs/ESP_SETUP.md) to collect real subscribers. Empty = demo localStorage save."
+  }
+}

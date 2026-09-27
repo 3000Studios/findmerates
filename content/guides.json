@@ -1,0 +1,520 @@
+[
+  {
+    "slug": "first-time-homebuyer-checklist",
+    "title": "First-time homebuyer checklist (2026)",
+    "category": "mortgage",
+    "excerpt": "Steps, costs, and documents to gather before you apply for a mortgage.",
+    "readMinutes": 8,
+    "keywords": [
+      "first time homebuyer",
+      "mortgage checklist",
+      "closing costs"
+    ],
+    "sections": [
+      {
+        "h": "1. Check your credit and budget",
+        "p": "Pull your credit reports, fix errors, and estimate a comfortable monthly payment including taxes and insurance—not just principal and interest."
+      },
+      {
+        "h": "2. Save for down payment and closing costs",
+        "p": "Many buyers need 3–20% down plus closing costs (often 2–5% of the purchase price). A larger down payment can reduce PMI and monthly cost."
+      },
+      {
+        "h": "3. Get pre-approved (not just pre-qualified)",
+        "p": "Pre-approval usually involves a credit check and document review. It strengthens offers and clarifies your real budget."
+      },
+      {
+        "h": "4. Compare APR, not only rate",
+        "p": "APR includes many loan costs. Compare lender fees, points, rate lock length, and whether the loan is fixed or adjustable."
+      },
+      {
+        "h": "5. Plan for the first year of ownership",
+        "p": "Budget for maintenance, utilities, HOA dues, and an emergency fund. Homeownership costs more than the mortgage payment alone."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How much house can I afford?",
+        "a": "A common starting point is keeping total housing costs near 28% of gross income, but your debt, location, and risk tolerance matter more than rules of thumb."
+      },
+      {
+        "q": "Should I pay points to lower the rate?",
+        "a": "Points can make sense if you will keep the loan long enough to break even. Run the math with our mortgage calculator before deciding."
+      }
+    ]
+  },
+  {
+    "slug": "savings-vs-cds",
+    "title": "High-yield savings vs CDs: which is right?",
+    "category": "savings",
+    "excerpt": "Liquidity, yield, and risk trade-offs when parking cash.",
+    "readMinutes": 6,
+    "keywords": [
+      "high yield savings",
+      "CD rates",
+      "emergency fund"
+    ],
+    "sections": [
+      {
+        "h": "When savings accounts win",
+        "p": "If you need flexible access for emergencies or near-term goals, a high-yield savings account (HYSA) usually beats locking money in a CD."
+      },
+      {
+        "h": "When CDs win",
+        "p": "If you will not need the cash for a known period and want a locked rate, CDs can reduce reinvestment risk when rates fall."
+      },
+      {
+        "h": "Laddering strategy",
+        "p": "A CD ladder (e.g., 6, 12, 18, 24 months) balances yield and access. As each CD matures, you can reinvest or cash out."
+      },
+      {
+        "h": "Watch fees and minimums",
+        "p": "Compare APY, monthly fees, minimum balance, transfer limits, and FDIC/NCUA insurance status for every bank."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Are online banks safe?",
+        "a": "Look for FDIC (banks) or NCUA (credit unions) insurance. Online banks often offer higher APYs with lower overhead."
+      }
+    ]
+  },
+  {
+    "slug": "auto-loan-preapproval",
+    "title": "Auto loan pre-approval explained",
+    "category": "auto",
+    "excerpt": "Why shopping financing before the dealership can save money.",
+    "readMinutes": 5,
+    "keywords": [
+      "auto loan preapproval",
+      "car financing",
+      "APR"
+    ],
+    "sections": [
+      {
+        "h": "Know your rate before the lot",
+        "p": "A pre-approval gives you a benchmark. Dealership financing can be convenient—but you negotiate from strength when you already know a competitive APR."
+      },
+      {
+        "h": "New vs used loan differences",
+        "p": "Used cars often carry higher rates and shorter terms. Factor total interest, not only monthly payment."
+      },
+      {
+        "h": "Watch for add-ons",
+        "p": "Extended warranties, GAP, and paint protection can be rolled into the loan. Decline products you do not want before signing."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does pre-approval hurt my credit?",
+        "a": "Soft pulls usually do not affect scores; hard pulls may. Ask the lender which type they use and group applications into a short shopping window."
+      }
+    ]
+  },
+  {
+    "slug": "personal-loan-uses",
+    "title": "Personal loan uses that make sense (and ones that don’t)",
+    "category": "personal",
+    "excerpt": "Smart vs risky ways to use unsecured personal loans.",
+    "readMinutes": 7,
+    "keywords": [
+      "personal loan uses",
+      "debt consolidation",
+      "origination fee"
+    ],
+    "sections": [
+      {
+        "h": "Good fit: debt consolidation",
+        "p": "If you can lower your average APR and commit to not re-running balances on cards, consolidation can reduce interest and simplify payments."
+      },
+      {
+        "h": "Good fit: planned large expenses",
+        "p": "Home repairs, medical bills, or moving costs with a fixed repayment plan can be better than high-rate revolving credit."
+      },
+      {
+        "h": "Risky fit: lifestyle spending",
+        "p": "Vacations or shopping financed at double-digit APR can cost far more than the purchase itself."
+      },
+      {
+        "h": "Always compare total cost",
+        "p": "Include origination fees, APR, term length, and prepayment rules. A lower monthly payment with a longer term can mean more total interest."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "What credit score do I need?",
+        "a": "Many lenders prefer good-to-excellent credit for the best APRs. Subprime options exist but often cost more—compare carefully."
+      }
+    ]
+  },
+  {
+    "slug": "how-apr-works",
+    "title": "APR vs interest rate: plain-English guide",
+    "category": "education",
+    "excerpt": "Why APR is the better number for comparing loans.",
+    "readMinutes": 5,
+    "keywords": [
+      "APR vs interest rate",
+      "loan fees",
+      "compare loans"
+    ],
+    "sections": [
+      {
+        "h": "Interest rate is the raw cost of borrowing",
+        "p": "It is the percentage applied to your principal. Alone, it does not capture fees."
+      },
+      {
+        "h": "APR folds in many costs",
+        "p": "APR estimates the yearly cost including certain fees. When comparing lenders, APR is usually more useful than rate alone."
+      },
+      {
+        "h": "Still read the fee list",
+        "p": "Not every fee is in every APR calculation the same way. Always review origination fees, points, and prepayment penalties."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "credit-score-boost-before-loan",
+    "title": "Boost your credit before applying for a loan",
+    "category": "education",
+    "excerpt": "Practical steps that can improve approval odds and APR.",
+    "readMinutes": 6,
+    "keywords": [
+      "improve credit score",
+      "before applying for loan"
+    ],
+    "sections": [
+      {
+        "h": "Pay down revolving utilization",
+        "p": "Keeping credit card balances low relative to limits is one of the fastest score levers you control."
+      },
+      {
+        "h": "Fix report errors",
+        "p": "Dispute inaccurate late payments, accounts, or balances. Corrections can take time—start early."
+      },
+      {
+        "h": "Avoid new hard inquiries right before shopping",
+        "p": "When rate-shopping mortgages or auto loans, cluster applications within a short period so scoring models treat them as one event."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "emergency-fund-target",
+    "title": "How much emergency fund do you need?",
+    "category": "savings",
+    "excerpt": "Set a cash target that matches your job and risk profile.",
+    "readMinutes": 4,
+    "keywords": [
+      "emergency fund",
+      "how much to save"
+    ],
+    "sections": [
+      {
+        "h": "Starter goal: $1,000",
+        "p": "A small buffer prevents high-interest debt for minor shocks while you build bigger reserves."
+      },
+      {
+        "h": "Core goal: 3–6 months of expenses",
+        "p": "Single-income households or volatile industries may want closer to 6–12 months."
+      },
+      {
+        "h": "Park it in a HYSA",
+        "p": "Keep emergency cash liquid and FDIC-insured—not in volatile investments you might sell at a loss."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "refinance-break-even",
+    "title": "Mortgage refinance break-even calculator guide",
+    "category": "mortgage",
+    "excerpt": "How to know if refinancing actually saves money.",
+    "readMinutes": 6,
+    "keywords": [
+      "refinance break even",
+      "mortgage refi costs"
+    ],
+    "sections": [
+      {
+        "h": "Add up closing costs",
+        "p": "Appraisal, title, lender fees, and points can total thousands. These are your upfront cost."
+      },
+      {
+        "h": "Estimate monthly savings",
+        "p": "New payment minus old payment (principal & interest) is your monthly benefit—before taxes/insurance changes."
+      },
+      {
+        "h": "Divide costs by monthly savings",
+        "p": "Break-even months = total costs ÷ monthly savings. If you will move or sell sooner, refi may not pay off."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "credit-card-rewards-math",
+    "title": "Credit card rewards math that actually matters",
+    "category": "credit-cards",
+    "excerpt": "Don't chase bonuses that cost more in interest than they pay.",
+    "readMinutes": 5,
+    "keywords": [
+      "credit card rewards",
+      "cash back vs APR"
+    ],
+    "sections": [
+      {
+        "h": "Pay in full or skip rewards games",
+        "p": "Interest on a carried balance usually wipes out rewards value. Rewards work best for spend you already planned."
+      },
+      {
+        "h": "Annual fee vs bonus value",
+        "p": "A $95 fee needs more than $95 of real reward value yearly—or a first-year bonus that more than covers it."
+      },
+      {
+        "h": "Category bonuses stack",
+        "p": "Groceries, gas, and dining categories can beat flat 1–2% cards if those are major budget lines."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "heloc-pros-cons",
+    "title": "HELOC pros and cons for homeowners",
+    "category": "heloc",
+    "excerpt": "Variable rates, draw periods, and when home equity borrowing fits.",
+    "readMinutes": 6,
+    "keywords": [
+      "HELOC pros cons",
+      "home equity line"
+    ],
+    "sections": [
+      {
+        "h": "Pros",
+        "p": "Flexible draws, potentially lower rates than unsecured credit, interest may be deductible for qualified improvements (ask a tax pro)."
+      },
+      {
+        "h": "Cons",
+        "p": "Your home is collateral. Variable rates can rise. Fees and draw-period rules vary widely."
+      },
+      {
+        "h": "Compare carefully",
+        "p": "Look at margin, index, floors/caps, annual fees, and repayment terms after the draw period ends."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "shop-insurance-annually",
+    "title": "Why you should shop insurance every year",
+    "category": "insurance",
+    "excerpt": "Loyalty rarely beats a competitive re-quote.",
+    "readMinutes": 4,
+    "keywords": [
+      "compare car insurance",
+      "home insurance shopping"
+    ],
+    "sections": [
+      {
+        "h": "Rates drift",
+        "p": "Carriers reprice based on claims trends, your location, and credit-based insurance scores where allowed."
+      },
+      {
+        "h": "Bundles and discounts change",
+        "p": "Multi-policy, safe-driver, and home-device discounts can shift—ask every quote source."
+      },
+      {
+        "h": "Match coverage, not just price",
+        "p": "The cheapest quote with weak coverage is not a win. Align deductibles and liability limits first."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "debt-payoff-methods",
+    "title": "Avalanche vs snowball debt payoff",
+    "category": "personal",
+    "excerpt": "Pick a method you will stick with—and measure total interest.",
+    "readMinutes": 5,
+    "keywords": [
+      "debt avalanche",
+      "debt snowball"
+    ],
+    "sections": [
+      {
+        "h": "Avalanche (math-optimal)",
+        "p": "Pay minimums on all debts, put extra toward the highest APR first. Lowest total interest."
+      },
+      {
+        "h": "Snowball (momentum)",
+        "p": "Pay smallest balances first for quick wins. May cost more interest but can improve follow-through."
+      },
+      {
+        "h": "Hybrid reality",
+        "p": "Many people clear one small balance for motivation, then switch to avalanche."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "fixed-vs-arm",
+    "title": "Fixed-rate vs ARM mortgages",
+    "category": "mortgage",
+    "excerpt": "When an adjustable-rate mortgage can help—and when it is a risk.",
+    "readMinutes": 6,
+    "keywords": [
+      "ARM vs fixed",
+      "adjustable rate mortgage"
+    ],
+    "sections": [
+      {
+        "h": "Fixed rates",
+        "p": "Predictable payment for the full term. Best when you value stability or expect to keep the loan long-term."
+      },
+      {
+        "h": "ARMs",
+        "p": "Lower intro rates can help if you sell or refinance before the adjust period—but payments can jump later."
+      },
+      {
+        "h": "Decision checklist",
+        "p": "Compare fully indexed rate, caps, margin, and how long you will keep the home."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Is an ARM ever a good idea?",
+        "a": "Sometimes—if the intro period matches your ownership timeline and you understand adjustment caps."
+      }
+    ]
+  },
+  {
+    "slug": "pmi-explained",
+    "title": "Private mortgage insurance (PMI) explained",
+    "category": "mortgage",
+    "excerpt": "Why PMI exists, what it costs, and how to remove it.",
+    "readMinutes": 5,
+    "keywords": [
+      "PMI",
+      "mortgage insurance"
+    ],
+    "sections": [
+      {
+        "h": "When PMI applies",
+        "p": "Often required with conventional loans under 20% down."
+      },
+      {
+        "h": "Cost impact",
+        "p": "PMI raises monthly cost until you reach required equity."
+      },
+      {
+        "h": "Removal",
+        "p": "Ask about automatic vs borrower-requested cancellation rules."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "auto-lease-vs-loan",
+    "title": "Lease vs buy a car",
+    "category": "auto",
+    "excerpt": "Total cost, mileage limits, and equity trade-offs.",
+    "readMinutes": 6,
+    "keywords": [
+      "lease vs buy",
+      "auto financing"
+    ],
+    "sections": [
+      {
+        "h": "Leasing",
+        "p": "Lower monthly payments, mileage caps, no long-term equity."
+      },
+      {
+        "h": "Buying",
+        "p": "Higher payment or longer term, but you keep residual value."
+      },
+      {
+        "h": "Shop the money first",
+        "p": "Get loan pre-approval before dealer financing negotiations."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "balance-transfer-trap",
+    "title": "Balance transfer traps to avoid",
+    "category": "credit-cards",
+    "excerpt": "0% intro offers can help—if you read the fine print.",
+    "readMinutes": 5,
+    "keywords": [
+      "balance transfer fee",
+      "0% intro APR"
+    ],
+    "sections": [
+      {
+        "h": "Transfer fees",
+        "p": "3–5% fees can erase savings if the payoff timeline is short."
+      },
+      {
+        "h": "Reversion APR",
+        "p": "When the promo ends, remaining balances can get expensive fast."
+      },
+      {
+        "h": "Plan the payoff",
+        "p": "Only transfer what you can clear before the promo expires."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "fdic-insurance-limits",
+    "title": "FDIC insurance limits for savers",
+    "category": "savings",
+    "excerpt": "How deposit insurance works across banks and ownership categories.",
+    "readMinutes": 4,
+    "keywords": [
+      "FDIC limits",
+      "deposit insurance"
+    ],
+    "sections": [
+      {
+        "h": "Standard coverage",
+        "p": "Typically ,000 per depositor, per insured bank, per ownership category."
+      },
+      {
+        "h": "Multiple banks",
+        "p": "Spreading large balances can increase covered amounts."
+      },
+      {
+        "h": "Verify membership",
+        "p": "Confirm FDIC/NCUA status before opening an account."
+      }
+    ],
+    "faqs": []
+  },
+  {
+    "slug": "budget-50-30-20",
+    "title": "50/30/20 budget with real rates",
+    "category": "education",
+    "excerpt": "Pair a simple budget framework with high-yield savings and debt APR awareness.",
+    "readMinutes": 5,
+    "keywords": [
+      "50 30 20 budget",
+      "personal budget"
+    ],
+    "sections": [
+      {
+        "h": "Framework",
+        "p": "Needs ~50%, wants ~30%, savings/debt ~20%—adjust to your city and income."
+      },
+      {
+        "h": "High APR first",
+        "p": "Debt above ~8–10% APR often beats investing new cash until balances drop."
+      },
+      {
+        "h": "Automate",
+        "p": "Auto-transfer to HYSA on payday so savings happens first."
+      }
+    ],
+    "faqs": []
+  }
+]

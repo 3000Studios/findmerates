@@ -1,0 +1,105 @@
+{
+  "videos": [
+    {
+      "id": "GHHesANT6OM",
+      "title": "Interest Rates Explained",
+      "topic": "rates",
+      "blurb": "A clear primer on how interest rates shape borrowing and saving.",
+      "categories": ["mortgage", "savings", "education"]
+    },
+    {
+      "id": "XNu5ppFZbHo",
+      "title": "What gives a dollar its value? (TED-Ed)",
+      "topic": "money",
+      "blurb": "Why currency has value—and what that means for your purchasing power.",
+      "categories": ["education", "investing"]
+    },
+    {
+      "id": "p7HKvqRI_Bo",
+      "title": "How does the stock market work? (TED-Ed)",
+      "topic": "investing",
+      "blurb": "A visual walkthrough of how public markets function.",
+      "categories": ["investing", "education"]
+    },
+    {
+      "id": "jTW777ENc3c",
+      "title": "Compound Interest in One Minute",
+      "topic": "savings",
+      "blurb": "Why time in the market (and savings) compounds.",
+      "categories": ["savings", "cd", "investing"]
+    },
+    {
+      "id": "FgQoqStpYs8",
+      "title": "The Power of Compound Interest",
+      "topic": "savings",
+      "blurb": "Long-horizon growth intuition for savers and investors.",
+      "categories": ["savings", "investing"]
+    },
+    {
+      "id": "f2ortkJfTKw",
+      "title": "What is a Credit Score?",
+      "topic": "credit",
+      "blurb": "Credit scores affect loan APRs—understand the basics before you apply.",
+      "categories": ["personal", "credit-cards", "mortgage", "auto"]
+    },
+    {
+      "id": "gJTAxq5Fqfw",
+      "title": "Credit Score Explained Simply",
+      "topic": "credit",
+      "blurb": "A simple overview of credit factors for first-time borrowers.",
+      "categories": ["personal", "credit-cards", "education"]
+    },
+    {
+      "id": "fTTGALaRZoc",
+      "title": "Banking Explained — Money and Credit",
+      "topic": "banking",
+      "blurb": "How banks, credit, and money creation connect at a high level.",
+      "categories": ["checking", "savings", "education"]
+    },
+    {
+      "id": "wW0M-77n9_0",
+      "title": "Mortgages Explained",
+      "topic": "mortgage",
+      "blurb": "A friendly walkthrough of how mortgages work.",
+      "categories": ["mortgage", "heloc"]
+    },
+    {
+      "id": "vBgeVukN0Ik",
+      "title": "How Mortgages Work",
+      "topic": "mortgage",
+      "blurb": "Structure, payments, and what to watch for when buying a home.",
+      "categories": ["mortgage"]
+    },
+    {
+      "id": "4j2emMn7UaI",
+      "title": "Financial Literacy — Full Overview",
+      "topic": "education",
+      "blurb": "Broad personal finance literacy themes for new shoppers.",
+      "categories": ["education", "personal"]
+    },
+    {
+      "id": "UcAY6qRHlw0",
+      "title": "Personal Finance Basics",
+      "topic": "education",
+      "blurb": "Core money-management steps before you take on new debt.",
+      "categories": ["education", "personal", "savings"]
+    }
+  ],
+  "images": {
+    "hero": "/images/hero.svg",
+    "mortgage": "/images/mortgage.svg",
+    "savings": "/images/savings.svg",
+    "cd": "/images/cd.svg",
+    "auto": "/images/auto.svg",
+    "personal": "/images/personal.svg",
+    "credit-cards": "/images/cards.svg",
+    "insurance": "/images/insurance.svg",
+    "heloc": "/images/heloc.svg",
+    "student": "/images/student.svg",
+    "business": "/images/business.svg",
+    "investing": "/images/investing.svg",
+    "checking": "/images/checking.svg",
+    "video": "/images/video.svg",
+    "deals": "/images/deals.svg"
+  }
+}
