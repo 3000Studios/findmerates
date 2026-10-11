@@ -8,5 +8,17 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+/images/*
+  Cache-Control: public, max-age=86400
+
+/js/*
+  Cache-Control: public, max-age=86400
+
+/site.css
+  Cache-Control: public, max-age=86400
+
+/legal.css
+  Cache-Control: public, max-age=86400
+
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
