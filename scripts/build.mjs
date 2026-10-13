@@ -284,6 +284,23 @@ function offerOutUrl(o) {
   return `/out/${o.id}`;
 }
 
+// Share row for article pages (guides + learn). Plain outbound share
+// intents — no JS, no third-party widgets, no tracking pixels.
+function shareRow(path, title) {
+  const url = encodeURIComponent(`${site.domain}${path}`);
+  const text = encodeURIComponent(title);
+  return `
+      <section class="share-row" aria-label="Share this page">
+        <h2>Share this guide</h2>
+        <p>
+          <a href="https://twitter.com/intent/tweet?url=${url}&text=${text}" target="_blank" rel="noopener">Post to X</a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener">Share on Facebook</a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=${url}" target="_blank" rel="noopener">Share on LinkedIn</a>
+          <a href="mailto:?subject=${text}&body=${url}">Share by email</a>
+        </p>
+      </section>`;
+}
+
 // Newsletter form: posts to the ESP endpoint in site.json when configured,
 // otherwise falls back to the in-browser demo save (see docs/ESP_SETUP.md).
 function newsletterForm({ stacked = false, idPrefix = "nl" } = {}) {
@@ -941,6 +958,7 @@ for (const g of guides) {
         <p class="muted">We may earn a commission from partner links.</p>
         ${offerCards(offs)}
       </section>
+      ${shareRow(path, g.title)}
       ${adSlot("article-bottom")}
     </div>
   </article>`;
@@ -976,6 +994,7 @@ for (const a of ARTICLES) {
     ${adSlot("inline")}
     ${a.body.map((p) => `<p>${esc(p)}</p>`).join("")}
     <p><a class="button primary" href="/offers">Browse partner offers</a></p>
+    ${shareRow(path, a.title)}
   </div></article>`;
   await writePage(path, layout({
     path,
@@ -1239,7 +1258,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${uniqueUrls
   .map(
-    (u) => `  <url><loc>${site.domain}${u === "/" ? "/" : u}</loc><changefreq>daily</changefreq><priority>${u === "/" ? "1.0" : "0.7"}</priority></url>`
+    (u) => `  <url><loc>${site.domain}${u === "/" ? "/" : u}</loc><lastmod>${BUILD_DATE}</lastmod><changefreq>daily</changefreq><priority>${u === "/" ? "1.0" : "0.7"}</priority></url>`
   )
   .join("\n")}
 </urlset>
