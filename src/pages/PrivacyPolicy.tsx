@@ -17,6 +17,9 @@ export default function PrivacyPolicy() {
           <h2>How we make money</h2>
           <p>We may earn revenue through advertising, subscriptions, and partner relationships (including affiliate links or lead referrals). Compensation does not guarantee placement or ranking and does not change your eligibility.</p>
           <p>Advertising partners, including Google AdSense, may use cookies or similar technologies to serve and measure ads. You can control cookies through your browser settings and, where available, ad preference controls.</p>
+          <h2>Advertising & cookies</h2>
+          <p>Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this website and other websites. Google's use of advertising cookies (including the DoubleClick cookie) enables it and its partners to serve ads to you based on your visits to this and other sites on the Internet.</p>
+          <p>You can opt out of personalized advertising by visiting Google's Ads Settings at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:underline">www.google.com/settings/ads</a>. You can also opt out of some third-party vendors' use of cookies for personalized advertising at <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:underline">www.aboutads.info</a>. You can also control cookies through your browser settings.</p>
           <p>If you submit a privacy request, contact us through the <Link to="/contact" className="text-brand-600 hover:underline">Contact page</Link>.</p>
         </div>
       </div>
