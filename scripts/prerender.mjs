@@ -236,6 +236,13 @@ const ROUTES = [
     body: `<p>This page explains what information FindMeRates.com collects, how we use it, and your rights. Full policy text loads below.</p><p>Advertising &amp; cookies: Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this and other websites. Google's use of advertising cookies (including the DoubleClick cookie) enables it and its partners to serve ads based on your visits to this and other sites. You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads">www.google.com/settings/ads</a> and opt out of some third-party vendors' cookies at <a href="https://www.aboutads.info">www.aboutads.info</a>.</p>`,
   },
   {
+    path: "/privacy-policy",
+    title: "Privacy Policy | FindMeRates.com",
+    description: "How FindMeRates.com collects, uses, and protects your personal information.",
+    h1: "Privacy Policy",
+    body: `<p>This page explains what information FindMeRates.com collects, how we use it, and your rights. Full policy text loads below.</p><p>Advertising &amp; cookies: Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this and other websites. Google's use of advertising cookies (including the DoubleClick cookie) enables it and its partners to serve ads based on your visits to this and other sites. You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads">www.google.com/settings/ads</a> and opt out of some third-party vendors' cookies at <a href="https://www.aboutads.info">www.aboutads.info</a>.</p>`,
+  },
+  {
     path: "/terms",
     title: "Terms of Service | FindMeRates.com",
     description: "Terms that govern your use of FindMeRates.com.",
