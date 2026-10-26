@@ -195,7 +195,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-shell py-8 lg:py-14">
+      <section className="section-shell py-8 lg:py-14 acss-reveal">
         <div className="grid gap-6 lg:grid-cols-[1fr_1.05fr]">
           <div className="space-y-6">
             <div className="card p-6">
@@ -220,7 +220,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-shell py-8 lg:py-14">
+      <section className="section-shell py-8 lg:py-14 acss-reveal">
         <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
           <PartnerOffers category={selectedCategory as RateCategory} />
           <div className="card p-6">
@@ -236,7 +236,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-shell py-8 lg:py-14">
+      <section className="section-shell py-8 lg:py-14 acss-reveal">
         <div className="card overflow-hidden bg-slate-950 px-6 py-10 text-white md:px-10">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
