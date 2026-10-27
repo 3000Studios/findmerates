@@ -4,8 +4,36 @@
 /rates/home             /rates/mortgage        301
 /rates/savings-account  /rates/savings         301
 
+# Legacy top-level paths with a real canonical home (301)
+/about-us               /about                 301
+/blog                   /stories               301
+
 # Static asset passthrough
 /assets/* /assets/:splat 200
 
-# SPA fallback
-/* /index.html 200
+# Dynamic client-rendered app routes → app shell (200).
+# Patterns are exact/placeholder-only and deliberately never overlap a
+# prerendered static page (statics win their own paths). The shell target
+# is "/" (the directory index): Pages' redirect validator IGNORES any
+# splat rule pointing at /index.html as an "infinite loop", and a rewrite
+# to a non-index .html file gets 308-redirected to its clean URL — both
+# verified against wrangler's bundled pages-shared parser, 2026-10-27.
+/rates/search              / 200
+/rates/:category/in/:city  / 200
+/calculators/cd            / 200
+/calculators/refinance     / 200
+/calculators/affordability / 200
+/calculators/insurance     / 200
+/stories/*                 / 200
+/dashboard                 / 200
+/dashboard/                / 200
+/signup                    / 200
+/signup/                   / 200
+/ops                       / 200
+/ops/                      / 200
+
+# NO catch-all fallback. Pages' asset server serves /index.html with a
+# 200 for unmatched paths ONLY while no 404.html exists; this project now
+# ships a 404.html (emitted by scripts/prerender.mjs), so every unmatched
+# path returns a genuine 404 with the site's NotFound page (soft-404 fix,
+# 2026-10-27).

@@ -396,3 +396,39 @@ for (const route of ROUTES) {
 }
 
 console.log(`[prerender] wrote ${count} static HTML snapshots`);
+
+// 404 page (soft-404 fix, 2026-10-27): emitted from the same shell so the
+// React app boots and its catch-all route renders the NotFound page, while
+// Cloudflare Pages serves this file with a genuine 404 status for every
+// unmatched path. There is deliberately NO "/* /index.html 200" catch-all
+// in _redirects — that rule was the soft-404 defect.
+{
+  const title404 = "Page Not Found | FindMeRates.com";
+  const desc404 = "The page you requested could not be found on FindMeRates.com. Compare today's mortgage, CD, auto loan, personal loan and savings rates, or use our free calculators.";
+  let html404 = shell.replace(/<title>[\s\S]*?<\/title>/, `<title>${title404}</title>`);
+  html404 = html404.replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${desc404}" />`);
+  // A 404 page must not canonicalize anywhere; swap the canonical for noindex.
+  html404 = html404.replace(/<link rel="canonical"[^>]*>/, `<meta name="robots" content="noindex" />`);
+  html404 = html404.replace(/<meta property="og:url"[^>]*>/, "");
+  html404 = html404.replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${title404}" />`);
+  html404 = html404.replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${desc404}" />`);
+  html404 = html404.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "");
+  const block404 = `<div id="prerender-seo" style="position:absolute;left:-99999px;top:0;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+    <main>
+      <h1>Page not found</h1>
+      <p>The page you requested does not exist on FindMeRates.com. It may have been moved, or the address may be mistyped.</p>
+      <p><a href="/">Compare today's rates</a> · <a href="/rates/mortgage">Mortgage Rates</a> · <a href="/calculators">Calculators</a> · <a href="/stories">Market News</a> · <a href="/about">About</a> · <a href="/contact">Contact</a></p>
+    </main>
+  </div>`;
+  const noscript404 = `<noscript>
+      <main style="padding:24px;max-width:780px;margin:0 auto;font-family:system-ui,sans-serif;line-height:1.6;color:#1f2937">
+        <h1>Page not found</h1>
+        <p>The page you requested does not exist on FindMeRates.com. It may have been moved, or the address may be mistyped.</p>
+        <p><a href="/">Compare today's rates</a> · <a href="/rates/mortgage">Mortgage Rates</a> · <a href="/calculators">Calculators</a> · <a href="/stories">Market News</a> · <a href="/about">About</a> · <a href="/contact">Contact</a></p>
+      </main>
+    </noscript>`;
+  html404 = html404.replace(/<noscript>[\s\S]*?<\/noscript>/, noscript404);
+  html404 = html404.replace(/<div id="root">/, `${block404}\n  <div id="root">`);
+  fs.writeFileSync(path.join(DIST, "404.html"), html404, "utf8");
+  console.log(`[prerender] 404 -> ${path.relative(ROOT, path.join(DIST, "404.html"))}`);
+}
