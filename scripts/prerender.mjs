@@ -157,6 +157,38 @@ const ROUTES = [
     body: `<p>Enter your home price, down payment, interest rate, and loan term to estimate your monthly principal &amp; interest payment. Then <a href="/rates/mortgage">compare today's mortgage rates</a> from top lenders.</p>`,
   },
   {
+    path: "/calculators/cd",
+    title: "Free CD Calculator — Certificate of Deposit Earnings | FindMeRates.com",
+    description: "Calculate the future value of a certificate of deposit: enter your deposit, term, and APY to see interest earned and the effective APY at maturity.",
+    h1: "CD Calculator",
+    body: `<p>Enter your initial deposit, CD term, and APY to calculate the interest your certificate of deposit will earn, its value at maturity, and the effective APY after compounding. Then <a href="/rates/cd">compare today's CD rates</a> from FDIC-insured banks and credit unions.</p>
+    <p>CDs pay a fixed rate for a fixed term, so the only inputs that matter are how much you deposit, how long you leave it, and the APY. Longer terms usually carry higher APYs, but withdrawing before maturity typically costs an early-withdrawal penalty — check the terms before you open an account.</p>`,
+  },
+  {
+    path: "/calculators/refinance",
+    title: "Free Refinance Calculator — Monthly & Lifetime Savings | FindMeRates.com",
+    description: "See how much you could save by refinancing: compare your current loan payment with a new loan to estimate monthly savings and lifetime savings.",
+    h1: "Refinance Calculator",
+    body: `<p>Enter your current loan details and the terms of a replacement loan to compare your old payment with the new payment and estimate your monthly savings and lifetime savings from refinancing. Then <a href="/rates/refinance">compare today's refinance rates</a> from leading lenders.</p>
+    <p>Refinancing replaces your existing loan with a new one, ideally at a lower rate or a term that better fits your budget. The calculator shows the payment difference; remember to weigh it against closing costs on the new loan to find your break-even point.</p>`,
+  },
+  {
+    path: "/calculators/affordability",
+    title: "Free Loan Affordability Calculator — How Much Home Can You Afford? | FindMeRates.com",
+    description: "Find out how much home you can actually afford: enter your income, debts, and loan term to estimate your maximum home price and loan amount using DTI ratio guidelines.",
+    h1: "Loan Affordability Calculator",
+    body: `<p>Enter your income, monthly debts, down payment, and loan term to estimate the maximum home price and loan amount you can afford. The calculator uses your debt-to-income (DTI) ratio — the share of your gross income that goes to debt payments — which is the same guideline lenders apply when they pre-approve a mortgage. Then <a href="/rates/mortgage">compare today's mortgage rates</a> to see what your payment would look like.</p>
+    <p>Lenders generally look for a housing ratio and a total DTI within conventional limits; a lower DTI usually means a wider choice of loan programs and better pricing. Treat the result as a planning estimate, not a pre-approval.</p>`,
+  },
+  {
+    path: "/calculators/insurance",
+    title: "Free Homeowners Insurance Estimator | FindMeRates.com",
+    description: "Get a rough monthly homeowners insurance estimate based on your state, coverage level, and state risk factors, with a typical range for comparison.",
+    h1: "Insurance Estimator",
+    body: `<p>Select your state and coverage level to get a rough estimate of your annual homeowners insurance premium, adjusted for state risk factors, along with a typical range so you can compare quotes in context. Homeowners insurance is usually required by mortgage lenders and is commonly billed as part of your monthly escrow payment alongside your mortgage.</p>
+    <p>Your actual premium depends on the home's replacement cost, age and construction, claims history, deductible, and local risks such as storms or wildfire. Use this estimator to sanity-check quotes, then compare offers from licensed insurers in your state.</p>`,
+  },
+  {
     path: "/about",
     title: "About FindMeRates.com — Independent Rate Comparison Publisher",
     description: "FindMeRates.com is an independent U.S. financial rate comparison site covering mortgages, CDs, auto loans, personal loans, and savings accounts.",
