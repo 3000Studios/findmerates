@@ -12,19 +12,20 @@
 /assets/* /assets/:splat 200
 
 # Dynamic client-rendered app routes → app shell (200).
-# Patterns are exact/placeholder-only and deliberately never overlap a
-# prerendered static page (statics win their own paths). The shell target
+# Patterns are exact/placeholder-only and must NEVER overlap a prerendered
+# static page: live-verified 2026-11-11 that a 200 rewrite beats the static
+# file on Pages (the /calculators/* and /stories regressions). The shell target
 # is "/" (the directory index): Pages' redirect validator IGNORES any
 # splat rule pointing at /index.html as an "infinite loop", and a rewrite
 # to a non-index .html file gets 308-redirected to its clean URL — both
 # verified against wrangler's bundled pages-shared parser, 2026-10-27.
 /rates/search              / 200
 /rates/:category/in/:city  / 200
-/calculators/cd            / 200
-/calculators/refinance     / 200
-/calculators/affordability / 200
-/calculators/insurance     / 200
-/stories/*                 / 200
+# /calculators/cd, /refinance, /affordability, /insurance rewrites REMOVED
+# 2026-11-11: those routes have real prerendered snapshots (c0e9283) and a
+# 200 rewrite wins over the static file on Pages, so the rules were serving
+# the homepage shell on top of good static pages (live-verified).
+/stories/:slug             / 200
 /dashboard                 / 200
 /dashboard/                / 200
 /signup                    / 200
