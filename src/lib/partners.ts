@@ -38,7 +38,7 @@ const DEFAULT_OFFERS: Record<string, PartnerOffer[]> = {
     { id: "d-mort-sofi", name: "SoFi Home Loans", description: "Member-friendly mortgages with competitive rates and fast closing.", url: "https://www.sofi.com/home-loans/mortgage/", sponsored: false }
   ],
   [RateCategory.CD]: [
-    { id: "d-cd-marcus", name: "Marcus by Goldman Sachs", description: "High-yield CDs with terms from 6 months to 6 years and no fees.", url: "https://www.marcus.com/us/en/savings/high-yield-cd", badge: "High Yield", sponsored: false },
+    { id: "d-cd-marcus", name: "Marcus by Goldman Sachs", description: "High-yield CDs with terms from 6 months to 6 years and no fees.", url: "https://www.marcus.com/us/en/savings/high-yield-cds", badge: "High Yield", sponsored: false },
     { id: "d-cd-ally", name: "Ally Bank", description: "No-penalty and high-yield CDs from a top online bank.", url: "https://www.ally.com/bank/cd-rates/", sponsored: false },
     { id: "d-cd-discover", name: "Discover Bank", description: "Competitive CD rates with terms up to 10 years and FDIC insurance.", url: "https://www.discover.com/online-banking/cd/", sponsored: false }
   ],

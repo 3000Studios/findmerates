@@ -13,7 +13,7 @@ const TERMS = [
 ];
 
 const PARTNERS = [
-  { name: "Marcus by Goldman Sachs", apy: "4.75%", badge: "High Yield", url: "https://www.marcus.com/us/en/savings/high-yield-cd" },
+  { name: "Marcus by Goldman Sachs", apy: "4.75%", badge: "High Yield", url: "https://www.marcus.com/us/en/savings/high-yield-cds" },
   { name: "Ally Bank", apy: "4.65%", badge: "No Penalty Option", url: "https://www.ally.com/bank/cd-rates/" },
   { name: "Discover Bank", apy: "4.60%", badge: "FDIC Insured", url: "https://www.discover.com/online-banking/cd/" },
 ];
