@@ -25,7 +25,12 @@
 # 2026-11-11: those routes have real prerendered snapshots (c0e9283) and a
 # 200 rewrite wins over the static file on Pages, so the rules were serving
 # the homepage shell on top of good static pages (live-verified).
-/stories/:slug             / 200
+# /stories/:slug rewrite REMOVED 2026-11-21 (empire-sweep W7): weekly briefs
+# now have real prerendered snapshots (dist/stories/<slug>/index.html) and a
+# 200 rewrite wins over the static file on Pages, so the rule was serving the
+# homepage shell on top of good article pages (live-verified: the first brief
+# returned the home shell). Unknown story slugs now return a genuine 404,
+# which is correct — the only durable story URLs are the prerendered briefs.
 /dashboard                 / 200
 /dashboard/                / 200
 /signup                    / 200
