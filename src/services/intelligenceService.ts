@@ -1,6 +1,32 @@
 import { GoogleGenAI, Type } from '@google/genai';
 import { Story, RateResult, RateCategory } from '../types';
 import { getLiveRates } from './liveRates';
+import weeklyBriefsJson from '../data/weeklyBriefs.json';
+
+// Static weekly briefs: real, dated, data-grounded articles written from
+// verbatim FRED observations (see src/data/weeklyBriefs.json + the
+// auto-blog generator in the empire-sweep W7 lane). These ALWAYS lead the
+// feed, ahead of any Gemini-generated story, and they replace the generic
+// fallback blurbs whenever at least one brief exists — generic
+// AI-synthesized finance blurbs with no data are an E-E-A-T liability
+// (profit audit 2026-10-29, finding H3) and must not be the face of /stories.
+const STATIC_BRIEFS: Story[] = (weeklyBriefsJson as any[]).map((b) => ({
+  id: b.id,
+  title: b.title,
+  slug: b.slug,
+  excerpt: b.excerpt,
+  content: b.content,
+  imageUrl: `https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1000&sig=${b.id}`,
+  category: b.category || 'general',
+  author: b.author || 'FindMeRates Desk',
+  publishedAt: b.publishedAt,
+  isTopStory: !!b.isTopStory,
+}));
+
+function withStaticBriefs(stories: Story[]): Story[] {
+  const seen = new Set(STATIC_BRIEFS.map((s) => s.slug));
+  return [...STATIC_BRIEFS, ...stories.filter((s) => !seen.has(s.slug))];
+}
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : undefined);
 const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.0-flash';
@@ -40,7 +66,7 @@ function fallbackStories(category: string): Story[] {
 
 export async function fetchLatestFinancialNews(category: string): Promise<Story[]> {
   try {
-    if (!ai) return fallbackStories(category);
+    if (!ai) return STATIC_BRIEFS.length > 0 ? STATIC_BRIEFS : fallbackStories(category);
     const response = await ai.models.generateContent({
       model: GEMINI_MODEL,
       contents: `Generate 6 unique, professional financial news stories for the category: ${category}. 
@@ -77,14 +103,15 @@ export async function fetchLatestFinancialNews(category: string): Promise<Story[
     });
 
     const result = JSON.parse(response.text || '{"stories": []}');
-    return result.stories.map((s: any) => ({
+    const generated = result.stories.map((s: any) => ({
       ...s,
       publishedAt: new Date().toISOString(),
       imageUrl: `https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1000&sig=${s.id}` // Fallback image
     }));
+    return withStaticBriefs(generated);
   } catch (error) {
     console.error('Error fetching financial news:', error);
-    return fallbackStories(category);
+    return STATIC_BRIEFS.length > 0 ? STATIC_BRIEFS : fallbackStories(category);
   }
 }
 

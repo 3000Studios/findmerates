@@ -24,6 +24,160 @@ if (!fs.existsSync(SHELL_PATH)) {
 const shell = fs.readFileSync(SHELL_PATH, "utf8");
 const today = new Date().toISOString().slice(0, 10);
 
+// --- Live benchmarks (scripts/fetch-benchmarks.mjs, run by `npm run build`) ---
+// Every figure is a verbatim FRED observation with its real date. If the
+// file is missing the build fails loudly: a rates page with no rates in its
+// HTML is the defect this exists to fix (profit audit 2026-10-29, C2).
+const BENCH_PATH = path.join(__dirname, "benchmarks.json");
+if (!fs.existsSync(BENCH_PATH)) {
+  console.error("[prerender] scripts/benchmarks.json not found. Run `node scripts/fetch-benchmarks.mjs` (or `npm run build`) first.");
+  process.exit(1);
+}
+const BENCH = JSON.parse(fs.readFileSync(BENCH_PATH, "utf8"));
+const BRIEFS_PATH = path.join(ROOT, "src/data/weeklyBriefs.json");
+const BRIEFS = fs.existsSync(BRIEFS_PATH) ? JSON.parse(fs.readFileSync(BRIEFS_PATH, "utf8")) : [];
+
+function pct(n) {
+  return `${Number(n).toFixed(2)}%`;
+}
+
+function bpsDelta(a, b) {
+  const d = Math.round((a - b) * 100);
+  return d === 0 ? "unchanged" : `${d > 0 ? "+" : ""}${d} bps`;
+}
+
+// One benchmark row: label | as-of date | value | change vs prior obs | value a year ago.
+// Never labelled as a lender offer or a category average — the label and
+// the source line say exactly what the figure is.
+function benchRow(seriesId, label) {
+  const s = BENCH.series[seriesId];
+  if (!s) return "";
+  const prev = s.previous ? bpsDelta(s.latest.value, s.previous.value) : "—";
+  const yr = s.yearAgo ? `${pct(s.yearAgo.value)} (${s.yearAgo.date})` : "—";
+  return `<tr><td>${label}</td><td>${s.latest.date}</td><td><strong>${pct(s.latest.value)}</strong></td><td>${prev}</td><td>${yr}</td></tr>`;
+}
+
+function benchTable(rows, intro, sourceLine) {
+  return `
+    <h2>Benchmark rates — real figures, dated</h2>
+    <p>${intro}</p>
+    <table>
+      <thead><tr><th>Benchmark</th><th>As of</th><th>Value</th><th>Change vs prior reading</th><th>A year ago</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p><em>${sourceLine}</em> See our <a href="/methodology">Methodology</a> for exactly how each figure is sourced. Figures are benchmarks, not quotes — your rate depends on your credit profile and the lender. See our <a href="/disclaimer">Disclaimer</a>.</p>
+  `;
+}
+
+// Per-category benchmark sections. Mortgage/refinance show the Freddie Mac
+// survey itself. The other categories show the public benchmarks their
+// pricing tracks (Treasury yields, SOFR, prime) — honestly labelled as
+// benchmarks, never presented as that category's average rate.
+function categoryBenchmark(slug) {
+  switch (slug) {
+    case "mortgage":
+    case "refinance": {
+      const intro = slug === "mortgage"
+        ? "The national benchmark for this page is the Freddie Mac Primary Mortgage Market Survey (PMMS), published weekly. Lender offers below are the rates those institutions publish publicly."
+        : "Refinance pricing tracks the same Freddie Mac survey as purchase mortgages. These are the benchmarks your refinance rate is priced against.";
+      const table = benchTable(
+        benchRow("MORTGAGE30US", "30-year fixed mortgage (PMMS)") +
+        benchRow("MORTGAGE15US", "15-year fixed mortgage (PMMS)"),
+        intro,
+        "Source: Freddie Mac PMMS via FRED."
+      );
+      if (slug !== "mortgage") return table;
+      // 12-week history on the mortgage page (real weekly observations).
+      const hist = BENCH.series.MORTGAGE30US?.history || [];
+      const rows = hist.map((h) => `<tr><td>Week ending ${h.date}</td><td><strong>${pct(h.value)}</strong></td></tr>`).join("");
+      return table + `
+    <h2>30-year fixed — last 12 weekly readings</h2>
+    <table>
+      <thead><tr><th>Week ending</th><th>Average rate</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p><em>Source: Freddie Mac PMMS via FRED series MORTGAGE30US. The survey is weekly; the table shows the 12 most recent readings.</em></p>
+  `;
+    }
+    case "cd":
+      return benchTable(
+        benchRow("DGS1", "1-year Treasury yield") +
+        benchRow("SOFR", "Overnight funding (SOFR)"),
+        "There is no single published national CD average in this table, and we do not invent one. CD rates track short-term Treasury yields and overnight funding costs — the figures below are the benchmarks CD pricing follows. The top CD APYs from individual banks appear in the offer table on this page.",
+        "Sources: U.S. Department of the Treasury and the Federal Reserve Bank of New York, via FRED."
+      );
+    case "savings":
+      return benchTable(
+        benchRow("SOFR", "Overnight funding (SOFR)") +
+        benchRow("DGS1", "1-year Treasury yield"),
+        "High-yield savings rates track overnight funding costs and short-term Treasury yields. The figures below are those benchmarks — not a savings-account average. Individual account APYs appear in the offer table on this page.",
+        "Sources: Federal Reserve Bank of New York and the U.S. Department of the Treasury, via FRED."
+      );
+    case "auto_loan":
+      return benchTable(
+        benchRow("DPRIME", "Bank prime loan rate") +
+        benchRow("DGS2", "2-year Treasury yield"),
+        "New auto loans are typically priced off the bank prime rate, with the lender's margin set by your credit tier. The figures below are the pricing benchmarks — not an auto-loan average. Individual lender APRs appear in the offer table on this page.",
+        "Sources: Federal Reserve H.15 and the U.S. Department of the Treasury, via FRED."
+      );
+    case "personal_loan":
+      return benchTable(
+        benchRow("DPRIME", "Bank prime loan rate") +
+        benchRow("SOFR", "Overnight funding (SOFR)"),
+        "Unsecured personal loans are priced off prime and overnight funding benchmarks, with the margin set by your credit tier. The figures below are those benchmarks — not a personal-loan average. Individual lender APRs appear in the offer table on this page.",
+        "Sources: Federal Reserve H.15 and the Federal Reserve Bank of New York, via FRED."
+      );
+    default:
+      return "";
+  }
+}
+
+// Minimal markdown -> HTML for weekly-brief bodies (the React app renders
+// the same markdown client-side with react-markdown; this is the crawler
+// equivalent). Handles ## headings, **bold**, [text](url), and paragraphs.
+function mdToHtml(md) {
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const inline = (s) => esc(s)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+  return md.split(/\n\s*\n/).map((block) => {
+    const t = block.trim();
+    if (!t) return "";
+    if (t.startsWith("## ")) return `<h2>${inline(t.slice(3).trim())}</h2>`;
+    if (t.startsWith("# ")) return `<h2>${inline(t.slice(2).trim())}</h2>`;
+    return `<p>${inline(t).replace(/\n/g, " ")}</p>`;
+  }).join("\n");
+}
+
+function briefRoute(brief) {
+  const sources = (brief.sources || []).map((s) => `<li><a href="${s.url}">${escapeHtml(s.name)}</a></li>`).join("");
+  return {
+    path: `/stories/${brief.slug}`,
+    title: `${brief.title} | FindMeRates.com`,
+    description: brief.excerpt,
+    h1: brief.title,
+    body: `
+      <p><em>Published ${brief.publishedAt} · By ${escapeHtml(brief.author || "FindMeRates Desk")} · Weekly rate brief</em></p>
+      ${mdToHtml(brief.content)}
+      <h2>Sources</h2>
+      <ul>${sources}</ul>
+      <p><a href="/stories">All market briefings</a> · <a href="/rates/mortgage">Today's mortgage rates</a> · <a href="/calculators/mortgage">Mortgage calculator</a></p>
+    `,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      headline: brief.title,
+      description: brief.excerpt,
+      datePublished: brief.publishedAt,
+      dateModified: brief.publishedAt,
+      author: { "@type": "Organization", name: "FindMeRates.com", url: ORIGIN },
+      publisher: { "@type": "Organization", name: "FindMeRates.com", url: ORIGIN },
+      mainEntityOfPage: `${ORIGIN}/stories/${brief.slug}`,
+    },
+  };
+}
+
 /** @typedef {{ path:string, title:string, description:string, h1:string, body:string, jsonLd?:any }} Route */
 
 const CATEGORY_BODIES = {
@@ -110,7 +264,7 @@ function categoryRoute(slug) {
     title: `Today's ${label} Rates — Compare Offers from Top Lenders | FindMeRates.com`,
     description: `Compare today's ${label.toLowerCase()} rates from leading U.S. lenders. Free comparison tools and rate guides. Updated ${today}.`,
     h1: `Today's ${label} Rates`,
-    body: CATEGORY_BODIES[slug] || "",
+    body: (CATEGORY_BODIES[slug] || "") + categoryBenchmark(slug),
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "WebPage",
@@ -131,6 +285,12 @@ const ROUTES = [
     h1: "Compare Today's Best Financial Rates",
     body: `
       <p>FindMeRates.com aggregates publicly available rate data and lender offers so U.S. consumers can compare mortgages, CDs, auto loans, personal loans, savings accounts, and refinance offers in one place.</p>
+      ${(() => {
+        const m30 = BENCH.series.MORTGAGE30US;
+        if (!m30) return "";
+        const latestBrief = BRIEFS[0];
+        return `<p><strong>This week:</strong> the average 30-year fixed mortgage rate is ${pct(m30.latest.value)} (Freddie Mac survey, week ending ${m30.latest.date}), ${m30.previous ? `${bpsDelta(m30.latest.value, m30.previous.value)} from ${pct(m30.previous.value)} the week before` : ""}. ${latestBrief ? `Read the <a href="/stories/${latestBrief.slug}">weekly brief</a> for what moved and what it costs on a real loan.` : ""}</p>`;
+      })()}
       <h2>Browse rate categories</h2>
       <ul>
         <li><a href="/rates/mortgage">Mortgage Rates</a></li>
@@ -408,6 +568,10 @@ const ROUTES = [
   },
 ];
 
+// Weekly briefs become real prerendered article pages (one route each),
+// so every brief is crawlable HTML, not just a client-rendered story.
+for (const brief of BRIEFS) ROUTES.push(briefRoute(brief));
+
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
@@ -518,6 +682,30 @@ for (const route of ROUTES) {
 }
 
 console.log(`[prerender] wrote ${count} static HTML snapshots`);
+
+// Regenerate sitemap.xml in dist from the real route list (prerendered
+// routes + weekly briefs). lastmod is the build date for every page the
+// prerender touches — honest, because the prerender stamps each page with
+// today's review date and fresh benchmark figures. changefreq matches what
+// the site actually does: rates + briefs move weekly/daily, calculators
+// weekly, the rest monthly or yearly.
+{
+  const PRIORITY = { "/": 1.0, "/rates/mortgage": 0.9, "/rates/cd": 0.9, "/rates/auto_loan": 0.9, "/rates/personal_loan": 0.9, "/rates/refinance": 0.8, "/rates/savings": 0.8, "/calculators": 0.8, "/calculators/mortgage": 0.8, "/calculators/cd": 0.8, "/calculators/refinance": 0.8, "/calculators/affordability": 0.7, "/calculators/insurance": 0.7, "/stories": 0.7 };
+  const FREQ = (p) => p.startsWith("/rates/") || p === "/" || p === "/stories" || p.startsWith("/stories/") ? "daily" : p.startsWith("/calculators") ? "weekly" : p === "/about" || p === "/contact" || p === "/pro" || p === "/guide" ? "monthly" : "yearly";
+  const urls = ROUTES.map((r) => {
+    const lastmod = r.path.startsWith("/stories/") && r.path !== "/stories"
+      ? (BRIEFS.find((b) => `/stories/${b.slug}` === r.path)?.publishedAt || today)
+      : today;
+    return `  <url><loc>${ORIGIN}${r.path === "/" ? "/" : r.path}</loc><lastmod>${lastmod}</lastmod><changefreq>${FREQ(r.path)}</changefreq><priority>${(PRIORITY[r.path] ?? 0.5).toFixed(1)}</priority></url>`;
+  }).join("\n");
+  // Policy/disclosure pages exist as React routes but are not in ROUTES;
+  // keep them listed with their real last-reviewed date.
+  const extra = ["privacy", "terms", "cookies", "disclaimer", "how-we-make-money", "affiliate-disclosure", "editorial-policy", "methodology", "pro-guide"]
+    .map((p) => `  <url><loc>${ORIGIN}/${p}</loc><lastmod>2026-06-03</lastmod><changefreq>${p === "pro-guide" ? "weekly" : "yearly"}</changefreq><priority>0.5</priority></url>`).join("\n");
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n${extra}\n</urlset>\n`;
+  fs.writeFileSync(path.join(DIST, "sitemap.xml"), sitemap, "utf8");
+  console.log(`[prerender] sitemap.xml -> ${ROUTES.length + 9} URLs (lastmod ${today} for prerendered pages)`);
+}
 
 // 404 page (soft-404 fix, 2026-10-27): emitted from the same shell so the
 // React app boots and its catch-all route renders the NotFound page, while

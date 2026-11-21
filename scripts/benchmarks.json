@@ -1,0 +1,542 @@
+{
+  "generatedAt": "2026-11-21",
+  "sourceNote": "Verbatim FRED observations (fredgraph.csv, no API key). Deltas are computed from two verbatim observations.",
+  "series": {
+    "MORTGAGE30US": {
+      "id": "MORTGAGE30US",
+      "label": "30-year fixed mortgage rate",
+      "source": "Freddie Mac Primary Mortgage Market Survey (PMMS), via FRED",
+      "latest": {
+        "date": "2026-11-19",
+        "value": 7.28
+      },
+      "previous": {
+        "date": "2026-11-12",
+        "value": 7.11
+      },
+      "yearAgo": {
+        "date": "2025-11-13",
+        "value": 6.24
+      },
+      "history": [
+        {
+          "date": "2026-09-03",
+          "value": 6.71
+        },
+        {
+          "date": "2026-09-10",
+          "value": 6.76
+        },
+        {
+          "date": "2026-09-17",
+          "value": 6.95
+        },
+        {
+          "date": "2026-09-24",
+          "value": 7.03
+        },
+        {
+          "date": "2026-10-01",
+          "value": 7.28
+        },
+        {
+          "date": "2026-10-08",
+          "value": 7.4
+        },
+        {
+          "date": "2026-10-15",
+          "value": 7.4
+        },
+        {
+          "date": "2026-10-22",
+          "value": 7.32
+        },
+        {
+          "date": "2026-10-29",
+          "value": 7.24
+        },
+        {
+          "date": "2026-11-05",
+          "value": 7.18
+        },
+        {
+          "date": "2026-11-12",
+          "value": 7.11
+        },
+        {
+          "date": "2026-11-19",
+          "value": 7.28
+        }
+      ]
+    },
+    "MORTGAGE15US": {
+      "id": "MORTGAGE15US",
+      "label": "15-year fixed mortgage rate",
+      "source": "Freddie Mac Primary Mortgage Market Survey (PMMS), via FRED",
+      "latest": {
+        "date": "2026-11-19",
+        "value": 6.66
+      },
+      "previous": {
+        "date": "2026-11-12",
+        "value": 6.45
+      },
+      "yearAgo": {
+        "date": "2025-11-13",
+        "value": 5.49
+      },
+      "history": [
+        {
+          "date": "2026-09-03",
+          "value": 6.04
+        },
+        {
+          "date": "2026-09-10",
+          "value": 6.09
+        },
+        {
+          "date": "2026-09-17",
+          "value": 6.26
+        },
+        {
+          "date": "2026-09-24",
+          "value": 6.42
+        },
+        {
+          "date": "2026-10-01",
+          "value": 6.6
+        },
+        {
+          "date": "2026-10-08",
+          "value": 6.73
+        },
+        {
+          "date": "2026-10-15",
+          "value": 6.71
+        },
+        {
+          "date": "2026-10-22",
+          "value": 6.68
+        },
+        {
+          "date": "2026-10-29",
+          "value": 6.6
+        },
+        {
+          "date": "2026-11-05",
+          "value": 6.57
+        },
+        {
+          "date": "2026-11-12",
+          "value": 6.45
+        },
+        {
+          "date": "2026-11-19",
+          "value": 6.66
+        }
+      ]
+    },
+    "DGS10": {
+      "id": "DGS10",
+      "label": "10-year Treasury yield",
+      "source": "U.S. Department of the Treasury, via FRED",
+      "latest": {
+        "date": "2026-11-19",
+        "value": 5.04
+      },
+      "previous": {
+        "date": "2026-11-18",
+        "value": 5.07
+      },
+      "yearAgo": {
+        "date": "2025-11-19",
+        "value": 4.13
+      },
+      "history": [
+        {
+          "date": "2026-11-03",
+          "value": 4.95
+        },
+        {
+          "date": "2026-11-04",
+          "value": 4.9
+        },
+        {
+          "date": "2026-11-05",
+          "value": 4.84
+        },
+        {
+          "date": "2026-11-06",
+          "value": 4.86
+        },
+        {
+          "date": "2026-11-09",
+          "value": 4.88
+        },
+        {
+          "date": "2026-11-10",
+          "value": 4.98
+        },
+        {
+          "date": "2026-11-12",
+          "value": 5.1
+        },
+        {
+          "date": "2026-11-13",
+          "value": 5.15
+        },
+        {
+          "date": "2026-11-16",
+          "value": 5.12
+        },
+        {
+          "date": "2026-11-17",
+          "value": 5.1
+        },
+        {
+          "date": "2026-11-18",
+          "value": 5.07
+        },
+        {
+          "date": "2026-11-19",
+          "value": 5.04
+        }
+      ]
+    },
+    "DGS2": {
+      "id": "DGS2",
+      "label": "2-year Treasury yield",
+      "source": "U.S. Department of the Treasury, via FRED",
+      "latest": {
+        "date": "2026-11-19",
+        "value": 4.76
+      },
+      "previous": {
+        "date": "2026-11-18",
+        "value": 4.8
+      },
+      "yearAgo": {
+        "date": "2025-11-19",
+        "value": 3.58
+      },
+      "history": [
+        {
+          "date": "2026-11-03",
+          "value": 4.61
+        },
+        {
+          "date": "2026-11-04",
+          "value": 4.58
+        },
+        {
+          "date": "2026-11-05",
+          "value": 4.46
+        },
+        {
+          "date": "2026-11-06",
+          "value": 4.51
+        },
+        {
+          "date": "2026-11-09",
+          "value": 4.56
+        },
+        {
+          "date": "2026-11-10",
+          "value": 4.73
+        },
+        {
+          "date": "2026-11-12",
+          "value": 4.86
+        },
+        {
+          "date": "2026-11-13",
+          "value": 4.88
+        },
+        {
+          "date": "2026-11-16",
+          "value": 4.83
+        },
+        {
+          "date": "2026-11-17",
+          "value": 4.8
+        },
+        {
+          "date": "2026-11-18",
+          "value": 4.8
+        },
+        {
+          "date": "2026-11-19",
+          "value": 4.76
+        }
+      ]
+    },
+    "DGS1": {
+      "id": "DGS1",
+      "label": "1-year Treasury yield",
+      "source": "U.S. Department of the Treasury, via FRED",
+      "latest": {
+        "date": "2026-11-19",
+        "value": 4.62
+      },
+      "previous": {
+        "date": "2026-11-18",
+        "value": 4.62
+      },
+      "yearAgo": {
+        "date": "2025-11-19",
+        "value": 3.68
+      },
+      "history": [
+        {
+          "date": "2026-11-03",
+          "value": 4.4
+        },
+        {
+          "date": "2026-11-04",
+          "value": 4.39
+        },
+        {
+          "date": "2026-11-05",
+          "value": 4.28
+        },
+        {
+          "date": "2026-11-06",
+          "value": 4.33
+        },
+        {
+          "date": "2026-11-09",
+          "value": 4.38
+        },
+        {
+          "date": "2026-11-10",
+          "value": 4.56
+        },
+        {
+          "date": "2026-11-12",
+          "value": 4.65
+        },
+        {
+          "date": "2026-11-13",
+          "value": 4.65
+        },
+        {
+          "date": "2026-11-16",
+          "value": 4.62
+        },
+        {
+          "date": "2026-11-17",
+          "value": 4.6
+        },
+        {
+          "date": "2026-11-18",
+          "value": 4.62
+        },
+        {
+          "date": "2026-11-19",
+          "value": 4.62
+        }
+      ]
+    },
+    "SOFR": {
+      "id": "SOFR",
+      "label": "Secured Overnight Financing Rate",
+      "source": "Federal Reserve Bank of New York, via FRED",
+      "latest": {
+        "date": "2026-11-19",
+        "value": 3.91
+      },
+      "previous": {
+        "date": "2026-11-18",
+        "value": 3.9
+      },
+      "yearAgo": {
+        "date": "2025-11-19",
+        "value": 3.91
+      },
+      "history": [
+        {
+          "date": "2026-11-03",
+          "value": 3.97
+        },
+        {
+          "date": "2026-11-04",
+          "value": 3.94
+        },
+        {
+          "date": "2026-11-05",
+          "value": 3.92
+        },
+        {
+          "date": "2026-11-06",
+          "value": 3.89
+        },
+        {
+          "date": "2026-11-09",
+          "value": 3.88
+        },
+        {
+          "date": "2026-11-10",
+          "value": 3.89
+        },
+        {
+          "date": "2026-11-12",
+          "value": 3.9
+        },
+        {
+          "date": "2026-11-13",
+          "value": 3.9
+        },
+        {
+          "date": "2026-11-16",
+          "value": 3.93
+        },
+        {
+          "date": "2026-11-17",
+          "value": 3.92
+        },
+        {
+          "date": "2026-11-18",
+          "value": 3.9
+        },
+        {
+          "date": "2026-11-19",
+          "value": 3.91
+        }
+      ]
+    },
+    "FEDFUNDS": {
+      "id": "FEDFUNDS",
+      "label": "Effective federal funds rate",
+      "source": "Federal Reserve, via FRED (monthly)",
+      "latest": {
+        "date": "2026-10-01",
+        "value": 3.88
+      },
+      "previous": {
+        "date": "2026-09-01",
+        "value": 3.75
+      },
+      "yearAgo": {
+        "date": "2025-10-01",
+        "value": 4.09
+      },
+      "history": [
+        {
+          "date": "2025-11-01",
+          "value": 3.88
+        },
+        {
+          "date": "2025-12-01",
+          "value": 3.72
+        },
+        {
+          "date": "2026-01-01",
+          "value": 3.64
+        },
+        {
+          "date": "2026-02-01",
+          "value": 3.64
+        },
+        {
+          "date": "2026-03-01",
+          "value": 3.64
+        },
+        {
+          "date": "2026-04-01",
+          "value": 3.64
+        },
+        {
+          "date": "2026-05-01",
+          "value": 3.63
+        },
+        {
+          "date": "2026-06-01",
+          "value": 3.63
+        },
+        {
+          "date": "2026-07-01",
+          "value": 3.63
+        },
+        {
+          "date": "2026-08-01",
+          "value": 3.63
+        },
+        {
+          "date": "2026-09-01",
+          "value": 3.75
+        },
+        {
+          "date": "2026-10-01",
+          "value": 3.88
+        }
+      ]
+    },
+    "DPRIME": {
+      "id": "DPRIME",
+      "label": "Bank prime loan rate",
+      "source": "Federal Reserve H.15, via FRED",
+      "latest": {
+        "date": "2026-11-09",
+        "value": 7
+      },
+      "previous": {
+        "date": "2026-11-06",
+        "value": 7
+      },
+      "yearAgo": {
+        "date": "2025-11-07",
+        "value": 7
+      },
+      "history": [
+        {
+          "date": "2026-10-23",
+          "value": 7
+        },
+        {
+          "date": "2026-10-26",
+          "value": 7
+        },
+        {
+          "date": "2026-10-27",
+          "value": 7
+        },
+        {
+          "date": "2026-10-28",
+          "value": 7
+        },
+        {
+          "date": "2026-10-29",
+          "value": 7
+        },
+        {
+          "date": "2026-10-30",
+          "value": 7
+        },
+        {
+          "date": "2026-11-02",
+          "value": 7
+        },
+        {
+          "date": "2026-11-03",
+          "value": 7
+        },
+        {
+          "date": "2026-11-04",
+          "value": 7
+        },
+        {
+          "date": "2026-11-05",
+          "value": 7
+        },
+        {
+          "date": "2026-11-06",
+          "value": 7
+        },
+        {
+          "date": "2026-11-09",
+          "value": 7
+        }
+      ]
+    }
+  }
+}
