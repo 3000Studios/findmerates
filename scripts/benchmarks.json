@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-21",
+  "generatedAt": "2026-11-27",
   "sourceNote": "Verbatim FRED observations (fredgraph.csv, no API key). Deltas are computed from two verbatim observations.",
   "series": {
     "MORTGAGE30US": {
@@ -7,22 +7,18 @@
       "label": "30-year fixed mortgage rate",
       "source": "Freddie Mac Primary Mortgage Market Survey (PMMS), via FRED",
       "latest": {
+        "date": "2026-11-25",
+        "value": 7.21
+      },
+      "previous": {
         "date": "2026-11-19",
         "value": 7.28
       },
-      "previous": {
-        "date": "2026-11-12",
-        "value": 7.11
-      },
       "yearAgo": {
-        "date": "2025-11-13",
-        "value": 6.24
+        "date": "2025-11-20",
+        "value": 6.26
       },
       "history": [
-        {
-          "date": "2026-09-03",
-          "value": 6.71
-        },
         {
           "date": "2026-09-10",
           "value": 6.76
@@ -66,6 +62,10 @@
         {
           "date": "2026-11-19",
           "value": 7.28
+        },
+        {
+          "date": "2026-11-25",
+          "value": 7.21
         }
       ]
     },
@@ -74,22 +74,18 @@
       "label": "15-year fixed mortgage rate",
       "source": "Freddie Mac Primary Mortgage Market Survey (PMMS), via FRED",
       "latest": {
+        "date": "2026-11-25",
+        "value": 6.54
+      },
+      "previous": {
         "date": "2026-11-19",
         "value": 6.66
       },
-      "previous": {
-        "date": "2026-11-12",
-        "value": 6.45
-      },
       "yearAgo": {
-        "date": "2025-11-13",
-        "value": 5.49
+        "date": "2025-11-20",
+        "value": 5.54
       },
       "history": [
-        {
-          "date": "2026-09-03",
-          "value": 6.04
-        },
         {
           "date": "2026-09-10",
           "value": 6.09
@@ -133,6 +129,10 @@
         {
           "date": "2026-11-19",
           "value": 6.66
+        },
+        {
+          "date": "2026-11-25",
+          "value": 6.54
         }
       ]
     },
@@ -141,30 +141,18 @@
       "label": "10-year Treasury yield",
       "source": "U.S. Department of the Treasury, via FRED",
       "latest": {
-        "date": "2026-11-19",
-        "value": 5.04
+        "date": "2026-11-24",
+        "value": 4.91
       },
       "previous": {
-        "date": "2026-11-18",
-        "value": 5.07
+        "date": "2026-11-23",
+        "value": 4.92
       },
       "yearAgo": {
-        "date": "2025-11-19",
-        "value": 4.13
+        "date": "2025-11-24",
+        "value": 4.04
       },
       "history": [
-        {
-          "date": "2026-11-03",
-          "value": 4.95
-        },
-        {
-          "date": "2026-11-04",
-          "value": 4.9
-        },
-        {
-          "date": "2026-11-05",
-          "value": 4.84
-        },
         {
           "date": "2026-11-06",
           "value": 4.86
@@ -200,6 +188,18 @@
         {
           "date": "2026-11-19",
           "value": 5.04
+        },
+        {
+          "date": "2026-11-20",
+          "value": 4.92
+        },
+        {
+          "date": "2026-11-23",
+          "value": 4.92
+        },
+        {
+          "date": "2026-11-24",
+          "value": 4.91
         }
       ]
     },
@@ -208,30 +208,18 @@
       "label": "2-year Treasury yield",
       "source": "U.S. Department of the Treasury, via FRED",
       "latest": {
-        "date": "2026-11-19",
-        "value": 4.76
+        "date": "2026-11-24",
+        "value": 4.63
       },
       "previous": {
-        "date": "2026-11-18",
-        "value": 4.8
+        "date": "2026-11-23",
+        "value": 4.63
       },
       "yearAgo": {
-        "date": "2025-11-19",
-        "value": 3.58
+        "date": "2025-11-24",
+        "value": 3.46
       },
       "history": [
-        {
-          "date": "2026-11-03",
-          "value": 4.61
-        },
-        {
-          "date": "2026-11-04",
-          "value": 4.58
-        },
-        {
-          "date": "2026-11-05",
-          "value": 4.46
-        },
         {
           "date": "2026-11-06",
           "value": 4.51
@@ -267,6 +255,18 @@
         {
           "date": "2026-11-19",
           "value": 4.76
+        },
+        {
+          "date": "2026-11-20",
+          "value": 4.63
+        },
+        {
+          "date": "2026-11-23",
+          "value": 4.63
+        },
+        {
+          "date": "2026-11-24",
+          "value": 4.63
         }
       ]
     },
@@ -275,30 +275,18 @@
       "label": "1-year Treasury yield",
       "source": "U.S. Department of the Treasury, via FRED",
       "latest": {
-        "date": "2026-11-19",
-        "value": 4.62
+        "date": "2026-11-24",
+        "value": 4.59
       },
       "previous": {
-        "date": "2026-11-18",
-        "value": 4.62
+        "date": "2026-11-23",
+        "value": 4.57
       },
       "yearAgo": {
-        "date": "2025-11-19",
-        "value": 3.68
+        "date": "2025-11-24",
+        "value": 3.61
       },
       "history": [
-        {
-          "date": "2026-11-03",
-          "value": 4.4
-        },
-        {
-          "date": "2026-11-04",
-          "value": 4.39
-        },
-        {
-          "date": "2026-11-05",
-          "value": 4.28
-        },
         {
           "date": "2026-11-06",
           "value": 4.33
@@ -334,6 +322,18 @@
         {
           "date": "2026-11-19",
           "value": 4.62
+        },
+        {
+          "date": "2026-11-20",
+          "value": 4.51
+        },
+        {
+          "date": "2026-11-23",
+          "value": 4.57
+        },
+        {
+          "date": "2026-11-24",
+          "value": 4.59
         }
       ]
     },
@@ -342,34 +342,18 @@
       "label": "Secured Overnight Financing Rate",
       "source": "Federal Reserve Bank of New York, via FRED",
       "latest": {
-        "date": "2026-11-19",
-        "value": 3.91
+        "date": "2026-11-25",
+        "value": 3.95
       },
       "previous": {
-        "date": "2026-11-18",
-        "value": 3.9
+        "date": "2026-11-24",
+        "value": 3.94
       },
       "yearAgo": {
-        "date": "2025-11-19",
-        "value": 3.91
+        "date": "2025-11-25",
+        "value": 4.01
       },
       "history": [
-        {
-          "date": "2026-11-03",
-          "value": 3.97
-        },
-        {
-          "date": "2026-11-04",
-          "value": 3.94
-        },
-        {
-          "date": "2026-11-05",
-          "value": 3.92
-        },
-        {
-          "date": "2026-11-06",
-          "value": 3.89
-        },
         {
           "date": "2026-11-09",
           "value": 3.88
@@ -401,6 +385,22 @@
         {
           "date": "2026-11-19",
           "value": 3.91
+        },
+        {
+          "date": "2026-11-20",
+          "value": 3.92
+        },
+        {
+          "date": "2026-11-23",
+          "value": 3.92
+        },
+        {
+          "date": "2026-11-24",
+          "value": 3.94
+        },
+        {
+          "date": "2026-11-25",
+          "value": 3.95
         }
       ]
     },
@@ -476,64 +476,64 @@
       "label": "Bank prime loan rate",
       "source": "Federal Reserve H.15, via FRED",
       "latest": {
-        "date": "2026-11-09",
+        "date": "2026-11-23",
         "value": 7
       },
       "previous": {
-        "date": "2026-11-06",
+        "date": "2026-11-20",
         "value": 7
       },
       "yearAgo": {
-        "date": "2025-11-07",
+        "date": "2025-11-21",
         "value": 7
       },
       "history": [
-        {
-          "date": "2026-10-23",
-          "value": 7
-        },
-        {
-          "date": "2026-10-26",
-          "value": 7
-        },
-        {
-          "date": "2026-10-27",
-          "value": 7
-        },
-        {
-          "date": "2026-10-28",
-          "value": 7
-        },
-        {
-          "date": "2026-10-29",
-          "value": 7
-        },
-        {
-          "date": "2026-10-30",
-          "value": 7
-        },
-        {
-          "date": "2026-11-02",
-          "value": 7
-        },
-        {
-          "date": "2026-11-03",
-          "value": 7
-        },
-        {
-          "date": "2026-11-04",
-          "value": 7
-        },
-        {
-          "date": "2026-11-05",
-          "value": 7
-        },
         {
           "date": "2026-11-06",
           "value": 7
         },
         {
           "date": "2026-11-09",
+          "value": 7
+        },
+        {
+          "date": "2026-11-10",
+          "value": 7
+        },
+        {
+          "date": "2026-11-11",
+          "value": 7
+        },
+        {
+          "date": "2026-11-12",
+          "value": 7
+        },
+        {
+          "date": "2026-11-13",
+          "value": 7
+        },
+        {
+          "date": "2026-11-16",
+          "value": 7
+        },
+        {
+          "date": "2026-11-17",
+          "value": 7
+        },
+        {
+          "date": "2026-11-18",
+          "value": 7
+        },
+        {
+          "date": "2026-11-19",
+          "value": 7
+        },
+        {
+          "date": "2026-11-20",
+          "value": 7
+        },
+        {
+          "date": "2026-11-23",
           "value": 7
         }
       ]
